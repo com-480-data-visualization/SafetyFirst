@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Orbitron', sans-serif;
+  color: #f5f5f5;
+  background-color: #0a0a0a;
+  background-image: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #f5f5f5;
+}
+
+h1.text-gradient, .text-gradient {
+  background: linear-gradient(to right, #ff1e1e, #ff6a00, #ffc107);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 2px 10px rgba(255, 0, 0, 0.4);
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #cfcfcf;
+}
+
+section {
+  padding: 6rem 1.5rem;
+  transition: all 0.5s ease-in-out;
+}
+
+@media (min-width: 640px) {
+  section {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+.scroll-down {
+  animation: bounce 2s infinite;
+  margin-top: 2.5rem;
+  color: #f43f5e;
+}
+
+button {
+  padding: 0.75rem 2rem;
+  border-radius: 0.75rem;
+  background-color: #ef4444;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  transition: transform 0.3s ease-in-out, background-color 0.3s;
+}
+
+button:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+}
+
+a {
+  color: #facc15;
+  transition: color 0.3s, text-decoration 0.3s;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: #fb7185;
+}
+
+.gradient-text {
+  background: linear-gradient(to right, #ff4d4d, #ff9900, #facc15);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 60px rgba(255, 255, 255, 0.05);
+}
+
+.fancy-shadow {
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
