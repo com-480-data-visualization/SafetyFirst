@@ -1,1 +1,4 @@
 milestone1/data
+frontend/.env
+frontend/node_modules
+node_modules
