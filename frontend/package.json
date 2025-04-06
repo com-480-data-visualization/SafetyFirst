@@ -14,9 +14,11 @@
     "framer-motion": "^12.6.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.484.0",
+    "plotly.js": "^3.0.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
+    "react-plotly.js": "^2.6.0",
     "react-router-dom": "^7.4.0",
     "recharts": "^2.15.1",
     "three": "^0.174.0"
