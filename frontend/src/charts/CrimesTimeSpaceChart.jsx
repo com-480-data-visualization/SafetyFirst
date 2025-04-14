@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import Plot from "react-plotly.js";
+// import crimeData from "../data/crime_data.json"; // Adjust the path to your actual dataset
+
 
 const PlotlyBaseMap = () => {
-  return (
+    /*
+    // Create a sorted array of unique dates from the dataset
+    const uniqueDates = Array.from(new Set(crimeData.map((item) => item.date))).sort();
+  
+    // Set the initial selected date index to zero
+    const [selectedIndex, setSelectedIndex] = useState(0);
+    const selectedDate = uniqueDates[selectedIndex];
+    // Filter your data for the selected date
+    const filteredData = crimeData.filter((item) => item.date === selectedDate);
+    */
+    const [zoom, setZoom] = useState(11);
+
+
+    return (
     <section className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+        <h2 className="text-xl font-bold text-center p-4 text-white">
+            Crime Heatmap
+        </h2>
+
+        <input type="range"
+        min={8}
+        max={14}
+        step={0.1}
+        value={zoom}
+        onChange={(e) => setZoom(parseFloat(e.target.value))}
+        style={{ width: "90%", margin: "20px auto", display: "block" }}
+        />
 
         <div className="flex flex-col gap-8">
             <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg">
@@ -23,12 +50,15 @@ const PlotlyBaseMap = () => {
                         // Use the free "open-street-map" style which does not require an access token.
                         style: "open-street-map",
                         center: { lat: 41.8781, lon: -87.6298 },
-                        zoom: 10,
+                        zoom: zoom,
                     },
                     margin: { t: 0, r: 0, b: 0, l: 0 },
                     title: "Chicago Base Map",
                     }}
-                    config={{}}
+                    config={{
+                        // Hides the entire mode bar
+                        displayModeBar: false,
+                        }}
                     style={{ width: "100%", height: "600px" }}
                 />
             </div>
@@ -38,6 +68,13 @@ const PlotlyBaseMap = () => {
 };
 
 export default PlotlyBaseMap;
+
+/* 
+
+TO BE USED:
+
+
+*/
 
 
 /* 
