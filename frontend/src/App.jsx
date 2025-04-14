@@ -2,6 +2,7 @@ import React from "react";
 import Hero from "./components/Hero";
 import MapContainer from "./components/MapContainer";
 import StackedCrimeChart from "./charts/StackedCrimeChart";
+import BaseMap from "./charts/CrimesTimeSpaceChart";
 import CrimeTimeline from "./components/CrimeTimeline";
 
 const App = () => {
@@ -16,6 +17,11 @@ const App = () => {
       {/* 🔵 Stacked Crime Chart Section */}
       <section className="p-4">
         <StackedCrimeChart />
+      </section>
+
+      {/* 🔵 Time space Crime Chart Section */}
+      <section className="p-4">
+        <BaseMap />
       </section>
 
       {/* 🔴 Map Section */}

@@ -113,38 +113,41 @@ export default function StackedCrimeChart() {
 
   return (
     <div>
-      <Plot
-        data={traces}
-        layout={{
-          title: "Crime Trends Over the Years by Category (Stacked)",
-          xaxis: { title: "Year", fixedrange: true },
-          yaxis: { title: "Number of Reported Crimes", fixedrange: true },
-          hovermode: "closest",
-          showlegend: true,
-          legend: {
-            x: 1,
-            y: 1,
-            xanchor: "right",
-            yanchor: "top",
-            itemclick: "toggleothers", // isolates the clicked trace on single click
-            bgcolor: "rgba(0, 0, 0, 0.5)", // optional: a semi-transparent background for clarity
-            font: { color: "#fff" }         // adjust text color if needed
-          },
-        }}
-        config={{
-          displayModeBar: false,
-          scrollZoom: false,
-          doubleClick: false,
-          clickmode: "event+select",
-        }}
-        style={{ width: "80%", height: "800px" }}
-        revision={revision}
-        onClick={handleClick}
-        onHover={handleHover}
-        onUnhover={handleUnhover}
-      />
+      {/* Box container with styling similar to the previous map */}
+      <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg" style={{ width: "100%", height: "800px", margin: "0 auto" }}>
+        <Plot
+          data={traces}
+          layout={{
+            title: "Crime Trends Over the Years by Category (Stacked)",
+            xaxis: { title: "Year", fixedrange: true },
+            yaxis: { title: "Number of Reported Crimes", fixedrange: true },
+            hovermode: "closest",
+            showlegend: true,
+            legend: {
+              x: 1,
+              y: 1,
+              xanchor: "right",
+              yanchor: "top",
+              itemclick: "toggleothers", // isolates the clicked trace on single click
+              bgcolor: "rgba(0, 0, 0, 0.5)",
+              font: { color: "#fff" },
+            },
+          }}
+          config={{
+            displayModeBar: false,
+            scrollZoom: false,
+            doubleClick: false,
+            clickmode: "event+select",
+          }}
+          style={{ width: "100%", height: "800px" }}
+          revision={revision}
+          onClick={handleClick}
+          onHover={handleHover}
+          onUnhover={handleUnhover}
+        />
+      </div>
       {hoverInfo && (
-        <div className="p-4 bg-gray-800 text-white">
+        <div className="p-4 bg-gray-800 text-white mt-4">
           {hoverInfo}
         </div>
       )}
