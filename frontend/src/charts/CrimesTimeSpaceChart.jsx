@@ -3,35 +3,37 @@ import Plot from "react-plotly.js";
 
 const PlotlyBaseMap = () => {
   return (
-    <div className="flex flex-col gap-8">
+    <section className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
 
-        <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg">
-        <Plot
-            data={[
-            {
-                type: "scattermapbox",
-                // A dummy point to display a red marker at Chicago
-                lat: [41.8781],
-                lon: [-87.6298],
-                mode: "markers",
-                marker: { size: 12, color: "red" },
-            },
-            ]}
-            layout={{
-            mapbox: {
-                // Use the free "open-street-map" style which does not require an access token.
-                style: "open-street-map",
-                center: { lat: 41.8781, lon: -87.6298 },
-                zoom: 10,
-            },
-            margin: { t: 0, r: 0, b: 0, l: 0 },
-            title: "Chicago Base Map",
-            }}
-            config={{}}
-            style={{ width: "100%", height: "600px" }}
-        />
+        <div className="flex flex-col gap-8">
+            <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg">
+                <Plot
+                    data={[
+                    {
+                        type: "scattermapbox",
+                        // A dummy point to display a red marker at Chicago
+                        lat: [41.8781],
+                        lon: [-87.6298],
+                        mode: "markers",
+                        marker: { size: 12, color: "red" },
+                    },
+                    ]}
+                    layout={{
+                    mapbox: {
+                        // Use the free "open-street-map" style which does not require an access token.
+                        style: "open-street-map",
+                        center: { lat: 41.8781, lon: -87.6298 },
+                        zoom: 10,
+                    },
+                    margin: { t: 0, r: 0, b: 0, l: 0 },
+                    title: "Chicago Base Map",
+                    }}
+                    config={{}}
+                    style={{ width: "100%", height: "600px" }}
+                />
+            </div>
         </div>
-    </div>
+    </section>
   );
 };
 
