@@ -1,0 +1,8 @@
+{
+  "default": "Click a segment of the chart to learn more about that crime category.",
+  "ASSAULT": "<strong>Assault:</strong> Includes battery, robbery, weapons violation, homicide, and intimidation.",
+  "MINOR": "<strong>Minor:</strong> Covers narcotics, burglary, prostitution, public peace violations, obscenity, public indecency, and arson.",
+  "NON STREET CRIME": "<strong>Non Street Crime:</strong> Includes deceptive practices, trespass, child-related offenses, and domestic violence.",
+  "SEX OFFENSE": "<strong>Sex Offense:</strong> Involves sexual assault, criminal sexual assault, kidnapping, and stalking.",
+  "THEFT": "<strong>Theft:</strong> Ranges from theft to criminal damage and motor vehicle theft."
+}

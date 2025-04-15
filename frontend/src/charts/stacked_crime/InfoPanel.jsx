@@ -9,9 +9,7 @@ const InfoPanel = ({ hoverInfo, infoText }) => {
           <strong>Hover Info: </strong>{hoverInfo}
         </div>
       )}
-      <div className="text-sm leading-relaxed">
-        {infoText}
-      </div>
+      <div className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: infoText }} />
     </div>
   );
 };
