@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "./components/Hero";
 import MapContainer from "./components/MapContainer";
-import StackedCrimeChart from "./charts/StackedCrimeChart";
+import StackedCrimeChart from "./charts/stacked_crime/StackedCrimeChart";
 import BaseMap from "./charts/CrimesTimeSpaceChart";
 import CrimeTimeline from "./components/CrimeTimeline";
 
