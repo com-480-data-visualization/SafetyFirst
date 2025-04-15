@@ -15,14 +15,10 @@ const App = () => {
       <CrimeTimeline />
 
       {/* 🔵 Stacked Crime Chart Section */}
-      <section className="p-4">
-        <StackedCrimeChart />
-      </section>
+      <StackedCrimeChart />
 
       {/* 🔵 Time space Crime Chart Section */}
-      <section className="p-4">
-        <BaseMap />
-      </section>
+      <BaseMap />
 
       {/* 🔴 Map Section */}
       <MapContainer />
