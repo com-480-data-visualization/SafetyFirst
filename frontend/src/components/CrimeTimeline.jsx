@@ -23,7 +23,8 @@ L.Icon.Default.mergeOptions({
 
 const chicagoCenter = [41.8781, -87.6298];
 
-const crimeData = [
+// Student crime data
+const studentCrimeData = [
   {
     id: 1,
     date: "May 2017",
@@ -66,6 +67,50 @@ const crimeData = [
   },
 ];
 
+// Tourist crime data
+const touristCrimeData = [
+  {
+    id: 1,
+    date: "Nov 2014",
+    location: [41.8758, -87.6189], // Buckingham Fountain
+    title: "Photographer Robbed at Buckingham Fountain",
+    description:
+      "A 36-year-old tourist from New York was robbed at gunpoint while taking photographs at Buckingham Fountain. The robbers took his $5,000 camera, iPhone, and wallet before fleeing south.",
+  },
+  {
+    id: 2,
+    date: "Oct 2015",
+    location: [41.9032, -87.6267], // Oak Street Beach
+    title: "Tourist Stabbed at Oak Street Beach",
+    description:
+      "A British tourist was stabbed and robbed while defending his girlfriend from three attackers near Oak Street Beach. After being treated at Northwestern Memorial Hospital, he tracked his stolen iPhone and helped police capture one of the suspects.",
+  },
+  {
+    id: 3,
+    date: "Sep 2017",
+    location: [41.8664, -87.6065], // Shedd Aquarium
+    title: "Man Mugged Behind Shedd Aquarium",
+    description:
+      "A 23-year-old man was robbed, beaten, and thrown into Lake Michigan while walking on a path behind the Shedd Aquarium just after midnight. He managed to get himself out of the water and call for help before being hospitalized.",
+  },
+  {
+    id: 4,
+    date: "Jun 2019",
+    location: [41.8789, -87.6359], // Willis Tower
+    title: "SkyDeck Ledge Cracks Under Tourists",
+    description:
+      "Visitors to the Willis Tower's SkyDeck were terrified when the protective glass layer cracked under their feet, 1,353 feet above the ground. Officials stated there was no danger as only the protective coating, not the structural glass, had cracked.",
+  },
+  {
+    id: 5,
+    date: "May 2022",
+    location: [41.8823, -87.6233], // Millennium Park/The Bean
+    title: "Deadly Shooting Near The Bean",
+    description:
+      "A 16-year-old was shot and killed near the Cloud Gate sculpture (The Bean) in Millennium Park, leading to new weekend curfews and restrictions for unaccompanied minors in the area.",
+  },
+];
+
 const FlyToMarker = ({ location }) => {
   const map = useMap();
   useEffect(() => {
@@ -74,10 +119,19 @@ const FlyToMarker = ({ location }) => {
   return null;
 };
 
-const CrimeTimeline = () => {
+const CrimeTimeline = ({ userType = "student" }) => {
   const [index, setIndex] = useState(0);
   const [playing, setPlaying] = useState(false);
   const timerRef = useRef(null);
+
+  // Configure based on user type
+  const isStudent = userType === "student";
+  const crimeData = isStudent ? studentCrimeData : touristCrimeData;
+  const themeColor = isStudent ? "red" : "green";
+  const title = isStudent ? "Student Safety Timeline" : "Tourist Safety Timeline";
+  const description = isStudent 
+    ? "Follow the timeline of key campus crime incidents across Chicago."
+    : "Follow the timeline of key incidents affecting tourists in Chicago.";
 
   const current = crimeData[index];
 
@@ -96,7 +150,7 @@ const CrimeTimeline = () => {
       clearInterval(timerRef.current);
     }
     return () => clearInterval(timerRef.current);
-  }, [playing]);
+  }, [playing, crimeData.length]);
 
   const togglePlay = () => setPlaying(!playing);
   const handleSlider = (e) => setIndex(parseInt(e.target.value));
@@ -104,15 +158,15 @@ const CrimeTimeline = () => {
   return (
     <section className="bg-midnight text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
       <div className="text-center mb-8">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-red-500 mb-4 text-glow">
-          Campus Safety Timeline
+        <h2 className={`text-4xl sm:text-5xl font-extrabold text-${themeColor}-500 mb-4 text-glow`}>
+          {title}
         </h2>
         <p className="text-gray-300 max-w-2xl mx-auto">
-          Follow the timeline of key campus crime incidents across Chicago.
+          {description}
         </p>
       </div>
 
-      <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg animate-fadeIn">
+      <div className={`rounded-xl overflow-hidden border-4 border-${themeColor}-500 shadow-lg animate-fadeIn`}>
         <MapContainer
           center={current.location}
           zoom={13}
@@ -127,7 +181,9 @@ const CrimeTimeline = () => {
           {crimeData.map((crime, i) => (
             <Marker key={crime.id} position={crime.location}>
               <Popup>
-                <h3 className="font-bold text-red-500">{crime.title}</h3>
+                <h3 className={`font-bold text-${themeColor}-${isStudent ? '500' : '600'}`}>
+                  {crime.title}
+                </h3>
                 <p className="text-sm text-yellow-400">{crime.date}</p>
                 <p className="text-xs">{crime.description}</p>
               </Popup>
@@ -141,7 +197,7 @@ const CrimeTimeline = () => {
       {/* Timeline Controls */}
       <div className="bg-gray-900 p-6 rounded-lg shadow-lg mt-8 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="font-bold text-red-400 text-lg">
+          <div className={`font-bold text-${themeColor}-400 text-lg`}>
             {current.date}: {current.title}
           </div>
           <button
@@ -160,7 +216,7 @@ const CrimeTimeline = () => {
           max={crimeData.length - 1}
           value={index}
           onChange={handleSlider}
-          className="w-full accent-red-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+          className={`w-full accent-${themeColor}-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer`}
         />
 
         <div className="bg-gray-800 p-4 rounded text-sm">
