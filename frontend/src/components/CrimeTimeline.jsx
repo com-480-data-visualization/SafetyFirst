@@ -1,276 +1,174 @@
-import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from "@react-google-maps/api";
+// src/components/CrimeTimeline.jsx
+import React, { useEffect, useState, useRef } from "react";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+} from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 
-const containerStyle = {
-  width: "100%",
-  height: "600px",
-};
+// Default Leaflet icon fix for React
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+  iconUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+  shadowUrl:
+    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+});
 
-const chicagoCenter = {
-  lat: 41.8781,
-  lng: -87.6298,
-};
+const chicagoCenter = [41.8781, -87.6298];
 
-// Crime data in chronological order with refined coordinates
 const crimeData = [
   {
     id: 1,
     date: "May 2017",
-    timestamp: new Date("2017-05-01").getTime(),
-    location: { lat: 41.9252, lng: -87.6538 }, // DePaul University Richardson Library
-    title: "DePaul University Student Robbed at Knifepoint",
-    description: "A DePaul University student was robbed at knifepoint near the Richardson Library on the Lincoln Park campus. The student was leaving the library around 7 a.m. when an individual dressed in black displayed a knife and demanded her laptop. The assailant fled north on Kenmore Avenue after the robbery. The student was unharmed."
+    location: [41.9252, -87.6538],
+    title: "DePaul Student Robbed at Knifepoint",
+    description:
+      "A student was robbed at knifepoint near the Richardson Library early in the morning. The assailant fled north on Kenmore Ave.",
   },
   {
     id: 2,
-    date: "November 2018",
-    timestamp: new Date("2018-11-01").getTime(),
-    location: { lat: 41.9241, lng: -87.6459 }, // Belden and Fremont, near Cortelyou Commons
-    title: "DePaul University Student Robbed at Gunpoint",
-    description: "A 19-year-old male DePaul University student was walking near Belden and Fremont, in front of Cortelyou Commons, around 11:45 p.m. when he was approached by three individuals. One of the assailants displayed a gun and demanded the student's personal belongings. The offenders took an undetermined amount of cash and fled the scene."
+    date: "Nov 2018",
+    location: [41.9241, -87.6459],
+    title: "DePaul Student Robbed at Gunpoint",
+    description:
+      "A male student was approached by 3 individuals near Cortelyou Commons. One displayed a gun and stole his belongings.",
   },
   {
     id: 3,
-    date: "April 2019",
-    timestamp: new Date("2019-04-01").getTime(),
-    location: { lat: 41.7890, lng: -87.5857 }, // East 59th Street and South Stony Island Avenue
-    title: "University of Chicago Student Assaulted and Robbed",
-    description: "A first-year student at the University of Chicago was assaulted and robbed near the intersection of East 59th Street and South Stony Island Avenue. Around 3:15 a.m., the student was approached by three individuals who attacked him with a blunt metal object, resulting in facial lacerations, a head injury, and significant blood loss. The assailants stole his laptop, iPhone, and wallet before fleeing."
+    date: "Apr 2019",
+    location: [41.7890, -87.5857],
+    title: "UChicago Student Assaulted",
+    description:
+      "A first-year student was assaulted with a blunt object and robbed at East 59th & Stony Island Ave.",
   },
   {
     id: 4,
-    date: "February 2023",
-    timestamp: new Date("2023-02-01").getTime(),
-    location: { lat: 41.498641, lng: -87.651551 }, // Campbell Avenue, Chicago - corrected coordinates
-    title: "International Student Attacked and Robbed",
-    description: "Syed Mazahir Ali, an international student from Hyderabad, India, pursuing a master's degree in Information Technology at Indiana Wesleyan University, was attacked and robbed near his residence on Campbell Avenue. While returning home around 1:18 AM, he was accosted by four armed individuals who assaulted him, resulting in significant injuries. The assailants stole his mobile phone and wallet."
+    date: "Feb 2023",
+    location: [41.498641, -87.651551],
+    title: "International Student Attacked",
+    description:
+      "An IT master's student from India was attacked and robbed near his residence on Campbell Ave.",
   },
   {
     id: 5,
-    date: "December 2024",
-    timestamp: new Date("2024-12-01").getTime(),
-    location: { lat: 41.7904, lng: -87.5909 }, // 5800 block of South Dorchester Avenue
-    title: "University of Chicago Students Robbed at Gunpoint",
-    description: "Three University of Chicago students were walking around 5:15 a.m. in the 5800 block of South Dorchester Avenue when they were approached by four or five individuals who exited a white Alfa Romeo SUV. The assailants, armed with guns, demanded the students' belongings. After the students complied, the offenders fled south on Dorchester."
-  }
+    date: "Dec 2024",
+    location: [41.7904, -87.5909],
+    title: "UChicago Students Robbed at Gunpoint",
+    description:
+      "Three students were robbed by armed assailants at the 5800 block of South Dorchester Avenue.",
+  },
 ];
 
-const CrimeTimeline = () => {
-  const [currentCrimeIndex, setCurrentCrimeIndex] = useState(0);
-  const [playing, setPlaying] = useState(false);
-  const [selectedMarker, setSelectedMarker] = useState(null);
-  const [mapZoom, setMapZoom] = useState(14);
-  const timerRef = useRef(null);
-  const mapRef = useRef(null);
-  
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ["places"],
-  });
-
-  // Animation sequence for transitioning between crimes
-  const animateToCrime = (index) => {
-    if (!mapRef.current) return;
-    
-    // First zoom out
-    setMapZoom(10);
-    
-    // Then after a delay, change location and zoom in
-    setTimeout(() => {
-      if (mapRef.current) {
-        mapRef.current.panTo(crimeData[index].location);
-        setSelectedMarker(crimeData[index]);
-        
-        // Zoom in after panning to location
-        setTimeout(() => {
-          setMapZoom(15);
-        }, 500);
-      }
-    }, 700);
-  };
-
+const FlyToMarker = ({ location }) => {
+  const map = useMap();
   useEffect(() => {
-    // Trigger animation when current crime index changes
-    if (isLoaded && mapRef.current) {
-      animateToCrime(currentCrimeIndex);
-    }
-  }, [currentCrimeIndex, isLoaded]);
+    if (location) map.flyTo(location, 15, { duration: 1.2 });
+  }, [location]);
+  return null;
+};
+
+const CrimeTimeline = () => {
+  const [index, setIndex] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const timerRef = useRef(null);
+
+  const current = crimeData[index];
 
   useEffect(() => {
     if (playing) {
       timerRef.current = setInterval(() => {
-        setCurrentCrimeIndex((prevIndex) => {
-          const nextIndex = prevIndex + 1;
-          if (nextIndex >= crimeData.length) {
+        setIndex((prev) => {
+          if (prev === crimeData.length - 1) {
             setPlaying(false);
-            return prevIndex;
+            return prev;
           }
-          return nextIndex;
+          return prev + 1;
         });
-      }, 6000); // Increased to 6 seconds to allow for animation
-    } else if (timerRef.current) {
+      }, 6000);
+    } else {
       clearInterval(timerRef.current);
     }
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
+    return () => clearInterval(timerRef.current);
   }, [playing]);
 
-  const handleSliderChange = (e) => {
-    const newIndex = parseInt(e.target.value);
-    setCurrentCrimeIndex(newIndex);
-  };
-
-  const handlePlayPause = () => {
-    setPlaying(!playing);
-  };
-
-  const handleMarkerClick = (crime) => {
-    setSelectedMarker(crime);
-  };
-
-  const onMapLoad = (map) => {
-    mapRef.current = map;
-    // Initial zoom animation
-    setTimeout(() => {
-      animateToCrime(currentCrimeIndex);
-    }, 500);
-  };
-
-  const currentCrime = crimeData[currentCrimeIndex];
+  const togglePlay = () => setPlaying(!playing);
+  const handleSlider = (e) => setIndex(parseInt(e.target.value));
 
   return (
-    <section className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+    <section className="bg-midnight text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
       <div className="text-center mb-8">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-red-500 mb-4">
+        <h2 className="text-4xl sm:text-5xl font-extrabold text-red-500 mb-4 text-glow">
           Campus Safety Timeline
         </h2>
-        <p className="text-gray-300 max-w-2xl mx-auto mb-8">
-          Explore major campus safety incidents in Chicago over time. The timeline shows where and when significant crimes occurred around university campuses.
+        <p className="text-gray-300 max-w-2xl mx-auto">
+          Follow the timeline of key campus crime incidents across Chicago.
         </p>
       </div>
 
-      {isLoaded ? (
-        <div className="flex flex-col gap-8">
-          <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg">
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={currentCrime?.location || chicagoCenter}
-              zoom={mapZoom}
-              options={{
-                disableDefaultUI: false,
-                styles: [
-                  {
-                    elementType: "geometry",
-                    stylers: [{ color: "#1d2c4d" }]
-                  },
-                  {
-                    elementType: "labels.text.fill",
-                    stylers: [{ color: "#8ec3b9" }]
-                  },
-                  {
-                    elementType: "labels.text.stroke",
-                    stylers: [{ color: "#1a3646" }]
-                  },
-                  {
-                    featureType: "road",
-                    elementType: "geometry",
-                    stylers: [{ color: "#2c3e50" }]
-                  },
-                  {
-                    featureType: "road",
-                    elementType: "labels.text.fill",
-                    stylers: [{ color: "#9ca5b3" }]
-                  },
-                  {
-                    featureType: "transit",
-                    elementType: "geometry",
-                    stylers: [{ color: "#406d80" }]
-                  },
-                  {
-                    featureType: "water",
-                    elementType: "geometry",
-                    stylers: [{ color: "#17263c" }]
-                  },
-                  {
-                    featureType: "water",
-                    elementType: "labels.text.fill",
-                    stylers: [{ color: "#515c6d" }]
-                  },
-                ],
-              }}
-              onLoad={onMapLoad}
-            >
-              {crimeData.map((crime, index) => (
-                <Marker
-                  key={crime.id}
-                  position={crime.location}
-                  icon={{
-                    url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
-                    scaledSize: new window.google.maps.Size(
-                      index === currentCrimeIndex ? 50 : 30, 
-                      index === currentCrimeIndex ? 50 : 30
-                    ),
-                  }}
-                  animation={index === currentCrimeIndex ? window.google.maps.Animation.BOUNCE : null}
-                  onClick={() => handleMarkerClick(crime)}
-                />
-              ))}
+      <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg animate-fadeIn">
+        <MapContainer
+          center={current.location}
+          zoom={13}
+          scrollWheelZoom={false}
+          style={{ height: "600px", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-              {selectedMarker && (
-                <InfoWindow
-                  position={selectedMarker.location}
-                  onCloseClick={() => setSelectedMarker(null)}
-                >
-                  <div className="bg-gray-900 text-white p-2 max-w-md">
-                    <h3 className="font-bold text-lg text-red-500">{selectedMarker.title}</h3>
-                    <p className="text-sm mb-1 text-yellow-400">{selectedMarker.date}</p>
-                    <p className="text-xs">{selectedMarker.description}</p>
-                  </div>
-                </InfoWindow>
-              )}
-            </GoogleMap>
-          </div>
+          {crimeData.map((crime, i) => (
+            <Marker key={crime.id} position={crime.location}>
+              <Popup>
+                <h3 className="font-bold text-red-500">{crime.title}</h3>
+                <p className="text-sm text-yellow-400">{crime.date}</p>
+                <p className="text-xs">{crime.description}</p>
+              </Popup>
+            </Marker>
+          ))}
 
-          <div className="bg-gray-900 p-6 rounded-lg shadow-lg">
-            <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-              <div className="text-xl font-bold text-red-500">
-                {currentCrime.date}: {currentCrime.title}
-              </div>
-              <button
-                onClick={handlePlayPause}
-                className={`px-4 py-2 rounded font-bold ${
-                  playing ? "bg-red-600" : "bg-green-600"
-                }`}
-              >
-                {playing ? "Pause" : "Play"}
-              </button>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              <input
-                type="range"
-                min="0"
-                max={crimeData.length - 1}
-                value={currentCrimeIndex}
-                onChange={handleSliderChange}
-                className="w-full accent-red-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-              />
-            </div>
-            
-            <div className="mt-4 bg-gray-800 p-4 rounded">
-              <p className="text-sm">{currentCrime.description}</p>
-            </div>
+          <FlyToMarker location={current.location} />
+        </MapContainer>
+      </div>
+
+      {/* Timeline Controls */}
+      <div className="bg-gray-900 p-6 rounded-lg shadow-lg mt-8 space-y-4">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="font-bold text-red-400 text-lg">
+            {current.date}: {current.title}
           </div>
+          <button
+            onClick={togglePlay}
+            className={`px-4 py-2 mt-4 md:mt-0 rounded font-bold ${
+              playing ? "bg-red-600" : "bg-green-600"
+            } hover:scale-105 transition`}
+          >
+            {playing ? "Pause" : "Play"}
+          </button>
         </div>
-      ) : (
-        <p className="text-center">Loading Map...</p>
-      )}
+
+        <input
+          type="range"
+          min="0"
+          max={crimeData.length - 1}
+          value={index}
+          onChange={handleSlider}
+          className="w-full accent-red-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+
+        <div className="bg-gray-800 p-4 rounded text-sm">
+          {current.description}
+        </div>
+      </div>
     </section>
   );
 };
 
-export default CrimeTimeline; 
+export default CrimeTimeline;

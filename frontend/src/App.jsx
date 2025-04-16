@@ -1,13 +1,15 @@
-import React from "react";
+import React, { Suspense } from "react";
 import Hero from "./components/Hero";
 import MapContainer from "./components/MapContainer";
 import StackedCrimeChart from "./charts/stacked_crime/StackedCrimeChart";
-import BaseMap from "./charts/CrimesTimeSpaceChart";
 import CrimeTimeline from "./components/CrimeTimeline";
+
+// Lazy-load heavy components
+const BaseMap = React.lazy(() => import("./charts/CrimesTimeSpaceChart"));
 
 const App = () => {
   return (
-    <main className="min-h-screen text-white font-orbitron bg-black overflow-x-hidden">
+    <main className="bg-midnight font-orbitron text-gray-100 overflow-x-hidden">
       {/* 🔴 Hero Section */}
       <Hero />
 
@@ -17,13 +19,13 @@ const App = () => {
       {/* 🔵 Stacked Crime Chart Section */}
       <StackedCrimeChart />
 
-      {/* 🔵 Time space Crime Chart Section */}
-      <BaseMap />
+      {/* 🔵 Time-space Crime Chart Section */}
+      <Suspense fallback={<div className="text-center">Loading Map...</div>}>
+        <BaseMap />
+      </Suspense>
 
       {/* 🔴 Map Section */}
       <MapContainer />
-
-      {/* 🔜 Future Sections like About, Footer, etc. */}
     </main>
   );
 };
