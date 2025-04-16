@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap');
+
 /* Smooth scroll for anchor navs */
 html {
   scroll-behavior: smooth;
@@ -9,12 +12,7 @@ html {
 
 /* Global body layout */
 body {
-  @apply text-gray-100 bg-midnight font-orbitron min-h-screen;
-
-  background-image: radial-gradient(circle at center, #0a0a0a 0%, #050505 100%);
-  background-size: cover;
-  background-repeat: no-repeat;
-
+  @apply text-slate-800 bg-gray-50 font-sans min-h-screen;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -29,27 +27,19 @@ body, html {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  @apply font-extrabold tracking-tight text-gray-100;
-}
-
-/* Gradient Heading */
-h1.text-gradient, .text-gradient {
-  background: linear-gradient(to right, #ff1e1e, #ff6a00, #ffc107);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(255, 0, 0, 0.4);
+  @apply font-heading font-bold tracking-tight text-slate-900;
 }
 
 /* Paragraphs */
 p {
-  font-size: 1.1rem;
+  font-size: 1rem;
   line-height: 1.7;
-  color: #cfcfcf;
+  color: #4b5563;
 }
 
 /* Section padding */
 section {
-  @apply py-24 px-6 transition-all duration-500 ease-in-out;
+  @apply py-16 px-6 transition-all duration-300 ease-in-out;
   width: 100%;
   max-width: 100vw; /* prevent content clipping inside section */
   overflow-x: hidden;
@@ -63,48 +53,31 @@ section {
 
 /* Scroll hint animation */
 .scroll-down {
-  @apply mt-10 text-pink-500;
+  @apply mt-10 text-primary;
   animation: bounce 2s infinite;
 }
 
 /* Buttons */
 button {
-  @apply px-8 py-3 rounded-xl bg-red-500 text-white font-semibold shadow-md transition-transform duration-300 ease-in-out;
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  @apply px-6 py-2 rounded-md bg-primary text-white font-medium shadow-subtle transition-all duration-300 ease-in-out;
 }
 
 button:hover {
-  @apply bg-red-700;
-  transform: scale(1.05);
+  @apply bg-blue-700 shadow-lg transform -translate-y-0.5;
 }
 
 /* Links */
 a {
-  @apply text-dangerYellow transition-colors duration-300;
+  @apply text-primary transition-colors duration-300;
 }
 
 a:hover {
-  @apply underline underline-offset-4 text-pink-400;
+  @apply text-blue-700 underline underline-offset-2;
 }
 
-/* Gradient text */
-.gradient-text {
-  background: linear-gradient(to right, #ff4d4d, #ff9900, #facc15);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Glass card panels */
-.glass {
-  backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 1.25rem;
-  box-shadow: 0 4px 60px rgba(255, 255, 255, 0.05);
-}
-
-/* Fancy shadows */
-.fancy-shadow {
-  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.15);
+/* Card panels */
+.card {
+  @apply bg-white rounded-lg shadow-subtle border border-gray-100;
 }
 
 /* Bounce animation */
@@ -113,6 +86,6 @@ a:hover {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
 }

@@ -34,20 +34,20 @@ export default function StackedCrimeChart() {
     };
 
     return (
-    <div className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+    <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
         <div className="overflow-hidden mx-auto mb-8">
-            <h1 className="text-3xl font-bold mb-4">Understanding Crime Trends in Chicago</h1>
-            <p className="mb-4">
-                Our interactive visualization provides a comprehensive overview of crime trends across the city. By analyzing these statistics, we can gain a broad understanding of how different crime categories evolve over time, which is essential for creating effective policies and community safety strategies.
+            <h2 className="text-3xl font-heading font-bold mb-4">Understanding Safety Trends in Chicago</h2>
+            <p className="mb-4 text-slate-600">
+                Our interactive visualization provides a comprehensive overview of safety trends across the city. By analyzing these statistics, we can gain a broad understanding of how different incident categories evolve over time, which is essential for creating effective policies and community safety strategies.
             </p>
-            <p className="mb-4">
-                With this tool, stakeholders can observe aggregated crime data as well as detailed breakdowns by subcategories. Such granular insights allow decision-makers to pinpoint critical issues and assess areas that require targeted interventions.
+            <p className="mb-4 text-slate-600">
+                With this tool, stakeholders can observe aggregated data as well as detailed breakdowns by subcategories. Such granular insights allow decision-makers to pinpoint critical issues and assess areas that require targeted interventions.
             </p>
-            <p>
+            <p className="text-slate-600">
                 A broad understanding of these statistics not only aids in evaluating past trends but also supports future planning and resource allocation in public safety. Explore the data to uncover patterns, identify peak times, and help enhance community well-being.
             </p>
         </div>
-        <div className="rounded-xl overflow-hidden border-4 border-red-500 shadow-lg mx-auto" style={{ maxWidth: "1200px" }}>
+        <div className="rounded-lg overflow-hidden border border-gray-300 shadow-subtle card mx-auto" style={{ maxWidth: "1200px" }}>
             <div className="flex" style={{ height: "600px" }}>
                 <div className="flex-1 relative">
                 <ModeSelector 

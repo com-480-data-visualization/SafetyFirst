@@ -73,19 +73,19 @@ const CrimesTimeSpaceChart = () => {
   return (
     <section
       id="heatmap"
-      className="bg-black text-white py-20 px-4 sm:px-8 md:px-16 lg:px-32"
+      className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32"
     >
       <div className="text-center mb-10">
-        <h2 className="text-4xl sm:text-5xl font-extrabold text-red-500 mb-4 text-glow">
-          Chicago Crime Heatmap
+        <h2 className="text-4xl sm:text-5xl font-heading font-bold text-primary mb-4">
+          Chicago Safety Heatmap
         </h2>
-        <p className="text-gray-300 max-w-3xl mx-auto">
-          Explore how Chicago's crime hotspots evolve from 2001 to 2025. The colors represent
+        <p className="text-slate-600 max-w-3xl mx-auto">
+          Explore how Chicago's incident hotspots evolve from 2001 to 2025. The colors represent
           relative intensity within each year.
         </p>
       </div>
 
-      <div className="h-[600px] rounded-xl overflow-hidden border-4 border-red-500 shadow-xl">
+      <div className="h-[600px] rounded-lg overflow-hidden border border-gray-300 shadow-subtle card">
         <MapContainer
           center={chicagoCenter}
           zoom={11}
@@ -101,8 +101,8 @@ const CrimesTimeSpaceChart = () => {
         </MapContainer>
       </div>
 
-      <div className="mt-10 max-w-3xl mx-auto bg-gray-900/80 p-6 rounded-xl border border-red-500 shadow-md backdrop-blur">
-        <label className="block text-center text-sm font-semibold text-red-400 mb-2">
+      <div className="mt-10 max-w-3xl mx-auto bg-white p-6 rounded-lg border border-gray-200 shadow-subtle card">
+        <label className="block text-center text-sm font-medium text-primary mb-2">
           Year: {year}
         </label>
         <input
@@ -112,7 +112,7 @@ const CrimesTimeSpaceChart = () => {
           step={1}
           value={year}
           onChange={(e) => setYear(parseInt(e.target.value))}
-          className="w-full accent-red-500"
+          className="w-full accent-primary"
         />
       </div>
     </section>

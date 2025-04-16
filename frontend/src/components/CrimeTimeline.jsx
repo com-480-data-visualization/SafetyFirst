@@ -127,10 +127,10 @@ const CrimeTimeline = ({ userType = "student" }) => {
   // Configure based on user type
   const isStudent = userType === "student";
   const crimeData = isStudent ? studentCrimeData : touristCrimeData;
-  const themeColor = isStudent ? "red" : "green";
+  const themeColor = isStudent ? "primary" : "accent";
   const title = isStudent ? "Student Safety Timeline" : "Tourist Safety Timeline";
   const description = isStudent 
-    ? "Follow the timeline of key campus crime incidents across Chicago."
+    ? "Follow the timeline of key campus safety incidents across Chicago."
     : "Follow the timeline of key incidents affecting tourists in Chicago.";
 
   const current = crimeData[index];
@@ -156,17 +156,17 @@ const CrimeTimeline = ({ userType = "student" }) => {
   const handleSlider = (e) => setIndex(parseInt(e.target.value));
 
   return (
-    <section className="bg-midnight text-white py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+    <section className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="timeline">
       <div className="text-center mb-8">
-        <h2 className={`text-4xl sm:text-5xl font-extrabold text-${themeColor}-500 mb-4 text-glow`}>
+        <h2 className={`text-4xl sm:text-5xl font-heading font-bold text-${themeColor} mb-4`}>
           {title}
         </h2>
-        <p className="text-gray-300 max-w-2xl mx-auto">
+        <p className="text-slate-600 max-w-2xl mx-auto">
           {description}
         </p>
       </div>
 
-      <div className={`rounded-xl overflow-hidden border-4 border-${themeColor}-500 shadow-lg animate-fadeIn`}>
+      <div className={`rounded-lg overflow-hidden border border-gray-300 shadow-subtle card animate-fadeIn`}>
         <MapContainer
           center={current.location}
           zoom={13}
@@ -181,11 +181,11 @@ const CrimeTimeline = ({ userType = "student" }) => {
           {crimeData.map((crime, i) => (
             <Marker key={crime.id} position={crime.location}>
               <Popup>
-                <h3 className={`font-bold text-${themeColor}-${isStudent ? '500' : '600'}`}>
+                <h3 className={`font-bold text-${themeColor}`}>
                   {crime.title}
                 </h3>
-                <p className="text-sm text-yellow-400">{crime.date}</p>
-                <p className="text-xs">{crime.description}</p>
+                <p className="text-sm text-secondary">{crime.date}</p>
+                <p className="text-xs text-slate-600">{crime.description}</p>
               </Popup>
             </Marker>
           ))}
@@ -195,16 +195,16 @@ const CrimeTimeline = ({ userType = "student" }) => {
       </div>
 
       {/* Timeline Controls */}
-      <div className="bg-gray-900 p-6 rounded-lg shadow-lg mt-8 space-y-4">
+      <div className="bg-white p-6 rounded-lg shadow-subtle card mt-8 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className={`font-bold text-${themeColor}-400 text-lg`}>
+          <div className={`font-medium text-${themeColor} text-lg`}>
             {current.date}: {current.title}
           </div>
           <button
             onClick={togglePlay}
-            className={`px-4 py-2 mt-4 md:mt-0 rounded font-bold ${
-              playing ? "bg-red-600" : "bg-green-600"
-            } hover:scale-105 transition`}
+            className={`px-4 py-2 mt-4 md:mt-0 rounded ${
+              playing ? "bg-danger" : "bg-success"
+            } hover-lift text-white`}
           >
             {playing ? "Pause" : "Play"}
           </button>
@@ -216,10 +216,10 @@ const CrimeTimeline = ({ userType = "student" }) => {
           max={crimeData.length - 1}
           value={index}
           onChange={handleSlider}
-          className={`w-full accent-${themeColor}-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer`}
+          className={`w-full accent-${themeColor} h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer`}
         />
 
-        <div className="bg-gray-800 p-4 rounded text-sm">
+        <div className="bg-gray-100 p-4 rounded text-sm text-slate-700">
           {current.description}
         </div>
       </div>
