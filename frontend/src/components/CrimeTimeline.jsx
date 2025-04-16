@@ -166,12 +166,13 @@ const CrimeTimeline = ({ userType = "student" }) => {
         </p>
       </div>
 
-      <div className={`rounded-lg overflow-hidden border border-gray-300 shadow-subtle card animate-fadeIn`}>
+      <div className={`rounded-lg overflow-hidden border border-gray-300 shadow-subtle card animate-fadeIn relative`}>
         <MapContainer
           center={current.location}
           zoom={13}
           scrollWheelZoom={false}
           style={{ height: "600px", width: "100%" }}
+          zoomControl={false}
         >
           <TileLayer
             attribution='&copy; <a href="https://openstreetmap.org">OpenStreetMap</a>'
@@ -192,14 +193,23 @@ const CrimeTimeline = ({ userType = "student" }) => {
 
           <FlyToMarker location={current.location} />
         </MapContainer>
+        <div
+          className="absolute bottom-6 left-6 bg-white/90 border border-gray-300 rounded-lg shadow-lg p-5 max-w-xs z-[500] animate-fadeIn"
+          style={{ pointerEvents: 'none' }}
+        >
+          <div className={`font-medium text-${themeColor} text-lg mb-1`}>
+            {current.date}: {current.title}
+          </div>
+          <div className="text-slate-700 text-sm">
+            {current.description}
+          </div>
+        </div>
       </div>
 
       {/* Timeline Controls */}
       <div className="bg-white p-6 rounded-lg shadow-subtle card mt-8 space-y-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className={`font-medium text-${themeColor} text-lg`}>
-            {current.date}: {current.title}
-          </div>
+          <div />
           <button
             onClick={togglePlay}
             className={`px-4 py-2 mt-4 md:mt-0 rounded ${
@@ -218,10 +228,6 @@ const CrimeTimeline = ({ userType = "student" }) => {
           onChange={handleSlider}
           className={`w-full accent-${themeColor} h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer`}
         />
-
-        <div className="bg-gray-100 p-4 rounded text-sm text-slate-700">
-          {current.description}
-        </div>
       </div>
     </section>
   );
