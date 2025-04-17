@@ -12,19 +12,19 @@ const HeatLayer = ({ points }) => {
   useEffect(() => {
     const heatPoints = points
       .filter((d) => d.lat && d.lon)
-      .map((d) => [d.lat, d.lon, 0.5]); // all weights = 0.5
+      .map((d) => [d.lat, d.lon, 0.1]); // all weights = 0.1    
 
     const heat = window.L.heatLayer(heatPoints, {
-      radius: 25,
-      blur: 20,
-      minOpacity: 0.4,
+      radius: 20,
+      blur: 25,
+      minOpacity: 0.2,
       gradient: {
-        0.0: "#00ff00",   // Safe (green)
-        0.2: "#ffff00",   // Caution (yellow)
-        0.5: "#ff9900",   // Warning (orange)
-        0.8: "#ff4500",   // Dangerous (deep orange/red)
-        1.0: "#ff0000",   // Very dangerous (red)
-      },      
+        0.1: "#3498db",   // blue
+        0.2: "#9b59b6",   // purple
+        0.6: "#f1c40f",   // yellow
+        0.9: "#e67e22",   // orange
+        1.0: "#e74c3c",   // red
+      },  
     });
 
     heat.addTo(map);
