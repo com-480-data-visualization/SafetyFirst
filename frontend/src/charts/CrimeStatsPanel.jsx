@@ -37,10 +37,10 @@ const CrimeStatsPanel = ({ data }) => {
   ];
 
   return (
-    <div className="bg-gray-900 border border-red-500 p-6 rounded-xl shadow-lg">
+    <div className="border-red-500 p-6 rounded-xl shadow-lg">
       <h3 className="text-xl font-bold text-red-400 mb-4 text-center">Top Crime Types</h3>
       {chartData.length === 0 ? (
-        <p className="text-gray-400 text-center">No data for current filters</p>
+        <p className="bg text-center">No data for current filters</p>
       ) : (
         <ResponsiveContainer width="100%" height={400}>
           <BarChart
@@ -48,18 +48,27 @@ const CrimeStatsPanel = ({ data }) => {
             data={chartData}
             margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
           >
-            <XAxis type="number" stroke="#ccc" />
+            <XAxis
+                type="number"
+                stroke="#ccc"
+                tick={{ fill: "#ccccc", fontSize: 12 }}
+            />
             <YAxis
-              dataKey="type"
-              type="category"
-              stroke="#ccc"
-              width={130}
-              tick={{ fontSize: 12 }}
+                type="category"
+                dataKey="type"
+                stroke="#ccc"
+                tick={{ fill: "#ccccc", fontSize: 12 }}
+                width={100}
+                tickFormatter={(value) => {
+                  const maxLength = 15; // Maximum length for the label
+                  return value.length > maxLength ? value.slice(0, maxLength) + "..." : value;
+                }}
             />
             <Tooltip
-              cursor={{ fill: "rgba(255,255,255,0.05)" }}
-              contentStyle={{ background: "#111", border: "none" }}
-              labelStyle={{ color: "#f43f5e" }}
+                formatter={(value, name) => [`${value}`, `${name}`]}
+                labelFormatter={(label) => `Crime Type: ${label}`}
+                itemStyle={{ color: "#000" }}
+                cursor={false}
             />
             <Bar dataKey="count" barSize={16}>
               {chartData.map((entry, index) => (

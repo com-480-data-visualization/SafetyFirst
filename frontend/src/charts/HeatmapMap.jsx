@@ -1,40 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
-import { useEffect } from "react";
 
 const centerChicago = [41.8781, -87.6298];
 
 const HeatLayer = ({ points }) => {
   const map = useMap();
-  
 
   useEffect(() => {
-    const heatPoints = points
-      .filter((d) => d.lat && d.lon)
-      .map((d) => [d.lat, d.lon, 0.5]); // all weights = 0.5 for now
-
-    const heat = window.L.heatLayer(heatPoints, {
-      radius: 20,
-      blur: 15,
-      minOpacity: 0.1,
-      gradient: {
-        0.0: "#00ff00",
-        0.2: "#ccff00",
-        0.5: "#ffff00",
-        0.7: "#ff9900",
-        0.9: "#ff4500",
-        1.0: "#ff0000",
-      },
-    });
-
-    heat.addTo(map);
-
-    return () => {
-      map.removeLayer(heat); // Cleanup
-    };
-  }, [map, points]);
+    if (!points || points.length === 0) return;
+  
+    try {
+      const aggregated = {};
+      points.forEach(({ lat, lon }) => {
+        if (lat == null || lon == null) return;
+        const key = `${lat.toFixed(5)},${lon.toFixed(5)}`;
+        if (!aggregated[key]) aggregated[key] = { lat, lon, count: 0 };
+        aggregated[key].count += 1;
+      });
+  
+      const aggregatedPoints = Object.values(aggregated);
+  
+      // Limit to first 20,000 for performance (or tweak as needed)
+      const limitedPoints = aggregatedPoints.slice(0, 20000);
+      const maxCount = Math.max(...limitedPoints.map((p) => p.count)) || 1;
+  
+      const heatPoints = limitedPoints.map((p) => [
+        p.lat,
+        p.lon,
+        p.count / maxCount,
+      ]);
+  
+      const heat = window.L.heatLayer(heatPoints, {
+        radius: 20,
+        blur: 15,
+        minOpacity: 0.15,
+        gradient: {
+          0.0: "#00ff00",
+          0.2: "#adff2f",
+          0.4: "#ffff00",
+          0.6: "#ffa500",
+          0.8: "#ff4500",
+          1.0: "#ff0000",
+        },
+      });
+  
+      heat.addTo(map);
+  
+      return () => {
+        map.removeLayer(heat);
+      };
+    } catch (err) {
+      console.error("❌ Error generating heatmap:", err);
+    }
+  }, [map, points]);  
 
   return null;
 };
