@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   GoogleMap,
   DirectionsRenderer,
@@ -6,27 +6,41 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 
-// Styling for the map container
 const containerStyle = {
   width: "100%",
   height: "600px",
 };
 
-// Default center (Chicago)
 const center = {
   lat: 41.8781,
   lng: -87.6298,
 };
 
-const MapSection = ({ origin, destination, travelMode, onMapClick }) => {
-  const [directions, setDirections] = useState(null);
-
+const MapSection = ({
+  origin,
+  destination,
+  travelMode,
+  onMapClick,
+  directions,
+  setDirections,
+}) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
 
-  // Calculate route when both points are selected
+  const mapRef = useRef(null);
+  const [mapType, setMapType] = useState("hybrid"); // Default to satellite with labels
+
+  // Read the selected display from the Google Maps UI
+  const handleMapTypeChange = () => {
+    if (mapRef.current) {
+      const type = mapRef.current.getMapTypeId();
+      setMapType(type);
+    }
+  };
+
+  // Recalculate route if origin and destination are present
   useEffect(() => {
     if (origin && destination && isLoaded && window.google) {
       const directionsService = new google.maps.DirectionsService();
@@ -44,10 +58,11 @@ const MapSection = ({ origin, destination, travelMode, onMapClick }) => {
           }
         }
       );
+    } else {
+      setDirections(null);
     }
   }, [origin, destination, travelMode, isLoaded]);
 
-  // Safety: if Google isn't ready
   if (!isLoaded) {
     return (
       <div className="text-center text-gray-100 py-12 text-lg animate-pulse">
@@ -62,18 +77,11 @@ const MapSection = ({ origin, destination, travelMode, onMapClick }) => {
       center={origin || center}
       zoom={13}
       onClick={onMapClick}
+      onLoad={(map) => (mapRef.current = map)}
+      onMapTypeIdChanged={handleMapTypeChange}
       options={{
         disableDefaultUI: false,
-        styles: [
-          { elementType: "geometry", stylers: [{ color: "#1d2c4d" }] },
-          { elementType: "labels.text.fill", stylers: [{ color: "#8ec3b9" }] },
-          { elementType: "labels.text.stroke", stylers: [{ color: "#1a3646" }] },
-          { featureType: "road", elementType: "geometry", stylers: [{ color: "#2c3e50" }] },
-          { featureType: "road", elementType: "labels.text.fill", stylers: [{ color: "#9ca5b3" }] },
-          { featureType: "transit", elementType: "geometry", stylers: [{ color: "#406d80" }] },
-          { featureType: "water", elementType: "geometry", stylers: [{ color: "#17263c" }] },
-          { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: "#515c6d" }] },
-        ],
+        mapTypeId: mapType, // Preserve current map type
       }}
     >
       {origin && (
@@ -100,7 +108,7 @@ const MapSection = ({ origin, destination, travelMode, onMapClick }) => {
           options={{
             suppressMarkers: true,
             polylineOptions: {
-              strokeColor: "#facc15", // your dangerYellow
+              strokeColor: "#facc15",
               strokeOpacity: 0.8,
               strokeWeight: 5,
             },
