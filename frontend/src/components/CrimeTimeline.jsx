@@ -199,8 +199,15 @@ const CrimeTimeline = ({ userType = "student" }) => {
     <section className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="timeline">
       {showIntro ? (
         <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-primary text-center">Discover past crimes committed towards students</h2>
-          <p className="text-slate-600 max-w-xl text-center mb-8">Explore real incidents and learn about campus safety in Chicago. Click below to start the timeline animation.</p>
+          <h2 class="text-3xl sm:text-4xl font-bold text-red-600 mb-4">
+            Not Just Headlines — Real Tourists, Real Crimes
+          </h2>
+          <p class="text-lg text-gray-700">
+            What starts as a dream vacation can take a dark turn in a matter of seconds. A stolen camera, a violent mugging, a lost passport — these aren’t just rare stories, they’re real incidents reported in the heart of Chicago’s most visited areas.
+          </p>
+          <p class="mt-4 text-lg text-gray-700">
+            Scroll through these real-world cases mapped across the city. Every pin tells the story of a tourist whose experience became a cautionary tale. Don’t just explore — stay alert.
+          </p>
           <button
             onClick={handleStart}
             className="px-8 py-3 rounded bg-primary hover:bg-blue-700 text-white text-lg font-semibold shadow-lg transition hover-lift"
