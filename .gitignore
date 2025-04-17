@@ -3,3 +3,4 @@ frontend/.env
 frontend/node_modules
 node_modules
 milestone2/Crimes_-_2001_to_Present.csv
+milestone2/__pycache__

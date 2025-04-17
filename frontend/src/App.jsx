@@ -54,11 +54,13 @@ const App = () => {
       {/* Hero Section */}
       <Hero />
 
+      {/* Stacked Crime Chart Section */}
+      <StackedCrimeChart userType={userType}/>
+
       {/* Crime Timeline Section */}
       <CrimeTimeline userType={userType} />
 
-      {/* Stacked Crime Chart Section */}
-      <StackedCrimeChart />
+
 
       {/* Time-space Crime Chart Section */}
       <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
@@ -67,19 +69,6 @@ const App = () => {
 
       {/* Map Section */}
       <MapContainer />
-
-      {/* User Type Switcher */}
-      <div className="fixed bottom-4 right-4 bg-white p-2 rounded-lg shadow-subtle z-50">
-        <button
-          onClick={() => {
-            const newType = userType === "student" ? "tourist" : "student";
-            setUserType(newType);
-          }}
-          className="px-4 py-2 bg-accent hover:bg-blue-500 rounded text-white font-medium transition hover-lift"
-        >
-          Switch to {userType === "student" ? "Tourist" : "Student"} View
-        </button>
-      </div>
 
       {/* Back to Landing Button */}
       <div className="fixed bottom-4 left-4 bg-white p-2 rounded-lg shadow-subtle z-50">
