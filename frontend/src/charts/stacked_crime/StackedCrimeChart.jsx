@@ -5,7 +5,7 @@ import SubChart from "./SubCharts";
 import InfoPanel from "./InfoPanel";
 import crimeDataYears from "../../data/crime_category_over_years.json";
 import crimeDataHours from "../../data/crime_category_over_hours.json";
-import infoTexts from "./infoTexts.json";
+import infoTexts from "./infoTexts"; // Adjust the path based on location
 
 
 export default function StackedCrimeChart({ userType = "student" }) {
@@ -18,7 +18,8 @@ export default function StackedCrimeChart({ userType = "student" }) {
     const isStudent = userType === "student"
 
     const awarenessIntro = !isStudent && (
-        <section className="p-6 bg-white rounded-lg shadow-md mb-12 animate-fadeIn">
+        // <section className="p-6 bg-white rounded-lg shadow-md mb-12 animate-fadeIn">
+        <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
         <h2 className="text-3xl font-bold mb-4">
             🌆 Understanding Street Crime in Chicago: A Tourist's Perspective
         </h2>
@@ -34,18 +35,23 @@ export default function StackedCrimeChart({ userType = "student" }) {
             <li><strong>Assaults & Muggings:</strong> Though less frequent, incidents of physical assault or mugging do occur near popular attractions and in poorly lit areas.</li>
             <li><strong>Scams & Fraud:</strong> Fake ticket sellers, unofficial tour guides, and credit card scams can also target unsuspecting travelers.</li>
         </ul>
-    
-        <h3 className="text-2xl font-semibold mt-6 mb-2">📍 Tourist Hotspots with Crime Incidents</h3>
-        <p className="mb-4">
-            Tourist-heavy areas such as Grant Park, Buckingham Fountain, Navy Pier, and the Loop have seen a number of reported incidents.
-            These places are not inherently unsafe, but their popularity makes them prime spots for opportunistic crime.
+        
+        <h2 class="text-2xl font-bold mb-4">📰 Chicago Crime: Perception vs. Reality</h2>
+        <p class="mb-4">
+            Recent headlines suggest a decline in violent crime across U.S. cities, including Chicago. Reports indicate that homicide rates and other violent crimes decreased in many U.S. cities compared to 2023.
+            <a href="https://apnews.com/article/c28f7291a1e9b8c310b586ba6514222c" target="_blank" rel="noopener noreferrer">[Source]</a>
+            However, public perception doesn't always align with these statistics. Factors such as increased media coverage and social media discussions contribute to a heightened sense of insecurity among residents and visitors.
         </p>
-    
-        <blockquote className="border-l-4 border-blue-500 pl-4 italic text-gray-600">
-            For example, in <strong>November 2014</strong>, a tourist was robbed at gunpoint while taking photos at <strong>Buckingham Fountain</strong> — 
-            losing a $5,000 camera and other valuables. Incidents like this highlight the need for awareness and preparedness.
-        </blockquote>
-        </section>
+        <p class="mb-4">
+            While certain crime categories have seen reductions, others, like sexual assaults and aggravated assaults, have experienced increases in several major cities.
+            <a href="https://apnews.com/article/c28f7291a1e9b8c310b586ba6514222c" target="_blank" rel="noopener noreferrer">[Source]</a>
+            This complexity underscores the importance of examining detailed data to understand the full picture of crime trends in Chicago.
+        </p>
+        <p class="mb-4 font-semibold">
+            So, is Chicago truly becoming safer? Let's delve into the data to explore the distribution of various crime categories over time.
+  </p>
+        </div>
+        // </section>
     );
       
 
@@ -66,48 +72,50 @@ export default function StackedCrimeChart({ userType = "student" }) {
     };
 
     return (
-        <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
+    <section> 
         {awarenessIntro}
-        <div className="rounded-lg overflow-hidden border border-gray-300 shadow-subtle card mx-auto" style={{ maxWidth: "1200px" }}>
-            <div className="flex" style={{ height: "600px" }}>
-                <div className="flex-1 relative">
-                <ModeSelector 
-                    mode={mode}
-                    view={view}
-                    onModeChange={handleModeChange}
-                    onBack={handleBack}
-                />
-                <div className="absolute bottom-0 left-0 right-0 top-10">
-                    {view === "main" ? (
-                    <MainChart 
-                        dataSet={dataSet.main} 
-                        xKey={mode === "year" ? "Year" : "hour"}
+        <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
+            <div className="rounded-lg overflow-hidden border border-gray-300 shadow-subtle card mx-auto" style={{ maxWidth: "1200px" }}>
+                <div className="flex" style={{ height: "550px" }}>
+                    <div className="flex-1 relative">
+                    <ModeSelector 
                         mode={mode}
-                        onTraceClick={(category) => {
-                        setActiveCategory(category);
-                        setView("sub");
-                        // Use the corresponding info text loaded from JSON
-                        setInfoText(infoTexts[category]);
-                        }}
+                        view={view}
+                        onModeChange={handleModeChange}
+                        onBack={handleBack}
                     />
-                    ) : (
-                    <SubChart 
-                        activeCategory={activeCategory}
-                        mainData={dataSet.main} 
-                        subData={dataSet.subcategories[activeCategory]}
-                        xKey={mode === "year" ? "Year" : "hour"}
-                        mode={mode}
-                        onTraceClick={(subcat) => {
-                            setInfoText(`You clicked on subcategory ${subcat} under ${activeCategory}.`);
-                        }}
-                    />
-                    )}
+                    <div className="absolute bottom-0 left-0 right-0 ">
+                        {view === "main" ? (
+                        <MainChart 
+                            dataSet={dataSet.main} 
+                            xKey={mode === "year" ? "Year" : "hour"}
+                            mode={mode}
+                            onTraceClick={(category) => {
+                            setActiveCategory(category);
+                            setView("sub");
+                            // Use the corresponding info text loaded from JSON
+                            setInfoText(infoTexts[category]);
+                            }}
+                        />
+                        ) : (
+                        <SubChart 
+                            activeCategory={activeCategory}
+                            mainData={dataSet.main} 
+                            subData={dataSet.subcategories[activeCategory]}
+                            xKey={mode === "year" ? "Year" : "hour"}
+                            mode={mode}
+                            onTraceClick={(subcat) => {
+                                setInfoText(`You clicked on subcategory ${subcat} under ${activeCategory}.`);
+                            }}
+                        />
+                        )}
+                    </div>
+                    </div>
+                    <InfoPanel hoverInfo={null} infoText={infoText} />
                 </div>
-                </div>
-                <InfoPanel hoverInfo={null} infoText={infoText} />
             </div>
         </div>
-    </div>
+    </section>
     );
 }
 

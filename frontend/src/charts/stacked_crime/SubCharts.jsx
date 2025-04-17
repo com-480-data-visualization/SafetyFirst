@@ -54,7 +54,6 @@ const SubChart = ({ activeCategory, mainData, subData, xKey, mode, onTraceClick 
             x: 0.5,                     // center it horizontally
             xanchor: "center",          // anchor at the horizontal center
             yanchor: "bottom",          // align the bottom of the legend to the y coordinate
-            bgcolor: "rgba(0, 0, 0, 0.5)",
             font: { color: "#000" },
           }
       }}
