@@ -54,11 +54,13 @@ const App = () => {
       {/* Hero Section */}
       <Hero />
 
+      {/* Stacked Crime Chart Section */}
+      <StackedCrimeChart userType={userType}/>
+
       {/* Crime Timeline Section */}
       <CrimeTimeline userType={userType} />
 
-      {/* Stacked Crime Chart Section */}
-      <StackedCrimeChart />
+
 
       {/* Time-space Crime Chart Section */}
       <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>

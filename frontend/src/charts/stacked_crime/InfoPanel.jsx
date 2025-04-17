@@ -3,9 +3,9 @@ import React from "react";
 
 const InfoPanel = ({ hoverInfo, infoText }) => {
   return (
-    <div className="w-2/5 bg-gray-900 p-4 overflow-y-auto">
+    <div className="w-2/5 p-4 overflow-y-auto">
       {hoverInfo && (
-        <div className="mb-4 p-2 bg-gray-800 rounded">
+        <div className="mb-4 p-2 rounded">
           <strong>Hover Info: </strong>{hoverInfo}
         </div>
       )}

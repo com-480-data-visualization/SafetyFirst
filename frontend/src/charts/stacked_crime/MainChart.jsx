@@ -40,12 +40,12 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
         xaxis: {
           title: xKey === "Year" ? "Year" : "Hour of the Day",
           fixedrange: true,
-          tickfont: { color: "#fff" },
+          tickfont: { color: "#000" },
         },
         yaxis: {
           title: "Number of Reported Crimes",
           fixedrange: true,
-          tickfont: { color: "#fff" },
+          tickfont: { color: "#000" },
         },
         hovermode: "closest",
         showlegend: true,
@@ -56,7 +56,7 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
           xanchor: "center",          // anchor at the horizontal center
           yanchor: "bottom",          // align the bottom of the legend to the y coordinate
           bgcolor: "rgba(0, 0, 0, 0.5)",
-          font: { color: "#fff" },
+          font: { color: "#000" },
         }
       }}
       config={{
