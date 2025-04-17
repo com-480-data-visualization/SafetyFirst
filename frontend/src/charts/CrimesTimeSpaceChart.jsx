@@ -31,7 +31,7 @@ const CrimesTimeSpaceChart = () => {
 
   return (
     <section className="w-full px-4 sm:px-8 md:px-16 lg:px-32 py-12">
-      <h2 className="text-4xl font-extrabold text-center mb-8 text-red-500 text-glow">
+      <h2 className="text-4xl text-primary font-extrabold text-center mb-8 text-glow">
       Explore the Crime Landscape, Block by Block
       </h2>
       <p class="text-lg text-gray-700">

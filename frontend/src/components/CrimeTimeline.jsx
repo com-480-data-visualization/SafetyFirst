@@ -199,7 +199,7 @@ const CrimeTimeline = ({ userType = "student" }) => {
     <section className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="timeline">
       {showIntro ? (
         <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
-          <h2 class="text-3xl sm:text-4xl font-bold text-red-600 mb-4">
+          <h2 class="text-3xl sm:text-4xl font-bold text-primary mb-4">
             Not Just Headlines — Real Tourists, Real Crimes
           </h2>
           <p class="text-lg text-gray-700">

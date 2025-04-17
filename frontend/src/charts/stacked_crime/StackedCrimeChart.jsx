@@ -18,10 +18,11 @@ export default function StackedCrimeChart({ userType = "student" }) {
 
     const isStudent = userType === "student"
 
-    const awarenessIntro = !isStudent && (
-        // <section className="p-6 bg-white rounded-lg shadow-md mb-12 animate-fadeIn">
+    const awarenessIntro = ( 
         <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
-        <h2 className="text-3xl font-bold mb-4">
+        { !isStudent ?  (
+            <>
+        <h2 className="text-3xl font-bold text-primary mb-4">
             Street Crime in Chicago: A Tourist's Perspective
         </h2>
         <p className="mb-4">
@@ -50,10 +51,53 @@ export default function StackedCrimeChart({ userType = "student" }) {
         </p>
         <p class="mb-4 font-semibold">
             So, is Chicago truly becoming safer? Let's delve into the data to explore the distribution of various crime categories over time.
-  </p>
-        </div>
-        // </section>
-    );
+        </p>
+        </>): (
+        <>
+            <h2 class="text-3xl sm:text-4xl font-bold text-primary mb-4">
+                🎓 Street Crime in Chicago: A new Student’s Reality
+            </h2>
+            <p class="text-lg mb-4">
+                Chicago is an incredible place to begin your academic journey — packed with music, museums, food, and vibrant neighborhoods.
+                But as with any large urban environment, it’s important to understand the risks that come with city living,
+                especially when you're new and still getting your bearings.
+            </p>
+            <p class="text-lg mb-4">
+                Many students navigate unfamiliar streets, use public transportation late at night, and live in off-campus housing — all of which come with specific safety concerns.
+                Awareness is key to confidently and safely exploring your new home.
+            </p>
+
+            <h3 class="text-2xl font-semibold mt-8 mb-4">🚨 Common Crimes That Impact Students</h3>
+            <ul class="list-disc list-inside space-y-3 text-lg">
+                <li>
+                <strong>Street Robberies & Muggings:</strong> Students walking alone, especially at night or near transit stops, are sometimes approached by individuals demanding phones, wallets, or backpacks — often under threat.
+                </li>
+                <li>
+                <strong>Apartment Break-ins:</strong> Off-campus housing, especially in less-monitored areas, may be vulnerable to break-ins. Theft of electronics, bikes, and personal items is a recurring issue.
+                </li>
+                <li>
+                <strong>Phone Snatching:</strong> Phones are frequently stolen directly from students' hands — especially when texting or browsing while walking or waiting at a bus stop.
+                </li>
+                <li>
+                <strong>Bike Theft:</strong> Even with locks, bikes left unattended on the street or in unsecured dorm racks are common targets.
+                </li>
+                <li>
+                <strong>Ride-Share Impersonation & Scams:</strong> Fake Uber/Lyft drivers or people posing as delivery personnel sometimes approach students, especially near nightlife or dorm entrances.
+                </li>
+                <li>
+                <strong>Fraud & Identity Theft:</strong> Students may be targeted by phishing emails pretending to be from university services, scholarship offers, or fake landlords requesting deposits.
+                </li>
+            </ul>
+
+            <h3 class="text-xl font-semibold mt-10 mb-2 text-green-700">🛡️ Stay Smart, Stay Safe</h3>
+            <p class="text-lg">
+                This tool helps you visualize real data on crimes around your school and across the city —
+                empowering you to make informed choices about your routes, housing, and daily routines.
+                Whether you're headed to class or grabbing late-night snacks, a little planning goes a long way.
+            </p>
+        </>
+        )}
+    </div>)
       
 
     // Choose dataset based on mode etc.
