@@ -11,7 +11,7 @@ const CrimesTimeSpaceChart = () => {
 
   // Fetch data for the selected year
   useEffect(() => {
-    fetch(`/heatmap_data_full/heatmap_full_${year}.json`)
+    fetch(`/SafetyFirst/heatmap_data_full/heatmap_full_${year}.json`)
       .then((res) => res.json())
       .then((data) => setRawData(data))
       .catch((err) => {
