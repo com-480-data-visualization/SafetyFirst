@@ -7,54 +7,32 @@ const centerChicago = [41.8781, -87.6298];
 
 const HeatLayer = ({ points }) => {
   const map = useMap();
+  
 
   useEffect(() => {
-    if (!points || points.length === 0) return;
-  
-    try {
-      const aggregated = {};
-      points.forEach(({ lat, lon }) => {
-        if (lat == null || lon == null) return;
-        const key = `${lat.toFixed(5)},${lon.toFixed(5)}`;
-        if (!aggregated[key]) aggregated[key] = { lat, lon, count: 0 };
-        aggregated[key].count += 1;
-      });
-  
-      const aggregatedPoints = Object.values(aggregated);
-  
-      // Limit to first 20,000 for performance (or tweak as needed)
-      const limitedPoints = aggregatedPoints.slice(0, 20000);
-      const maxCount = Math.max(...limitedPoints.map((p) => p.count)) || 1;
-  
-      const heatPoints = limitedPoints.map((p) => [
-        p.lat,
-        p.lon,
-        p.count / maxCount,
-      ]);
-  
-      const heat = window.L.heatLayer(heatPoints, {
-        radius: 20,
-        blur: 15,
-        minOpacity: 0.15,
-        gradient: {
-          0.0: "#00ff00",
-          0.2: "#adff2f",
-          0.4: "#ffff00",
-          0.6: "#ffa500",
-          0.8: "#ff4500",
-          1.0: "#ff0000",
-        },
-      });
-  
-      heat.addTo(map);
-  
-      return () => {
-        map.removeLayer(heat);
-      };
-    } catch (err) {
-      console.error("❌ Error generating heatmap:", err);
-    }
-  }, [map, points]);  
+    const heatPoints = points
+      .filter((d) => d.lat && d.lon)
+      .map((d) => [d.lat, d.lon, 0.5]); // all weights = 0.5
+
+    const heat = window.L.heatLayer(heatPoints, {
+      radius: 25,
+      blur: 20,
+      minOpacity: 0.4,
+      gradient: {
+        0.0: "#00ff00",   // Safe (green)
+        0.2: "#ffff00",   // Caution (yellow)
+        0.5: "#ff9900",   // Warning (orange)
+        0.8: "#ff4500",   // Dangerous (deep orange/red)
+        1.0: "#ff0000",   // Very dangerous (red)
+      },      
+    });
+
+    heat.addTo(map);
+
+    return () => {
+      map.removeLayer(heat); // Cleanup
+    };
+  }, [map, points]);
 
   return null;
 };
