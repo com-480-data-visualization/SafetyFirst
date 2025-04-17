@@ -5,6 +5,7 @@ import SubChart from "./SubCharts";
 import InfoPanel from "./InfoPanel";
 import crimeDataYears from "../../data/crime_category_over_years.json";
 import crimeDataHours from "../../data/crime_category_over_hours.json";
+import TopCrimeChart from "./topCrimesChart"
 import infoTexts from "./infoTexts"; // Adjust the path based on location
 
 
@@ -19,9 +20,9 @@ export default function StackedCrimeChart({ userType = "student" }) {
 
     const awarenessIntro = !isStudent && (
         // <section className="p-6 bg-white rounded-lg shadow-md mb-12 animate-fadeIn">
-        <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+        <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
         <h2 className="text-3xl font-bold mb-4">
-            🌆 Understanding Street Crime in Chicago: A Tourist's Perspective
+            Street Crime in Chicago: A Tourist's Perspective
         </h2>
         <p className="mb-4">
             Chicago is a vibrant city full of history, architecture, food, and music — but like many large urban centers, it also faces challenges with street crime.
@@ -35,7 +36,7 @@ export default function StackedCrimeChart({ userType = "student" }) {
             <li><strong>Assaults & Muggings:</strong> Though less frequent, incidents of physical assault or mugging do occur near popular attractions and in poorly lit areas.</li>
             <li><strong>Scams & Fraud:</strong> Fake ticket sellers, unofficial tour guides, and credit card scams can also target unsuspecting travelers.</li>
         </ul>
-        
+        <TopCrimeChart />
         <h2 class="text-2xl font-bold mb-4">📰 Chicago Crime: Perception vs. Reality</h2>
         <p class="mb-4">
             Recent headlines suggest a decline in violent crime across U.S. cities, including Chicago. Reports indicate that homicide rates and other violent crimes decreased in many U.S. cities compared to 2023.
@@ -74,7 +75,7 @@ export default function StackedCrimeChart({ userType = "student" }) {
     return (
     <section> 
         {awarenessIntro}
-        <div className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
+        <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
             <div className="rounded-lg overflow-hidden border border-gray-300 shadow-subtle card mx-auto" style={{ maxWidth: "1200px" }}>
                 <div className="flex" style={{ height: "550px" }}>
                     <div className="flex-1 relative">
