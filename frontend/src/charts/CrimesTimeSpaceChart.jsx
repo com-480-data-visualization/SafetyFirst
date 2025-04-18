@@ -44,26 +44,25 @@ const CrimesTimeSpaceChart = () => {
         Whether you're a visitor planning a stay or a local staying informed, this tool helps you visualize trends and hotspots — with data that puts headlines into context.
       </p>
       <div className="flex flex-col lg:flex-row gap-8">
-        {/* Heatmap */}
-        <div className="w-full lg:w-3/5 h-[600px] border-4 border-red-500 rounded-xl overflow-hidden">
-          <HeatmapMap points={filteredData} />
-        </div>
+  {/* Heatmap (Left Column) */}
+  <div className="w-full lg:w-3/5 h-[600px] border-4 border-red-500 rounded-xl overflow-hidden">
+    <HeatmapMap points={filteredData} />
+  </div>
 
-        {/* Statistics */}
-        <div className="w-full lg:w-2/5">
-          <CrimeStatsPanel data={filteredData} />
-        </div>
-      </div>
+  {/* Right Column: Controls + Stats */}
+  <div className="w-full lg:w-2/5 flex flex-col gap-4">
+    {/* Move the controls here */}
+    <YearTimeControls
+      year={year}
+      setYear={setYear}
+      timeRange={timeRange}
+      setTimeRange={setTimeRange}
+    />
 
-      {/* Controls */}
-      <div className="mt-8">
-        <YearTimeControls
-          year={year}
-          setYear={setYear}
-          timeRange={timeRange}
-          setTimeRange={setTimeRange}
-        />
+    {/* Crime statistics go below the filters */}
+    <CrimeStatsPanel data={filteredData} />
       </div>
+    </div>
     </section>
   );
 };
