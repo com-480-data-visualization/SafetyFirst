@@ -8,7 +8,7 @@
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
-**Working prototype link**: TODO: ADD link
+**Working prototype link**: [https://com-480-data-visualization.github.io/SafetyFirst/](https://com-480-data-visualization.github.io/SafetyFirst/)
 
 ## Milestone 1 (21st March, 5pm)
 
