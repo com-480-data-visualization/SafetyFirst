@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ArrowRight, MapPin, Users, ChevronDown } from "lucide-react";
 
 const LandingPage = ({ onNavigation }) => {
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   return (
     <section
       className="relative h-screen w-full text-slate-800 overflow-hidden flex flex-col justify-between bg-gray-50 font-sans"
