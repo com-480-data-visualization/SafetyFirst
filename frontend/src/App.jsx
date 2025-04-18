@@ -28,21 +28,14 @@ const App = () => {
   const handleNavigation = (destination) => {
     if (destination === "student" || destination === "tourist") {
       setUserType(destination);
-      setAnimateDown(true);
-      setTimeout(() => {
-        setView("main");
-        setAnimateDown(false);
-      }, 600);
+      setView("main");
     } else if (destination === "path") {
       setUserType("student");
-      setAnimateDown(true);
-      setTimeout(() => {
-        setView("path");
-        setAnimateDown(false);
-      }, 600);
+      setView("path");
     }
+  
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  };  
 
   if (view === "landing") {
     return (
