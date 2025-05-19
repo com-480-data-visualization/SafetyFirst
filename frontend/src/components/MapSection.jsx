@@ -49,10 +49,11 @@ const MapSection = ({
           origin,
           destination,
           travelMode,
+          provideRouteAlternatives: true,
         },
         (result, status) => {
           if (status === "OK") {
-            setDirections(result);
+          setDirections(result.routes);
           } else {
             console.error("Directions request failed:", status);
           }
@@ -102,19 +103,25 @@ const MapSection = ({
           }}
         />
       )}
-      {directions && (
-        <DirectionsRenderer
-          directions={directions}
-          options={{
-            suppressMarkers: true,
-            polylineOptions: {
-              strokeColor: "#facc15",
-              strokeOpacity: 0.8,
-              strokeWeight: 5,
-            },
-          }}
-        />
-      )}
+      {Array.isArray(directions) &&
+        directions.map((route, index) => (
+          <DirectionsRenderer
+            key={index}
+            directions={{
+              routes: [route],
+              request: {}, // dummy required structure
+              geocoded_waypoints: [],
+            }}
+            options={{
+              suppressMarkers: true,
+              polylineOptions: {
+                strokeColor: index === 0 ? "#facc15" : "#9ca3af", // highlight main route, gray for alternates
+                strokeOpacity: 0.7,
+                strokeWeight: index === 0 ? 6 : 4,
+              },
+            }}
+          />
+      ))}
     </GoogleMap>
   );
 };
