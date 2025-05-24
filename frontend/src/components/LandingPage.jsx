@@ -22,9 +22,16 @@ const LandingPage = ({ onNavigation }) => {
 
       {/* Hero Content */}
       <div className="relative z-10 text-center max-w-2xl mx-auto px-6 flex flex-col justify-center flex-1 animate-fadeIn">
-        <h1 className="text-5xl sm:text-6xl md:text-7xl font-heading font-extrabold leading-tight text-slate-900 drop-shadow-md mb-6">
-          <span className="text-primary">In Chicago?</span> SafetyFirst!
-        </h1>
+        <img src={logo} alt="Logo" className="mx-auto w-auto" style={{ width: '250px', height: 'auto'}} />
+          <h1 className="text-4xl sm:text-4xl md:text-6xl font-heading font-extrabold leading-tight text-slate-900 drop-shadow-md mb-6">
+            <span className="text-primary">In Chicago?</span> SafetyFirst!
+          </h1>
+
+          {/*
+          <p className="text-slate-700 text-xl sm:text-2xl mt-2 mb-8 font-medium">
+            Your safety, our mission. No matter where you are in the city, we've got you covered.
+          </p>
+          */}
         <p className="text-slate-700 text-xl sm:text-2xl mt-2 mb-8 font-medium">
           Your safety, our mission. No matter where you are in the city, we've got you covered.
         </p>
