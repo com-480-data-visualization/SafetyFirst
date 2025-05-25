@@ -46,6 +46,12 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
           fixedrange: true,
           tickfont: { color: "#000" },
         },
+        margin: {
+          l: 50,  // left
+          r: 0,  // right
+          t: 0,  // top (title)
+          b: 30   // bottom
+        },
         hovermode: "closest",
         showlegend: true,
         legend: {

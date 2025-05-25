@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import Plot from "react-plotly.js";
 
-const CrimeSubtypesChart = () => {
-  const [activeCategory, setActiveCategory] = useState("THEFT");
+const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
 
   const theftData = {
     "$500 AND UNDER": 660668,
@@ -39,40 +38,28 @@ const CrimeSubtypesChart = () => {
   };
 
   const dataMap = {
-    THEFT: theftData,
-    ROBBERY: robberyData,
-    FRAUD: fraudData
+    theft: theftData,
+    assault: robberyData,
+    fraud: fraudData
   };
 
   const colors = {
-    THEFT: "#e74c3c",
-    ROBBERY: "#3498db",
-    FRAUD: "#9b59b6"
+    theft: "#e74c3c",
+    assault: "#3498db",
+    fraud: "#9b59b6"
   };
 
+  // print activeCategory to console for debugging
+  console.log("Active Category:", activeCategory);
   const current = dataMap[activeCategory];
+  console.log("Current:", current);
+
   const sorted = Object.entries(current)
     .map(([desc, val]) => ({ desc, val }))
-    .sort((a, b) => b.val - a.val);
+    .sort((a, b) => a.val - b.val);
 
   return (
     <div className="p-4">
-      <div className="flex justify-center gap-4 mb-6">
-        {["THEFT", "ROBBERY", "FRAUD"].map((cat) => (
-          <button
-            key={cat}
-            className={`px-4 py-2 font-semibold rounded ${
-              activeCategory === cat
-                ? "bg-red-500 text-white"
-                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-            }`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
       <Plot
         data={[
           {
@@ -87,7 +74,7 @@ const CrimeSubtypesChart = () => {
         ]}
         layout={{
           title: {
-            text: `Subtypes of ${activeCategory}`,
+            text: `${activeCategory}`,
             font: {
               size: 22,
               color: colors[activeCategory]
@@ -102,7 +89,7 @@ const CrimeSubtypesChart = () => {
           plot_bgcolor: "#ffffff"
         }}
         config={{ displayModeBar: false }}
-        style={{ width: "100%", height: "600px" }}
+        style={{ width: "100%", height: "100%" }}
       />
     </div>
   );
