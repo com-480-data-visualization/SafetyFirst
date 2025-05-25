@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { ArrowRight, MapPin, Users, ChevronDown } from "lucide-react";
+import logo from "../assets/logo.png";
 
 const LandingPage = ({ onNavigation }) => {
   useEffect(() => {
@@ -12,7 +13,7 @@ const LandingPage = ({ onNavigation }) => {
 
   return (
     <section
-      className="relative h-screen w-full text-slate-800 overflow-hidden flex flex-col justify-between bg-gray-50 font-sans"
+      className="relative h-screen w-full text-slate-800 overflow-hidden flex flex-col justify-center bg-gray-50 font-sans"
     >
       {/* Background */}
       <div className="absolute inset-0 z-0">
@@ -22,9 +23,9 @@ const LandingPage = ({ onNavigation }) => {
 
       {/* Hero Content */}
       <div className="relative z-10 text-center max-w-2xl mx-auto px-6 flex flex-col justify-center flex-1 animate-fadeIn">
-        <img src={logo} alt="Logo" className="mx-auto w-auto" style={{ width: '250px', height: 'auto'}} />
-          <h1 className="text-4xl sm:text-4xl md:text-6xl font-heading font-extrabold leading-tight text-slate-900 drop-shadow-md mb-6">
-            <span className="text-primary">In Chicago?</span> SafetyFirst!
+        <img src={logo} alt="Logo" className="mx-auto w-auto" style={{ width: '200px', height: 'auto'}} />
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold leading-tight text-slate-900 drop-shadow-md mb-6">
+            <span className="text-primary">In Chicago?</span> <br/> SafetyFirst!
           </h1>
 
           {/*
@@ -32,9 +33,7 @@ const LandingPage = ({ onNavigation }) => {
             Your safety, our mission. No matter where you are in the city, we've got you covered.
           </p>
           */}
-        <p className="text-slate-700 text-xl sm:text-2xl mt-2 mb-8 font-medium">
-          Your safety, our mission. No matter where you are in the city, we've got you covered.
-        </p>
+
         <div className="space-y-6">
           <div className="bg-white/80 rounded-lg shadow-subtle p-6 flex flex-col gap-4">
             <button
@@ -51,16 +50,16 @@ const LandingPage = ({ onNavigation }) => {
                 onClick={() => onNavigation("student")}
                 className="w-full bg-secondary hover:bg-slate-600 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
               >
-                <span>Student Stories</span> <Users size={20} />
+                <span>I'm a student</span> <Users size={20} />
               </button>
-              <p className="text-slate-600 text-base -mt-2">New student coming to Chicago? Stay alert with real campus stories.</p>
+              <p className="text-slate-600 text-base -mt-2">New student coming to Chicago? Discover threats and how to stay safe in the streets.</p>
             </div>
             <div className="flex-1 bg-white/80 rounded-lg shadow-subtle p-6 flex flex-col gap-2">
               <button
                 onClick={() => onNavigation("tourist")}
                 className="w-full bg-accent hover:bg-blue-500 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
               >
-                <span>Tourist Stories</span> <Users size={20} />
+                <span>I'm a tourist</span> <Users size={20} />
               </button>
               <p className="text-slate-600 text-base -mt-2">Exploring the city? It might not be as safe as you think, find out what has happened recently.</p>
             </div>
