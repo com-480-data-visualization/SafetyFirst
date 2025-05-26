@@ -1,12 +1,14 @@
 import React, { Suspense, useState, useEffect } from "react";
 import Hero from "./components/Hero";
 import MapContainer from "./components/MapContainer";
-import StackedCrimeChart from "./charts/stacked_crime/StackedCrimeChart";
 import CrimeTimeline from "./components/CrimeTimeline";
 import LandingPage from "./components/LandingPage";
+import Navbar from "./components/Navbar";
+import DataStoryIntroduction from "./components/datastories/datastory";
+
 
 // Lazy-loaded map
-const BaseMap = React.lazy(() => import("./charts/CrimesTimeSpaceChart"));
+const BaseMap = React.lazy(() => import("./components/datastories/charts/CrimesTimeSpaceChart"));
 
 const App = () => {
   const [view, setView] = useState("landing"); // landing | main | path
@@ -26,59 +28,59 @@ const App = () => {
   }, [view]);
 
   const handleNavigation = (destination) => {
-    if (destination === "student" || destination === "tourist") {
-      setUserType(destination);
-      setView("main");
-    } else if (destination === "path") {
-      setUserType("student");
-      setView("path");
+    switch (destination) {
+      case "student":
+      case "tourist":
+        setUserType(destination);
+        setView("main");
+        break;
+      case "path":
+        setUserType("student");
+        setView("path");
+        break;
+      case "landing":
+        setView("landing");
+        break;
+      default:
+        console.warn("Unknown navigation destination:", destination);
     }
   
     window.scrollTo({ top: 0, behavior: "smooth" });
-  };  
+  };
 
   if (view === "landing") {
     return (
-      <div className="h-screen w-screen overflow-hidden bg-slate-50 font-sans text-slate-800">
+      <main className="h-screen w-screen overflow-hidden bg-slate-50 font-sans text-slate-800">
         <LandingPage onNavigation={handleNavigation} />
-      </div>
+      </main>
     );
-  }
-
-  if (view === "path") {
+  } else if (view === "path") {
+      return (
+        <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden">
+          <Navbar onNavigate={handleNavigation} />
+          <MapContainer />
+        </main>
+      );
+    }
+  else {
     return (
-      <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden">
-        <MapContainer />
-        <div className="fixed bottom-4 left-4 bg-white p-2 rounded-lg shadow-subtle z-50">
-          <button
-            onClick={() => setView("landing")}
-            className="px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded text-slate-700 font-medium transition hover-lift"
-          >
-            Back to Home
-          </button>
-        </div>
+      <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+        <Navbar onNavigate={handleNavigation} />
+        <DataStoryIntroduction userType={userType} />
+        <section id="news" className="h-screen snap-start w-screen overflow-hidden">
+          <CrimeTimeline userType={userType} />
+        </section>
+        <section id="mapchart" className="h-screen snap-start w-screen overflow-hidden">
+          <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
+            <BaseMap />
+          </Suspense>
+        </section>
+        <section id="saferoute" className="h-screen snap-start w-screen overflow-hidden">
+          <MapContainer />
+        </section>
       </main>
     );
   }
-
-  return (
-    <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden">
-      <StackedCrimeChart userType={userType} />
-      <CrimeTimeline userType={userType} />
-      <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
-        <BaseMap userType={userType} />
-      </Suspense>
-      <MapContainer />
-      <div className="fixed bottom-4 left-4 bg-white p-2 rounded-lg shadow-subtle z-50">
-        <button
-          onClick={() => setView("landing")}
-          className="px-4 py-2 bg-slate-200 hover:bg-slate-300 rounded text-slate-700 font-medium transition hover-lift"
-        >
-          Back to Home
-        </button>
-      </div>
-    </main>
-  );
 };
 
 export default App;
