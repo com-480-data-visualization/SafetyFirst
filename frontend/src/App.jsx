@@ -70,7 +70,7 @@ const App = () => {
         <section id="news" className="h-screen snap-start w-screen overflow-hidden">
           <CrimeTimeline userType={userType} />
         </section>
-        <section id="mapchart" className="h-screen snap-start w-screen overflow-hidden">
+        <section id="mapchart" className="min-h-screen snap-start w-screen">
           <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
             <BaseMap />
           </Suspense>
