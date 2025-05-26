@@ -66,7 +66,7 @@ const App = () => {
       <StackedCrimeChart userType={userType} />
       <CrimeTimeline userType={userType} />
       <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
-        <BaseMap />
+        <BaseMap userType={userType} />
       </Suspense>
       <MapContainer />
       <div className="fixed bottom-4 left-4 bg-white p-2 rounded-lg shadow-subtle z-50">

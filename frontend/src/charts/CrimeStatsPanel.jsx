@@ -37,46 +37,50 @@ const CrimeStatsPanel = ({ data }) => {
   ];
 
   return (
-    <div className="border-red-500 p-6 rounded-xl shadow-lg">
+    <div className="bg-white border border-red-200 shadow-lg rounded-xl p-6 h-full flex flex-col">
       <h3 className="text-xl font-bold text-red-400 mb-4 text-center">Top Crime Types</h3>
       {chartData.length === 0 ? (
-        <p className="bg text-center">No data for current filters</p>
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-gray-500 text-center">No data for current filters</p>
+        </div>
       ) : (
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart
-            layout="vertical"
-            data={chartData}
-            margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
-          >
-            <XAxis
-                type="number"
-                stroke="#ccc"
-                tick={{ fill: "#ccccc", fontSize: 12 }}
-            />
-            <YAxis
-                type="category"
-                dataKey="type"
-                stroke="#ccc"
-                tick={{ fill: "#ccccc", fontSize: 12 }}
-                width={100}
-                tickFormatter={(value) => {
-                  const maxLength = 15; // Maximum length for the label
-                  return value.length > maxLength ? value.slice(0, maxLength) + "..." : value;
-                }}
-            />
-            <Tooltip
-                formatter={(value, name) => [`${value}`, `${name}`]}
-                labelFormatter={(label) => `Crime Type: ${label}`}
-                itemStyle={{ color: "#000" }}
-                cursor={false}
-            />
-            <Bar dataKey="count" barSize={16}>
-              {chartData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="flex-1">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              layout="vertical"
+              data={chartData}
+              margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+            >
+              <XAxis
+                  type="number"
+                  stroke="#ccc"
+                  tick={{ fill: "#ccccc", fontSize: 12 }}
+              />
+              <YAxis
+                  type="category"
+                  dataKey="type"
+                  stroke="#ccc"
+                  tick={{ fill: "#ccccc", fontSize: 12 }}
+                  width={100}
+                  tickFormatter={(value) => {
+                    const maxLength = 15; // Maximum length for the label
+                    return value.length > maxLength ? value.slice(0, maxLength) + "..." : value;
+                  }}
+              />
+              <Tooltip
+                  formatter={(value, name) => [`${value}`, `${name}`]}
+                  labelFormatter={(label) => `Crime Type: ${label}`}
+                  itemStyle={{ color: "#000" }}
+                  cursor={false}
+              />
+              <Bar dataKey="count" barSize={16}>
+                {chartData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
       )}
     </div>
   );

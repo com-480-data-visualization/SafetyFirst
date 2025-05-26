@@ -3,7 +3,22 @@ import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
 
-const centerChicago = [41.8781, -87.6298];
+const defaultCenterChicago = [41.8781, -87.6298];
+
+// Component to update map view when center/zoom changes
+const MapViewController = ({ center, zoom }) => {
+  const map = useMap();
+  
+  useEffect(() => {
+    if (center && zoom) {
+      map.flyTo(center, zoom, {
+        duration: 1.5
+      });
+    }
+  }, [map, center, zoom]);
+  
+  return null;
+};
 
 const HeatLayer = ({ points }) => {
   const map = useMap();
@@ -37,11 +52,11 @@ const HeatLayer = ({ points }) => {
   return null;
 };
 
-const HeatmapMap = ({ points }) => {
+const HeatmapMap = ({ points, center = defaultCenterChicago, zoom = 11 }) => {
   return (
     <MapContainer
-      center={centerChicago}
-      zoom={11}
+      center={center}
+      zoom={zoom}
       style={{ width: "100%", height: "100%" }}
       scrollWheelZoom={true}
       zoomControl={false}
@@ -50,6 +65,7 @@ const HeatmapMap = ({ points }) => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
       />
+      <MapViewController center={center} zoom={zoom} />
       <HeatLayer points={points} />
     </MapContainer>
   );
