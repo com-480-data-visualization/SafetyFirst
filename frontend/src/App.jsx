@@ -64,23 +64,27 @@ const App = () => {
     }
   else {
     return (
-      <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden h-screen overflow-y-scroll snap-y snap-mandatory scroll-smooth">
-        <Navbar onNavigate={handleNavigation} />
-        <DataStoryIntroduction userType={userType} />
-        <section id="news" className="h-screen snap-start w-screen overflow-hidden">
-          <CrimeTimeline userType={userType} />
-        </section>
-        <section id="mapchart" className="min-h-screen snap-start w-screen">
-          <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
-            <BaseMap />
-          </Suspense>
-        </section>
-        <section id="saferoute" className="h-screen snap-start w-screen overflow-hidden">
-          <MapContainer />
-        </section>
-      </main>
+      <>
+        <Navbar className="fixed top-0 left-0 right-0 z-50 h-16" onNavigate={handleNavigation}/>
+        <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden h-screen w-screen overflow-y-scroll mx-auto mt-16 overflow-x-hidden snap-y snap-mandatory scroll-smooth overscroll-contain [scroll-padding-top:4rem]">
+          <DataStoryIntroduction userType={userType} />
+          <section id="news" className="snap-start max-w-[1200px] overflow-hidden mx-auto">
+            <CrimeTimeline userType={userType} />
+          </section>
+          <section id="mapchart" className="snap-start max-w-[1200px] mx-auto">
+            <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
+              <BaseMap />
+            </Suspense>
+          </section>
+          <section id="saferoute" className="snap-start max-w-[1200px] overflow-hidden mx-auto">
+            <MapContainer />
+          </section>
+        </main>
+      </>
     );
   }
 };
 
 export default App;
+
+// // "mt-16 overflow-y-scroll overflow-x-hidden snap-y snap-mandatory scroll-smooth overscroll-contain [scroll-padding-top:4rem]"

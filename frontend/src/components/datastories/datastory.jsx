@@ -196,9 +196,9 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                 So, is Chicago truly becoming safer? Let's delve into the data to explore the trend of crimes over time. <br />                         Click on any segment of the chart to explore detailed information about specific crime categories in Chicago.
             </InstructionParagraph>
 
-            <div className="flex max-w-screen-xl mx-auto">
+            <div className="flex mx-auto">
                 {/* LEFT: Instruction + Details */}
-                <div className="w-full md:w-2/5 space-y-2">
+                <div className="w-full md:w-2/5">
                     {/* Instruction Text */}
                     <div className="text-gray-700">
                     <p>
@@ -206,7 +206,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                     </p>
                     </div>
                     {/* Details Component */}
-                    <div className="text-sm space-y-2">
+                    <div className="text-sm">
                     <p><strong>• Assault:</strong> Violent offenses such as battery, robbery, and weapons violations.</p>
                     <p><strong>• Minor:</strong> Public safety concerns like narcotics, burglary, and public peace violations.</p>
                     <p><strong>• Non-Street Crime:</strong> Private or domestic offenses including deceptive practices and trespassing.</p>
@@ -256,11 +256,11 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     return (
         <>
             {/* Awareness Intro Section */}
-            <section id="intro" className="h-screen snap-start w-screen overflow-x-hidden overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+            <section id="intro" className="snap-start max-w-[1200px] snap-y snap-mandatory scroll-smooth mx-auto">
                 {awarenessIntro}
             </section>
             {/* Crime Categories Plot */}
-            <section id="crime-categories" className="h-screen snap-start w-screen overflow-x-hidden overflow-y-scroll snap-y snap-mandatory scroll-smooth">
+            <section id="crime-categories" className="snap-start max-w-[1200px] snap-y snap-mandatory scroll-smooth mx-auto">
                 {crimeCategories}
             </section>
         </>
