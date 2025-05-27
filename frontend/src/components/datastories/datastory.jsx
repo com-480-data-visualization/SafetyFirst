@@ -100,12 +100,12 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                 {/* LEFT: List of common crimes */}
                 <div className="w-full lg:w-1/3">
                     <ul className="list-none list-inside mb-4 space-y-1">
-                        <li className="mb-4">
+                        <li className="mb-6">
                         <CategoryButton category={"theft"} label="Theft & Pickpocketing" />
                         Especially common in high-foot-traffic areas like Michigan Avenue, Millennium Park, and CTA stations.</li>
-                        <li className="mb-4"><CategoryButton category={"assault"} label="Robbery & Assault" />
+                        <li className="mb-6"><CategoryButton category={"assault"} label="Robbery & Assault" />
                         Tourists have been targeted for their phones, cameras, and bags — especially when distracted or alone at night. Though less common, incidents of physical assault or mugging can also occur near popular attractions and in poorly lit areas.</li>
-                        <li className="mb-4">
+                        <li className="mb-6">
                         <CategoryButton category={"fraud"} label="Scams & Fraud" />
                         Fake ticket sellers, unofficial tour guides, and credit card scams can also target unsuspecting travelers.</li>
                     </ul>

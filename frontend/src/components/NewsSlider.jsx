@@ -256,9 +256,11 @@ const NewsSlider = ({ userType = "student" }) => {
       </>
   )
 
+  // <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
+
   if (showIntro) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
+      <div className="min-h-[400px] animate-fadeIn flex flex-col bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative items-center justify-center" id="analytics">
 
         {userType === "tourist" ? headlinesIntroTourist : headlinesIntroStudent}
         <button
@@ -274,14 +276,9 @@ const NewsSlider = ({ userType = "student" }) => {
   return (
     <>
       {/* Header - Moved to top */}
-      <div className="text-center pt-4 pb-2">
-        <h1 className="text-2xl md:text-3xl font-bold text-blue-600">
-          {userType === "student" 
-            ? "Real incidents affecting Chicago students"
-            : "Real incidents affecting Chicago visitors"
-          }
-        </h1>
-      </div>
+      <h2 className="text-2xl font-bold mb-4">
+        🔍 Not Just Headlines — Real Tourists, Real Crimes
+      </h2>
       
       {/* Main Content Area */}
       <div className="container mx-auto px-4 py-2">

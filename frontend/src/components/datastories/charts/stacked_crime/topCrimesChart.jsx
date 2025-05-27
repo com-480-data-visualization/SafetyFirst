@@ -4,37 +4,37 @@ import Plot from "react-plotly.js";
 const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
 
   const theftData = {
-    "$500 AND UNDER": 660668,
-    "OVER $500": 444873,
-    "FROM BUILDING": 261958,
-    "RETAIL THEFT": 225548,
-    "PICKPOCKETING / PURSE-SNATCHING": 41868 + 18686,
-    "FINANCIAL ID THEFT": 40261 + 14280 + 2681 + 2915,
-    "ATTEMPTED THEFT": 13292,
-    "VEHICLE RELATED": 3098,
-    "COIN-OP / DELIVERY CONTAINERS": 1110 + 1092 + 59
+    "Under $500": 660668,
+    "Over $500": 444873,
+    "Theft from building": 261958,
+    "Retail Theft": 225548,
+    "Pickpocketing / Purse-Snatching": 41868 + 18686,
+    "Financial ID Theft": 40261 + 14280 + 2681 + 2915,
+    "Attempted Theft": 13292,
+    "Vehicle-Related Theft": 3098,
+    "Coin-Op / Delivery Containers": 1110 + 1092 + 59
   };
 
   const robberyData = {
-    "ARMED: HANDGUN": 92812 + 18640 + 8457 + 1833,
-    "STRONGARM / NO WEAPON": 91056 + 10735 + 10159 + 1253,
-    "OTHER WEAPONS": 12879 + 2028 + 1444 + 215,
-    "KNIFE / CUTTING INSTRUMENT": 12151 + 2223 + 1856 + 307,
-    "AGGRAVATED / ATTEMPTED": 15529 + 982 + 338,
-    "VEHICULAR HIJACKING": 15058 + 7173,
-    "OTHER FIREARMS": 1372 + 413 + 287 + 96
+    "Armed (Handgun)": 92812 + 18640 + 8457 + 1833,
+    "Strongarm (No Weapon)": 91056 + 10735 + 10159 + 1253,
+    "Other Weapons": 12879 + 2028 + 1444 + 215,
+    "Knife / Cutting Instrument": 12151 + 2223 + 1856 + 307,
+    "Attempted": 15529 + 982 + 338,
+    "Vehicular Hijacking": 15058 + 7173,
+    "Other Firearms": 1372 + 413 + 287 + 96
   };
 
   const fraudData = {
-    "CREDIT CARD FRAUD": 68590,
-    "FRAUD OR CONFIDENCE GAME": 46002,
-    "FINANCIAL IDENTITY THEFT": 41914 + 22260 + 6264 + 1010,
-    "ILLEGAL USE CASH CARD": 38878,
-    "FORGERY / COUNTERFEIT": 22882 + 13695 + 9205,
-    "BOGUS CHECK": 16479,
-    "THEFT OF LABOR / SERVICES": 32176 + 2584,
-    "STOLEN PROPERTY BUY / RECEIVE / POSSESS": 2791 + 292,
-    "UNAUTHORIZED VIDEOTAPING": 547
+    "Credit Card Fraud": 68590,
+    "Fraud / Confidence Game": 46002,
+    "Financial Identity Theft": 41914 + 22260 + 6264 + 1010,
+    "Illegal Use of Cash Card": 38878,
+    "Forgery / Counterfeit": 22882 + 13695 + 9205,
+    "Bogus Check": 16479,
+    "Theft of Labor / Services": 32176 + 2584,
+    "Stolen Property (Buy/Receive/Possess)": 2791 + 292,
+    "Unauthorized Videotaping": 547
   };
 
   const dataMap = {
@@ -74,7 +74,7 @@ const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
         ]}
         layout={{
           title: {
-            text: `${activeCategory}`,
+            text: `Subtypes of ${activeCategory}`,
             font: {
               size: 22,
               color: colors[activeCategory]
@@ -82,13 +82,19 @@ const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
             x: 0.5,
             xanchor: "center"
           },
+          paper_bgcolor: "rgba(0,0,0,0)",
+          plot_bgcolor: "rgba(0,0,0,0)",
           margin: { l: 280, r: 30, t: 60, b: 50 },
           yaxis: { automargin: true, tickfont: { size: 13 } },
           xaxis: { title: "Number of Cases", tickfont: { size: 13 } },
           paper_bgcolor: "#ffffff",
           plot_bgcolor: "#ffffff"
         }}
-        config={{ displayModeBar: false }}
+        config={{
+          displayModeBar: false,            // hide the mode bar
+          scrollZoom: false,                // no wheel zoom
+          doubleClick: false,               // no dbl-click zoom
+        }}
         style={{ width: "100%", height: "100%" }}
       />
     </div>
@@ -96,3 +102,55 @@ const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
 };
 
 export default CrimeSubtypesChart;
+
+
+
+/*
+data={traces}
+layout={{
+  title: `Crime Trends Over the ${mode === "year" ? "Years" : "Hours"} by Category (Stacked)`,
+  paper_bgcolor: "rgba(0,0,0,0)",
+  plot_bgcolor: "rgba(0,0,0,0)",
+  xaxis: {
+    title: xKey === "Year" ? "Year" : "Hour of the Day",
+    fixedrange: true,
+    tickfont: { color: "#000" },
+  },
+  yaxis: {
+    title: "Number of Reported Crimes",
+    fixedrange: true,
+    tickfont: { color: "#000" },
+  },
+  margin: {
+    l: 50,  // left
+    r: 0,  // right
+    t: 0,  // top (title)
+    b: 30   // bottom
+  },
+  hovermode: "closest",
+  showlegend: true,
+  legend: {
+    orientation: "h",           // horizontal orientation for multiple rows
+    y: 1,                     // position above the plot (you may adjust this value)
+    x: 0.5,                     // center it horizontally
+    xanchor: "center",          // anchor at the horizontal center
+    yanchor: "bottom",          // align the bottom of the legend to the y coordinate
+    font: { color: "#000" },
+  }
+}}
+config={{
+  displayModeBar: false,
+  scrollZoom: false,
+  doubleClick: false,
+  clickmode: "event+select",
+}}
+style={{
+  width: "100%",
+  height: "100%",
+  minWidth: "300px",
+  maxWidth: "800px",
+  minHeight: "400px",
+  maxHeight: "600px",
+}}
+
+*/

@@ -82,7 +82,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   }, [rawData, timeRange, selectedLocation]);
 
   return (
-    <section className="w-full px-4 sm:px-8 md:px-16 lg:px-32 py-12">
+    <>
       <h2 class="text-2xl font-bold mb-4">
         🗺️ 📸 Explore the Crime Landscape, Block by Block
       </h2>
@@ -185,7 +185,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 
