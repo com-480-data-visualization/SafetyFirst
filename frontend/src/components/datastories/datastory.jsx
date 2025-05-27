@@ -169,7 +169,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
         <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
             {/* Awareness Intro Section */}
             { isStudent ?  (
-                {barPlotStudent} 
+                barPlotStudent
             ) : (
                 modeStory === "text"
                   ? storyIntroTourist
