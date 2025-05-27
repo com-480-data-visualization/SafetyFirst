@@ -5,6 +5,12 @@ import "leaflet.heat";
 
 const defaultCenterChicago = [41.8781, -87.6298];
 
+
+const chicagoBounds = [
+  [41.62, -88.00],  // SW corner (lat, lng)
+  [42.08, -87.45],  // NE corner (lat, lng)
+];
+
 // Component to update map view when center/zoom changes
 const MapViewController = ({ center, zoom }) => {
   const map = useMap();
@@ -57,6 +63,9 @@ const HeatmapMap = ({ points, center = defaultCenterChicago, zoom = 11 }) => {
     <MapContainer
       center={center}
       zoom={zoom}
+      minZoom={zoom}               // prevent zooming out past the initial level
+      maxBounds={chicagoBounds}    // lock panning to Chicago bounds
+      maxBoundsViscosity={1.0}     // no “bounce” past the bounds
       style={{ width: "100%", height: "100%" }}
       scrollWheelZoom={true}
       zoomControl={false}

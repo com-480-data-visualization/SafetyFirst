@@ -3,6 +3,7 @@ import HeatmapMap from "./HeatmapMap";
 import CrimeStatsPanel from "./CrimeStatsPanel";
 import YearTimeControls from "./YearTimeControls";
 import ScenarioPresets from "./ScenarioPresets";
+import InstructionParagraph from "../../presets";
 
 const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   const [year, setYear] = useState(2023);
@@ -11,7 +12,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   const [filteredData, setFilteredData] = useState([]);
   const [selectedScenario, setSelectedScenario] = useState(null);
   const [mapCenter, setMapCenter] = useState([41.8781, -87.6298]);
-  const [mapZoom, setMapZoom] = useState(11);
+  const [mapZoom, setMapZoom] = useState(10.2);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
   // Fetch data for the selected year
@@ -43,7 +44,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
     setSelectedScenario(null);
     setSelectedLocation(null);
     setMapCenter([41.8781, -87.6298]);
-    setMapZoom(11);
+    setMapZoom(10.2);
   };
 
   // Filter data based on time range and location
@@ -76,18 +77,29 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
 
   return (
     <section className="w-full px-4 sm:px-8 md:px-16 lg:px-32 py-12">
-      <h2 className="text-4xl text-primary font-extrabold text-center mb-8 text-glow">
-      Explore the Crime Landscape, Block by Block
+      <h2 class="text-2xl font-bold mb-4">
+        🗺️ 📸 Explore the Crime Landscape, Block by Block
       </h2>
-      <p className="text-lg text-gray-700">
-        Where is crime concentrated? Which neighborhoods are getting safer — or more dangerous? This interactive heatmap lets you zoom into any part of Chicago to see the density of reported crimes from 2001 to 2025.
+      <p className="mb-6 italic">
+      Armed with trends and headlines, you can’t shake the feeling that you need more detail—exactly where should you watch your back?
       </p>
-      <p className="mt-4 text-lg text-gray-700">
-        Use the filters to focus on a specific <strong>area, year, or time range</strong>. The dynamic bar chart updates in real time to show which crimes were most common, and how frequently they occurred.
-      </p>
-      <p className="mt-4 text-lg text-gray-700">
-        Whether you're a visitor planning a stay or a local staying informed, this tool helps you visualize trends and hotspots — with data that puts headlines into context.
-      </p>
+      <p className="mb-4">
+      First, you wonder about <strong>O’Hare</strong> and <strong>Midway</strong>—does airport bustle bring more thefts? Then there’s 
+      <strong>Navy Pier</strong>, the <strong>Art Institute</strong>, and the 
+      <strong>Magnificent Mile</strong>: each a magnet for visitors, but also 
+      potential crime hotspots. You decide to drill into the data to see which 
+      offenses strike most often at these landmarks and shopping districts.</p>
+
+    {/* Interaction instruction call-out */}
+      <InstructionParagraph>
+        👉 Use the filters to focus on a specific{" "}
+        <mark className="bg-secondary-light text-secondary px-1 rounded">area</mark>,{" "}
+        <mark className="bg-secondary-light text-secondary px-1 rounded">year</mark>, or{" "}
+        <mark className="bg-secondary-light text-secondary px-1 rounded">time range</mark>. The{" "}
+        <mark className="bg-secondary-light text-secondary px-1 rounded">dynamic bar chart</mark>{" "}
+        updates live to show which crimes were most common, and how frequently they occurred.
+      </InstructionParagraph>
+
       
       {/* Scenario Presets */}
       <div className="mt-8 mb-6">

@@ -130,7 +130,6 @@ const CrimeTimeline = ({ userType = "student" }) => {
   const isStudent = userType === "student";
   const crimeData = isStudent ? studentCrimeData : touristCrimeData;
   const themeColor = isStudent ? "primary" : "accent";
-  const title = isStudent ? "Timeline of Crimes near Campuses" : "Timeline of Crimes near Tourist Attractions";
   const description = isStudent 
     ? "Find out about key incidents affecting students across Chicago."
     : "Find out about key incidents affecting tourists across Chicago.";
@@ -195,52 +194,60 @@ const CrimeTimeline = ({ userType = "student" }) => {
     }, 300);
   };
 
-  return (
-    <section className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="timeline">
-      {showIntro ? (
-        <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
-          {isStudent ? (
-            <>
-              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
-                Not Just Headlines — Real Students, Real Crimes
-              </h2>
-              <p className="text-lg text-gray-700">
-                What starts as a promising academic journey can take a dark turn in a matter of seconds. A stolen laptop, a late-night mugging, a break-in at off-campus housing — these aren't just rare stories, they're real incidents reported by students across Chicago's campuses and neighborhoods.
-              </p>
-              <p className="mt-4 text-lg text-gray-700">
-                Scroll through these real-world cases mapped across the city. Every pin tells the story of a student whose experience became a cautionary tale. Don't just study — stay alert.
-              </p>
-            </>
-          ) : (
-            <>
-              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
-                Not Just Headlines — Real Tourists, Real Crimes
-              </h2>
-              <p className="text-lg text-gray-700">
-                What starts as a dream vacation can take a dark turn in a matter of seconds. A stolen camera, a violent mugging, a lost passport — these aren't just rare stories, they're real incidents reported in the heart of Chicago's most visited areas.
-              </p>
-              <p className="mt-4 text-lg text-gray-700">
-                Scroll through these real-world cases mapped across the city. Every pin tells the story of a tourist whose experience became a cautionary tale. Don't just explore — stay alert.
-              </p>
-            </>
-          )}
-          <button
-            onClick={handleStart}
-            className="px-8 py-3 rounded bg-primary hover:bg-blue-700 text-white text-lg font-semibold shadow-lg transition hover-lift"
-          >
-            Start
-          </button>
-        </div>
-      ) : (
-        <>
-          <div className="text-center mb-8">
-            <h2 className={`text-4xl sm:text-5xl font-heading font-bold text-${themeColor} mb-4`}>
-              {title}
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              {description}
-            </p>
-          </div>
+  const headlinesIntroTourist = (
+    <>
+      {/* Transition from data into news headlines visualization */}
+      <h2 className="text-2xl font-bold mb-4">
+        🔍 Not Just Headlines — Real Tourists, Real Crimes
+      </h2>
+
+      <p className="mb-6 italic">
+        The numbers gave you some clarity, but a knot of worry still tightens in your chest…
+      </p>
+  
+  
+      <p className="mb-4">
+      You pull out your phone, open your news app, and tap into the search bar:
+      <span className="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 ml-2 border border-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 text-gray-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M11 4a7 7 0 015.916 10.944l4.07 4.07a1 1 0 01-1.415 1.415l-4.07-4.07A7 7 0 1111 4z"
+          />
+        </svg>
+        <span className="ml-2 text-gray-700 font-medium">Chicago tourist attacked</span>
+      </span>
+      —and hit “Search.” Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
+      </p>
+  
+      <p className="mb-4">
+        Data can show trends, but headlines tell the human side of the story. You need to see these reports in context—how often they appear, which outlets cover them most, and whether the fear matches the facts.
+      </p>
+  
+      <p className="mb-4 font-semibold">
+        Scroll down to explore a visualization of real newspaper headlines about attacks on tourists in Chicago.
+      </p>
+      </>
+  )
+
+  function renderHeadlinesIntro({ mode= "tourist"}) {
+
+    let title
+    if (mode === "tourist") {
+      title = "🔍 Not Just Headlines — Real Tourists, Real Crimes";
+    } else {
+      title = "🔍 Not Just Headlines — Real Students, Real Crimes";
+    }
+    return (
+      <>
+        <h2 className="text-2xl font-bold mb-4 text-center">
+          {title}
+        </h2>
 
           <div className={`rounded-lg overflow-hidden border border-gray-300 shadow-subtle card animate-fadeIn relative`}>
             <MapContainer
@@ -322,6 +329,38 @@ const CrimeTimeline = ({ userType = "student" }) => {
             </div>
           </div>
         </>
+  )}
+
+  return (
+    <section className="bg-gray-50 text-slate-800 py-16 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="timeline">
+      {showIntro ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
+          {isStudent ? (
+            <>
+              <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-4">
+                Not Just Headlines — Real Students, Real Crimes
+              </h2>
+              <p className="text-lg text-gray-700">
+                What starts as a promising academic journey can take a dark turn in a matter of seconds. A stolen laptop, a late-night mugging, a break-in at off-campus housing — these aren't just rare stories, they're real incidents reported by students across Chicago's campuses and neighborhoods.
+              </p>
+              <p className="mt-4 text-lg text-gray-700">
+                Scroll through these real-world cases mapped across the city. Every pin tells the story of a student whose experience became a cautionary tale. Don't just study — stay alert.
+              </p>
+            </>
+          ) : (
+            <>
+              {headlinesIntroTourist}
+            </>
+          )}
+          <button
+            onClick={handleStart}
+            className="px-8 py-3 rounded bg-primary hover:bg-blue-700 text-white text-lg font-semibold shadow-lg transition hover-lift"
+          >
+            Start
+          </button>
+        </div>
+      ) : (
+        renderHeadlinesIntro({ mode: userType })
       )}
     </section>
   );

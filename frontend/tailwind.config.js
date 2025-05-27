@@ -14,13 +14,41 @@ export default {
         heading: ['Montserrat', 'sans-serif'],
       },
       colors: {
-        primary: "#145A60",
-        secondary: "#A1D381",
-        accent: "#58B59A",
-        danger: "#A1D381",
-        success:  "#88D0D1",
-        dark: "#1E2D2F",
-        light: "#F4F8F9",
+        primary: {
+          light:   "#4C8A8F",  // adjust as needed
+          DEFAULT: "#145A60",
+          dark:    "#0F3F4A",  // adjust as needed
+        },
+        secondary: {
+          light:   "#F0FAE8",  // adjust as needed
+          DEFAULT: "#A1D381",
+          dark:    "#769D33",  // adjust as needed
+        },
+        accent: {
+          light:   "#8DDACA",  // adjust as needed
+          DEFAULT: "#58B59A",
+          dark:    "#367D6E",  // adjust as needed
+        },
+        danger: {
+          light:   "#D8EFC1",
+          DEFAULT: "#A1D381",
+          dark:    "#769D33",
+        },
+        success: {
+          light:   "#B8E5E5",
+          DEFAULT: "#88D0D1",
+          dark:    "#5DA8A9",
+        },
+        dark: {
+          light:   "#4A6163",
+          DEFAULT: "#1E2D2F",
+          dark:    "#14191A",
+        },
+        light: {
+          light:   "#FFFFFF",
+          DEFAULT: "#F4F8F9",
+          dark:    "#DDE5E7",
+        },
       },
       spacing: {
         '128': '32rem',

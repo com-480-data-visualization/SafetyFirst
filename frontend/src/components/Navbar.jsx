@@ -2,7 +2,7 @@ import React from "react";
 
 const Navbar = ({ onNavigate }) => {
   return (
-    <nav className="w-full px-6 py-4  shadow-md flex items-center justify-between z-50">
+    <nav className="fixed top-0 left-0 w-full px-6 py-4 bg-white shadow-md flex items-center justify-between z-100">
       <div className="text-xl font-bold text-teal-700">SafetyFirst</div>
       <div className="hidden md:flex gap-6 text-slate-700 font-medium">
         <button onClick={() => onNavigate("landing")} className="hover:text-teal-600">Home</button>
