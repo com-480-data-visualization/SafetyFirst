@@ -1,7 +1,7 @@
 import React, { Suspense, useState, useEffect } from "react";
 import Hero from "./components/Hero";
 import MapContainer from "./components/MapContainer";
-import CrimeTimeline from "./components/CrimeTimeline";
+import NewsSlider from "./components/NewsSlider";
 import LandingPage from "./components/LandingPage";
 import Navbar from "./components/Navbar";
 import DataStoryIntroduction from "./components/datastories/datastory";
@@ -69,7 +69,7 @@ const App = () => {
         <main className="bg-gray-50 font-sans text-slate-800 overflow-x-hidden h-screen w-screen overflow-y-scroll mx-auto mt-16 overflow-x-hidden snap-y snap-mandatory scroll-smooth overscroll-contain [scroll-padding-top:4rem]">
           <DataStoryIntroduction userType={userType} />
           <section id="news" className="snap-start max-w-[1200px] overflow-hidden mx-auto">
-            <CrimeTimeline userType={userType} />
+            <NewsSlider userType={userType} />
           </section>
           <section id="mapchart" className="snap-start max-w-[1200px] mx-auto">
             <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
