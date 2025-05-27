@@ -173,53 +173,106 @@ const NewsSlider = ({ userType = "student" }) => {
     setCurrentIndex(index);
   };
 
+
+  const headlinesIntroTourist = (
+    <>
+      {/* Transition from data into news headlines visualization */}
+      <h2 className="text-2xl font-bold mb-4">
+        🔍 Not Just Headlines — Real Tourists, Real Crimes
+      </h2>
+
+      <p className="mb-6 italic">
+        The numbers gave you some clarity, but a knot of worry still tightens in your chest…
+      </p>
+  
+  
+      <p className="mb-4">
+      You pull out your phone, open your news app, and tap into the search bar:
+      <span className="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 ml-2 border border-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 text-gray-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M11 4a7 7 0 015.916 10.944l4.07 4.07a1 1 0 01-1.415 1.415l-4.07-4.07A7 7 0 1111 4z"
+          />
+        </svg>
+        <span className="ml-2 text-gray-700 font-medium">Chicago tourist attacked</span>
+      </span>
+      —and hit “Search.” Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
+      </p>
+  
+      <p className="mb-4">
+        Data can show trends, but headlines tell the human side of the story. You need to see these reports in context—how often they appear, which outlets cover them most, and whether the fear matches the facts.
+      </p>
+  
+      <p className="mb-4 font-semibold">
+        Scroll down to explore a visualization of real newspaper headlines about attacks on tourists in Chicago.
+      </p>
+      </>
+  )
+
+  const headlinesIntroStudent = (
+    <>
+      {/* Transition from data into news headlines visualization */}
+      <h2 className="text-2xl font-bold mb-4">
+        🔍 Not Just Headlines — Real Students, Real Crimes
+      </h2>
+
+      <p className="mb-6 italic">
+        The numbers gave you some clarity, but a knot of worry still tightens in your chest…
+      </p>
+  
+  
+      <p className="mb-4">
+      You pull out your phone, open your news app, and tap into the search bar:
+      <span className="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 ml-2 border border-gray-800">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5 text-gray-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+            d="M11 4a7 7 0 015.916 10.944l4.07 4.07a1 1 0 01-1.415 1.415l-4.07-4.07A7 7 0 1111 4z"
+          />
+        </svg>
+        <span className="ml-2 text-gray-700 font-medium">Chicago student attacked</span>
+      </span>
+      —and hit “Search.” TODO: ADJUST HERE Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
+      </p>
+  
+      <p className="mb-4">
+        Data can show trends, but headlines tell the human side of the story. You need to see these reports in context—how often they appear, which outlets cover them most, and whether the fear matches the facts.
+      </p>
+  
+      <p className="mb-4 font-semibold">
+        Scroll down to explore a visualization of real newspaper headlines about attacks on tourists in Chicago.
+      </p>
+      </>
+  )
+
   if (showIntro) {
     return (
-      <section className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 text-blue-600">
-            {userType === "student" ? "📚 Real Stories, Real Students" : "🗞️ Headlines That Matter"}
-          </h1>
-          
-          <div className="mb-8 text-lg text-gray-700 space-y-4">
-            {userType === "student" ? (
-              <>
-                <p>
-                  Behind every statistic is a real story. These aren't just numbers in a database—
-                  they're experiences that shaped students' lives and changed how they navigate the city.
-                </p>
-                <p>
-                  From campus robberies to off-campus attacks, explore the incidents that made headlines
-                  and learn from the experiences of fellow students across Chicago's universities.
-                </p>
-              </>
-            ) : (
-              <>
-                <p>
-                  Your Chicago adventure shouldn't be defined by fear, but awareness is your best companion.
-                  These stories from real visitors help paint a complete picture of urban safety.
-                </p>
-                <p>
-                  From iconic landmarks to hidden gems, see how other tourists navigated challenges
-                  and what you can learn from their experiences.
-                </p>
-              </>
-            )}
-          </div>
+      <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
 
-          <button
-            onClick={handleStart}
-            className="px-8 py-4 rounded-lg text-white font-semibold text-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-blue-600 hover:bg-blue-700"
-          >
-            Explore Stories
-          </button>
-        </div>
-      </section>
+        {userType === "tourist" ? headlinesIntroTourist : headlinesIntroStudent}
+        <button
+          onClick={handleStart}
+          className="px-8 py-4 rounded-lg text-white font-semibold text-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-blue-600 hover:bg-blue-700"
+        >
+          Explore Stories
+        </button>
+      </div>
     );
   }
 
   return (
-    <section className="min-h-screen bg-gray-50">
+    <>
       {/* Header - Moved to top */}
       <div className="text-center pt-4 pb-2">
         <h1 className="text-2xl md:text-3xl font-bold text-blue-600">
@@ -330,7 +383,7 @@ const NewsSlider = ({ userType = "student" }) => {
           </div>
         </div>
       </div>
-    </section>
+    </>
   );
 };
 

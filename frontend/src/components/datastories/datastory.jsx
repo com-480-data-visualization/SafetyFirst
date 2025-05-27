@@ -6,14 +6,14 @@ import InfoPanel from "./charts/stacked_crime/InfoPanel";
 import crimeDataYears from "../../data/crime_category_over_years.json";
 import crimeDataHours from "../../data/crime_category_over_hours.json";
 import TopCrimeChart from "./charts/stacked_crime/topCrimesChart"
-import infoTexts from "./charts/stacked_crime/infoTexts"; // Adjust the path based on location
+import getInfoText from "./charts/stacked_crime/infoTexts.jsx"; // Adjust the path based on location
 import InstructionParagraph from "../presets";
 
 export default function DataStoryIntroduction({ userType = "student" }) {
     const [mode, setMode] = useState("year"); // "year" or "hour"
     const [view, setView] = useState("main"); // "main" or "sub"
     // Initialize with the default text imported from the JSON file.
-    const [infoText, setInfoText] = useState(infoTexts.default);
+    const [infoText, setInfoText] = useState("default");
 
     const isStudent = userType === "student"
     // Set category of crime for the first chart
@@ -193,36 +193,25 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                     However, public perception doesn't always align with these statistics. Factors such as increased media coverage and social media discussions contribute to a heightened sense of insecurity among residents and visitors.
             </p>
             <InstructionParagraph>
-                So, is Chicago truly becoming safer? Let's delve into the data to explore the trend of crimes over time. <br />                         Click on any segment of the chart to explore detailed information about specific crime categories in Chicago.
+                👉 So, is Chicago truly becoming safer? Let's delve into the data to explore the trend of crimes over time. <br />                         Click on any segment of the chart to explore detailed information about specific crime categories in Chicago.
             </InstructionParagraph>
 
-            <div className="flex mx-auto">
-                {/* LEFT: Instruction + Details */}
-                <div className="w-full md:w-2/5">
-                    {/* Instruction Text */}
-                    <div className="text-gray-700">
-                    <p>
-                        Here's a quick overview of what each category includes:
-                    </p>
-                    </div>
-                    {/* Details Component */}
-                    <div className="text-sm">
-                    <p><strong>• Assault:</strong> Violent offenses such as battery, robbery, and weapons violations.</p>
-                    <p><strong>• Minor:</strong> Public safety concerns like narcotics, burglary, and public peace violations.</p>
-                    <p><strong>• Non-Street Crime:</strong> Private or domestic offenses including deceptive practices and trespassing.</p>
-                    <p><strong>• Sex Offense:</strong> Crimes such as sexual assault, stalking, and kidnapping.</p>
-                    <p><strong>• Theft:</strong> Property crimes including theft, criminal damage, and motor vehicle theft.</p>
-                    </div>
+            <div className="flex w-full">
+            {/* LEFT: spans 2/5 of the width */}
+            <div className="w-full md:w-2/5 overflow-auto p-4">
+            {getInfoText(activeCategory)}
                 </div>
 
-                {/* RIGHT: Controls + Chart */}
-                <div className="w-full md:w-3/5">
-                    <ModeSelector 
+                {/* RIGHT: spans 3/5 of the width */}
+                <div className="w-full md:w-3/5 flex flex-col">
+                <ModeSelector 
                         mode={mode}
                         view={view}
                         onModeChange={handleModeChange}
                         onBack={handleBack}
                     />
+                    <div >
+
                     {view === "main" ? (
                     <MainChart 
                         dataSet={dataSet.main} 
@@ -232,7 +221,6 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                         setActiveCategory(category);
                         setView("sub");
                         // Use the corresponding info text loaded from JSON
-                        setInfoText(infoTexts[category]);
                         }}
                     />
                     ) : (
@@ -247,6 +235,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
                         }}
                     />
                     )}
+                    </div>
                 </div>
             </div>
         </div>
@@ -256,11 +245,11 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     return (
         <>
             {/* Awareness Intro Section */}
-            <section id="intro" className="snap-start max-w-[1200px] snap-y snap-mandatory scroll-smooth mx-auto">
+            <section id="intro" className="h-screen flex flex-col justify-center snap-start overflow-scroll mx-auto">
                 {awarenessIntro}
             </section>
             {/* Crime Categories Plot */}
-            <section id="crime-categories" className="snap-start max-w-[1200px] snap-y snap-mandatory scroll-smooth mx-auto">
+            <section id="crime-categories" className="h-screen flex flex-col justify-start snap-start overflow-scroll mx-auto">
                 {crimeCategories}
             </section>
         </>

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { ArrowRight, MapPin, Users, ChevronDown } from "lucide-react";
 import logo from "../assets/logo.png";
+import { ImStudentButton, ImTouristButton } from "./presets";
 
 const LandingPage = ({ onNavigation }) => {
   useEffect(() => {
@@ -46,21 +47,11 @@ const LandingPage = ({ onNavigation }) => {
           </div>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1 bg-white/80 rounded-lg shadow-subtle p-6 flex flex-col gap-2">
-              <button
-                onClick={() => onNavigation("student")}
-                className="w-full bg-secondary hover:bg-slate-600 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
-              >
-                <span>I'm a student</span> <Users size={20} />
-              </button>
+            {ImStudentButton({onNavigation})}
               <p className="text-slate-600 text-base -mt-2">New student coming to Chicago? Discover threats and how to stay safe in the streets.</p>
             </div>
             <div className="flex-1 bg-white/80 rounded-lg shadow-subtle p-6 flex flex-col gap-2">
-              <button
-                onClick={() => onNavigation("tourist")}
-                className="w-full bg-accent hover:bg-blue-500 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
-              >
-                <span>I'm a tourist</span> <Users size={20} />
-              </button>
+              {ImTouristButton({onNavigation})}
               <p className="text-slate-600 text-base -mt-2">Exploring the city? It might not be as safe as you think, find out what has happened recently.</p>
             </div>
           </div>

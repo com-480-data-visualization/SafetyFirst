@@ -69,7 +69,14 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
         doubleClick: false,
         clickmode: "event+select",
       }}
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        minWidth: "300px",
+        maxWidth: "800px",
+        minHeight: "400px",
+        maxHeight: "600px",
+      }}
       onClick={handleClick}
     />
   );
