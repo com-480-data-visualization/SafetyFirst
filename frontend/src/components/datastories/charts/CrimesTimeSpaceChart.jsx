@@ -14,6 +14,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   const [mapCenter, setMapCenter] = useState([41.8781, -87.6298]);
   const [mapZoom, setMapZoom] = useState(10.2);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [scenariosCollapsed, setScenariosCollapsed] = useState(false);
 
   // Fetch data for the selected year
   useEffect(() => {
@@ -31,11 +32,16 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
     setSelectedScenario(scenario);
     
     if (location) {
+      // Only apply scenario's year and time range when a specific location is selected
+      setYear(scenario.year);
+      setTimeRange(scenario.timeRange);
       setSelectedLocation(location);
       setMapCenter([location.lat, location.lon]);
       setMapZoom(location.zoom);
-      setYear(scenario.year);
-      setTimeRange(scenario.timeRange);
+    } else {
+      // Just selecting scenario without location - only expand the box, don't change settings
+      setSelectedLocation(null);
+      // Keep current map view and settings unchanged
     }
   };
 
@@ -81,10 +87,10 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
         🗺️ 📸 Explore the Crime Landscape, Block by Block
       </h2>
       <p className="mb-6 italic">
-      Armed with trends and headlines, you can’t shake the feeling that you need more detail—exactly where should you watch your back?
+      Armed with trends and headlines, you can't shake the feeling that you need more detail—exactly where should you watch your back?
       </p>
       <p className="mb-4">
-      First, you wonder about <strong>O’Hare</strong> and <strong>Midway</strong>—does airport bustle bring more thefts? Then there’s 
+      First, you wonder about <strong>O'Hare</strong> and <strong>Midway</strong>—does airport bustle bring more thefts? Then there's 
       <strong>Navy Pier</strong>, the <strong>Art Institute</strong>, and the 
       <strong>Magnificent Mile</strong>: each a magnet for visitors, but also 
       potential crime hotspots. You decide to drill into the data to see which 
@@ -100,56 +106,84 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
         updates live to show which crimes were most common, and how frequently they occurred.
       </InstructionParagraph>
 
-      
-      {/* Scenario Presets */}
-      <div className="mt-8 mb-6">
-        <ScenarioPresets 
-          onSelectScenario={handleScenarioSelect}
-          selectedScenario={selectedScenario}
-          userType={userType}
-        />
-        {selectedLocation && (
-          <div className="mt-4 flex items-center justify-between bg-red-50 border border-red-300 rounded-lg p-4">
-            <div>
-              <p className="text-sm font-semibold text-gray-800">
-                Viewing: {selectedLocation.name}
-              </p>
-              <p className="text-xs text-gray-600">
-                {selectedScenario.name} • {timeRange[0]}:00 - {timeRange[1]}:00
-              </p>
-            </div>
+      {/* Top Section: Scenario Presets full width */}
+      <div className="mb-8">
+        <div className="bg-white border border-red-200 shadow-lg rounded-xl overflow-hidden">
+          {/* Header with toggle button */}
+          <div className="flex items-center justify-between p-4 border-b border-red-200 bg-red-50">
+            <h3 className="text-lg font-semibold text-red-500">Quick Scenarios</h3>
             <button
-              onClick={clearScenario}
-              className="px-4 py-2 bg-white border border-red-300 rounded text-sm text-red-600 hover:bg-red-50 transition-colors"
+              onClick={() => setScenariosCollapsed(!scenariosCollapsed)}
+              className="text-gray-400 hover:text-gray-500 transition-colors bg-transparent border-none outline-none focus:outline-none"
             >
-              Clear Selection
+              {scenariosCollapsed ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                </svg>
+              )}
             </button>
           </div>
-        )}
+          
+          {/* Collapsible content */}
+          {!scenariosCollapsed && (
+            <div className="p-6">
+              <ScenarioPresets 
+                onSelectScenario={handleScenarioSelect}
+                selectedScenario={selectedScenario}
+                selectedLocation={selectedLocation}
+                userType={userType}
+              />
+              {selectedLocation && (
+                <div className="mt-4 flex items-center justify-between bg-red-50 border border-red-300 rounded-lg p-4">
+                  <div>
+                    <p className="text-sm font-semibold text-gray-800">
+                      Viewing: {selectedLocation.name}
+                    </p>
+                    <p className="text-xs text-gray-600">
+                      {selectedScenario.name} • {timeRange[0]}:00 - {timeRange[1]}:00
+                    </p>
+                  </div>
+                  <button
+                    onClick={clearScenario}
+                    className="px-4 py-2 bg-white border border-red-300 rounded text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    Clear Selection
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Top Section: Controls and Stats side by side */}
-      <div className="flex flex-col lg:flex-row gap-6 mb-8">
-        <div className="flex-1 h-auto lg:h-[500px]">
-          <YearTimeControls
-            year={year}
-            setYear={setYear}
-            timeRange={timeRange}
-            setTimeRange={setTimeRange}
-          />
-        </div>
-        <div className="flex-1 h-auto lg:h-[500px]">
-          <CrimeStatsPanel data={filteredData} />
-        </div>
-      </div>
+      {/* Time Controls - Horizontal bar just above the map */}
+      <YearTimeControls
+        year={year}
+        setYear={setYear}
+        timeRange={timeRange}
+        setTimeRange={setTimeRange}
+      />
 
-      {/* Bottom Section: Full-width Map */}
-      <div className="w-full h-[600px] border-4 border-red-500 rounded-xl overflow-hidden">
-        <HeatmapMap 
-          points={filteredData} 
-          center={mapCenter}
-          zoom={mapZoom}
-        />
+      {/* Bottom Section: Crime Stats and Map side by side */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex-1">
+          <div className="h-[500px]">
+            <CrimeStatsPanel data={filteredData} />
+          </div>
+        </div>
+        <div className="flex-1">
+          <div className="w-full h-[500px] border-4 border-red-500 rounded-xl overflow-hidden">
+            <HeatmapMap 
+              points={filteredData} 
+              center={mapCenter}
+              zoom={mapZoom}
+            />
+          </div>
+        </div>
       </div>
     </section>
   );

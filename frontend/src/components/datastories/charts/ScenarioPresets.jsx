@@ -85,14 +85,12 @@ const studentScenarios = [
   }
 ];
 
-const ScenarioPresets = ({ onSelectScenario, selectedScenario, userType = "tourist" }) => {
+const ScenarioPresets = ({ onSelectScenario, selectedScenario, selectedLocation, userType = "tourist" }) => {
   const scenarios = userType === "tourist" ? touristScenarios : studentScenarios;
 
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold text-red-500 mb-4">Quick Scenarios</h3>
-      
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="flex flex-col sm:flex-row gap-3">
         {scenarios.map((scenario) => {
           const Icon = scenario.icon;
           const isSelected = selectedScenario?.id === scenario.id;
@@ -100,38 +98,40 @@ const ScenarioPresets = ({ onSelectScenario, selectedScenario, userType = "touri
           return (
             <div
               key={scenario.id}
-              className={`
-                border-2 rounded-lg p-4 cursor-pointer transition-all
-                ${isSelected 
-                  ? 'border-red-500 bg-red-50' 
-                  : 'border-gray-300 hover:border-red-300 hover:bg-gray-50'
-                }
-              `}
+              className="flex-1 border-2 rounded-lg p-4 cursor-pointer transition-all border-gray-300 hover:border-gray-400 hover:bg-gray-50"
               onClick={() => onSelectScenario(scenario)}
             >
               <div className="flex items-center gap-3 mb-2">
                 <Icon 
-                  className={`w-6 h-6 ${isSelected ? 'text-red-500' : 'text-gray-600'}`} 
+                  className="w-6 h-6 text-gray-600" 
                 />
                 <h4 className="font-semibold text-gray-800">{scenario.name}</h4>
               </div>
+            
               <p className="text-sm text-gray-600">{scenario.description}</p>
               
               {isSelected && scenario.locations && (
                 <div className="mt-3 space-y-2">
                   <p className="text-xs font-semibold text-gray-700">Select location:</p>
-                  {Object.entries(scenario.locations).map(([key, loc]) => (
-                    <button
-                      key={key}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onSelectScenario(scenario, loc);
-                      }}
-                      className="block w-full text-left px-3 py-2 text-sm bg-white border border-red-300 rounded hover:bg-red-50 transition-colors text-gray-700 hover:text-gray-900"
-                    >
-                      {loc.name}
-                    </button>
-                  ))}
+                  {Object.entries(scenario.locations).map(([key, loc]) => {
+                    const isLocationSelected = selectedLocation && selectedLocation.name === loc.name;
+                    return (
+                      <button
+                        key={key}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onSelectScenario(scenario, loc);
+                        }}
+                        className={`block w-full text-left px-3 py-2 text-sm border rounded transition-colors ${
+                          isLocationSelected
+                            ? 'bg-blue-50 border-blue-200 text-blue-800 shadow-sm'
+                            : 'bg-white border-red-300 text-gray-700 hover:bg-red-50 hover:text-gray-900'
+                        }`}
+                      >
+                        {loc.name}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>

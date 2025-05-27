@@ -66,11 +66,28 @@ export default {
       },
       animation: {
         fadeIn: 'fadeIn 1s ease-out forwards',
+        float: 'float 6s ease-in-out infinite',
+        drift: 'drift 8s ease-in-out infinite',
+        glow: 'glow 3s ease-in-out infinite alternate',
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
+        },
+        drift: {
+          '0%, 100%': { transform: 'translateX(0px) translateY(0px)' },
+          '25%': { transform: 'translateX(5px) translateY(-3px)' },
+          '50%': { transform: 'translateX(-3px) translateY(-8px)' },
+          '75%': { transform: 'translateX(-5px) translateY(-2px)' },
+        },
+        glow: {
+          '0%': { opacity: '0.4', transform: 'scale(1)' },
+          '100%': { opacity: '0.8', transform: 'scale(1.1)' },
         },
       },
       typography: (theme) => ({
