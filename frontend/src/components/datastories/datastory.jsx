@@ -2,7 +2,6 @@ import React, { useState, useEffect, act} from "react";
 import ModeSelector from "./charts/stacked_crime/ModeSelector";
 import MainChart from "./charts/stacked_crime/MainChart";
 import SubChart from "./charts/stacked_crime/SubCharts";
-import InfoPanel from "./charts/stacked_crime/InfoPanel";
 import crimeDataYears from "../../data/crime_category_over_years.json";
 import crimeDataHours from "../../data/crime_category_over_hours.json";
 import TopCrimeChart from "./charts/stacked_crime/topCrimesChart"
@@ -245,11 +244,11 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     return (
         <>
             {/* Awareness Intro Section */}
-            <section id="intro" className="h-min-screen flex flex-col justify-center snap-start  mx-auto">
+            <section id="intro" className="min-h-screen flex flex-col justify-center snap-start  mx-auto">
                 {awarenessIntro}
             </section>
             {/* Crime Categories Plot */}
-            <section id="crime-categories" className="h-min-screen flex flex-col justify-start snap-start mx-auto">
+            <section id="crime-categories" className="min-h-screen flex flex-col justify-start snap-start mx-auto">
                 {crimeCategories}
             </section>
         </>
