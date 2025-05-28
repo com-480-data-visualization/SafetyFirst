@@ -245,11 +245,11 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     return (
         <>
             {/* Awareness Intro Section */}
-            <section id="intro" className="h-screen flex flex-col justify-center snap-start  mx-auto">
+            <section id="intro" className="h-min-screen flex flex-col justify-center snap-start  mx-auto">
                 {awarenessIntro}
             </section>
             {/* Crime Categories Plot */}
-            <section id="crime-categories" className="h-screen flex flex-col justify-start snap-start mx-auto">
+            <section id="crime-categories" className="h-min-screen flex flex-col justify-start snap-start mx-auto">
                 {crimeCategories}
             </section>
         </>

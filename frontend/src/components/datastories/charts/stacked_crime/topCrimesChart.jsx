@@ -82,8 +82,6 @@ const CrimeSubtypesChart = ({activeCategory = "theft"}) => {
             x: 0.5,
             xanchor: "center"
           },
-          paper_bgcolor: "rgba(0,0,0,0)",
-          plot_bgcolor: "rgba(0,0,0,0)",
           margin: { l: 280, r: 30, t: 60, b: 50 },
           yaxis: { automargin: true, tickfont: { size: 13 } },
           xaxis: { title: "Number of Cases", tickfont: { size: 13 } },

@@ -90,10 +90,10 @@ const App = () => {
         <Navbar className="fixed top-0 left-0 right-0 z-50 h-16" onNavigate={handleNavigation} isStudent={userType === "student"}/>
         <main className="h-screen overflow-y-scroll overscroll-contain bg-gray-50 font-sans text-slate-800 mx-auto mt-16">
           <DataStoryIntroduction userType={userType} />
-          <section id="news" className="h-screen flex flex-col justify-center snap-start mx-auto">
+          <section id="news" className="h-min-screen flex flex-col justify-center snap-start mx-auto">
             <NewsSlider userType={userType} />
           </section>
-          <section id="mapchart" className="justify-center snap-none mx-auto">
+          <section id="mapchart" className="h-min-screen justify-center snap-none mx-auto">
             <Suspense fallback={<div className="text-center p-10 text-slate-600">Loading Map...</div>}>
               <BaseMap />
             </Suspense>
