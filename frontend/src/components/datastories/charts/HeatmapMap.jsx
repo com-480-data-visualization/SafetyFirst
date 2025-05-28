@@ -1,10 +1,18 @@
 import React, { useEffect } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, useMap, Marker, Circle } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
+import L from "leaflet";
+
+// Fix for default markers in react-leaflet
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
 const defaultCenterChicago = [41.8781, -87.6298];
-
 
 const chicagoBounds = [
   [41.62, -88.00],  // SW corner (lat, lng)
@@ -58,14 +66,14 @@ const HeatLayer = ({ points }) => {
   return null;
 };
 
-const HeatmapMap = ({ points, center = defaultCenterChicago, zoom = 11 }) => {
+const HeatmapMap = ({ points, center = defaultCenterChicago, zoom = 11, selectedAddress = null }) => {
   return (
     <MapContainer
       center={center}
       zoom={zoom}
       minZoom={zoom}               // prevent zooming out past the initial level
       maxBounds={chicagoBounds}    // lock panning to Chicago bounds
-      maxBoundsViscosity={1.0}     // no “bounce” past the bounds
+      maxBoundsViscosity={1.0}     // no "bounce" past the bounds
       style={{ width: "100%", height: "100%" }}
       scrollWheelZoom={true}
       zoomControl={false}
@@ -76,6 +84,26 @@ const HeatmapMap = ({ points, center = defaultCenterChicago, zoom = 11 }) => {
       />
       <MapViewController center={center} zoom={zoom} />
       <HeatLayer points={points} />
+      
+      {/* Show address marker and radius circle if address is selected */}
+      {selectedAddress && (
+        <>
+          <Marker 
+            position={[selectedAddress.lat, selectedAddress.lon]}
+          />
+          <Circle
+            center={[selectedAddress.lat, selectedAddress.lon]}
+            radius={1000} // 1000 meters = 1 km
+            pathOptions={{
+              color: '#3b82f6',
+              fillColor: '#3b82f6',
+              fillOpacity: 0.1,
+              weight: 2,
+              dashArray: '5, 5'
+            }}
+          />
+        </>
+      )}
     </MapContainer>
   );
 };

@@ -3,7 +3,22 @@ import HeatmapMap from "./HeatmapMap";
 import CrimeStatsPanel from "./CrimeStatsPanel";
 import YearTimeControls from "./YearTimeControls";
 import ScenarioPresets from "./ScenarioPresets";
+import AddressInput from "./AddressInput";
 import InstructionParagraph from "../../presets";
+
+// Function to calculate distance between two points using Haversine formula
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  const distance = R * c; // Distance in kilometers
+  return distance;
+};
 
 const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   const [year, setYear] = useState(2023);
@@ -14,6 +29,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   const [mapCenter, setMapCenter] = useState([41.8781, -87.6298]);
   const [mapZoom, setMapZoom] = useState(10.2);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const [scenariosCollapsed, setScenariosCollapsed] = useState(false);
 
   // Fetch data for the selected year
@@ -32,10 +48,18 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
     setSelectedScenario(scenario);
     
     if (location) {
-      // Only apply scenario's year and time range when a specific location is selected
+      // Set both scenario location and address when a specific location is selected
       setYear(scenario.year);
       setTimeRange(scenario.timeRange);
       setSelectedLocation(location);
+      
+      // Also set as selected address for the address input
+      setSelectedAddress({
+        lat: location.lat,
+        lon: location.lon,
+        address: location.name
+      });
+      
       setMapCenter([location.lat, location.lon]);
       setMapZoom(location.zoom);
     } else {
@@ -45,15 +69,28 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
     }
   };
 
-  // Clear scenario selection
-  const clearScenario = () => {
+  // Handle address selection
+  const handleAddressSelect = (addressData) => {
+    // Clear scenario selection when address is selected manually
+    setSelectedScenario(null);
+    setSelectedLocation(null);
+    
+    setSelectedAddress(addressData);
+    setMapCenter([addressData.lat, addressData.lon]);
+    setMapZoom(14); // Zoom in closer for address view
+  };
+
+  // Clear address selection
+  const handleClearAddress = () => {
+    setSelectedAddress(null);
+    // Also clear scenario if it was set
     setSelectedScenario(null);
     setSelectedLocation(null);
     setMapCenter([41.8781, -87.6298]);
     setMapZoom(10.2);
   };
 
-  // Filter data based on time range and location
+  // Filter data based on time range, location, and address
   useEffect(() => {
     let filtered = rawData.filter((d) => {
       const hour = new Date(d.datetime).getHours();
@@ -68,7 +105,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
       }
     });
 
-    // If a specific location is selected, filter by radius
+    // If a specific location is selected (from scenarios), filter by radius
     if (selectedLocation) {
       const radius = 0.02; // Approximately 2.2km radius
       filtered = filtered.filter((d) => {
@@ -77,9 +114,22 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
         return latDiff <= radius && lonDiff <= radius;
       });
     }
+    
+    // If an address is selected, filter by 1km radius using precise distance calculation
+    if (selectedAddress) {
+      filtered = filtered.filter((d) => {
+        const distance = calculateDistance(
+          selectedAddress.lat, 
+          selectedAddress.lon, 
+          d.lat, 
+          d.lon
+        );
+        return distance <= 1; // 1 km radius
+      });
+    }
 
     setFilteredData(filtered);
-  }, [rawData, timeRange, selectedLocation]);
+  }, [rawData, timeRange, selectedLocation, selectedAddress]);
 
   return (
     <div className="bg-gray-50 text-slate-800 py-6 px-4 sm:px-8 md:px-16 lg:px-32 relative">
@@ -111,8 +161,8 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
         🗺️ The map highlights the locations of these crimes, allowing you to see patterns and hotspots in real-time.
       </InstructionParagraph>
 
-      {/* Top Section: Scenario Presets full width */}
-      <div className="mb-8">
+      {/* Quick Scenarios Section - Now above address input */}
+      <div className="mb-6">
         <div className="bg-white border border-red-200 shadow-lg rounded-xl overflow-hidden">
           {/* Header with toggle button */}
           <div className="flex items-center justify-between p-4 border-b border-red-200 bg-red-50">
@@ -153,7 +203,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
                     </p>
                   </div>
                   <button
-                    onClick={clearScenario}
+                    onClick={handleClearAddress}
                     className="px-4 py-2 bg-white border border-red-300 rounded text-sm text-red-600 hover:bg-red-50 transition-colors"
                   >
                     Clear Selection
@@ -164,6 +214,13 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
           )}
         </div>
       </div>
+
+      {/* Address Input Section - Now below scenarios */}
+      <AddressInput 
+        onAddressSelect={handleAddressSelect}
+        selectedAddress={selectedAddress}
+        onClearAddress={handleClearAddress}
+      />
 
       {/* Time Controls - Horizontal bar just above the map */}
       <YearTimeControls
@@ -186,6 +243,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
               points={filteredData} 
               center={mapCenter}
               zoom={mapZoom}
+              selectedAddress={selectedAddress}
             />
           </div>
         </div>
