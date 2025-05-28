@@ -12,25 +12,37 @@ const GoogleMapsBackground = () => {
 
   const mapRef = useRef(null);
   const animationRef = useRef(null);
+  const startTimeRef = useRef(null);
 
   const mapContainerStyle = {
     width: "100%",
     height: "100%",
   };
 
-  // Different Chicago locations for the animation
-  const chicagoLocations = [
-    { lat: 41.8781, lng: -87.6298 }, // Downtown Chicago
+  // Define a circular path around Chicago with more points for smoother movement
+  const chicagoPath = [
+    { lat: 41.8781, lng: -87.6298 }, // Downtown Chicago (start)
     { lat: 41.9028, lng: -87.6317 }, // Lincoln Park
-    { lat: 41.8486, lng: -87.6370 }, // UIC Area
-    { lat: 41.7886, lng: -87.5987 }, // University of Chicago
     { lat: 41.9242, lng: -87.6586 }, // DePaul/Lincoln Park
-    { lat: 41.8819, lng: -87.6278 }, // The Loop
+    { lat: 41.9400, lng: -87.6800 }, // North Side (more west)
+    { lat: 41.9500, lng: -87.7000 }, // Lakeview (more west)
+    { lat: 41.9300, lng: -87.7200 }, // Near North (more west)
+    { lat: 41.9000, lng: -87.7100 }, // West Town area
+    { lat: 41.8700, lng: -87.6900 }, // Near West Side
+    { lat: 41.8400, lng: -87.6700 }, // South Loop (west bias)
+    { lat: 41.8200, lng: -87.6600 }, // Chinatown area
+    { lat: 41.8000, lng: -87.6800 }, // Pilsen (more west)
+    { lat: 41.7886, lng: -87.6500 }, // University of Chicago (less east)
+    { lat: 41.8100, lng: -87.6300 }, // Hyde Park (less east)
+    { lat: 41.8300, lng: -87.6200 }, // Kenwood (less east)
+    { lat: 41.8500, lng: -87.6300 }, // Bronzeville (less east)
+    { lat: 41.8600, lng: -87.6400 }, // Near South
+    { lat: 41.8781, lng: -87.6298 }, // Back to Downtown (complete circle)
   ];
 
   const mapOptions = {
     zoom: 12,
-    center: chicagoLocations[0],
+    center: chicagoPath[0],
     disableDefaultUI: true,
     gestureHandling: "none",
     zoomControl: false,
@@ -101,43 +113,64 @@ const GoogleMapsBackground = () => {
     ]
   };
 
-  const startAnimation = () => {
+  // Linear interpolation function
+  const lerp = (start, end, factor) => {
+    return start + (end - start) * factor;
+  };
+
+  // Function to interpolate between two coordinates
+  const interpolateCoordinates = (coord1, coord2, factor) => {
+    return {
+      lat: lerp(coord1.lat, coord2.lat, factor),
+      lng: lerp(coord1.lng, coord2.lng, factor)
+    };
+  };
+
+  const startContinuousAnimation = () => {
     if (!mapRef.current) return;
 
-    let currentLocationIndex = 0;
+    const ANIMATION_DURATION = 120000; // 2 minutes for complete circle (very slow)
     
-    const animateMap = () => {
-      if (mapRef.current) {
-        currentLocationIndex = (currentLocationIndex + 1) % chicagoLocations.length;
-        const nextLocation = chicagoLocations[currentLocationIndex];
-        
-        console.log('Animating to:', nextLocation); // Debug log
-        
-        // Smooth pan to next location
-        mapRef.current.panTo(nextLocation);
-        
-        // Occasionally change zoom slightly for variety
-        if (Math.random() > 0.7) {
-          const currentZoom = mapRef.current.getZoom();
-          const newZoom = currentZoom + (Math.random() > 0.5 ? 1 : -1);
-          if (newZoom >= 11 && newZoom <= 13) {
-            mapRef.current.setZoom(newZoom);
-          }
-        }
-      }
+    startTimeRef.current = performance.now();
+
+    const animate = (currentTime) => {
+      if (!mapRef.current) return;
+
+      const elapsed = currentTime - startTimeRef.current;
+      
+      // Calculate progress through the path (0 to 1, then repeat)
+      const progress = (elapsed % ANIMATION_DURATION) / ANIMATION_DURATION;
+      
+      // Calculate which segment of the path we're on
+      const pathLength = chicagoPath.length - 1; // -1 because last point connects to first
+      const segmentProgress = progress * pathLength;
+      const currentSegmentIndex = Math.floor(segmentProgress);
+      const segmentFactor = segmentProgress - currentSegmentIndex;
+      
+      // Get current and next points (with wraparound)
+      const currentPoint = chicagoPath[currentSegmentIndex];
+      const nextPoint = chicagoPath[(currentSegmentIndex + 1) % chicagoPath.length];
+      
+      // Interpolate between current and next point with easing for smoother movement
+      const easedFactor = segmentFactor * segmentFactor * (3 - 2 * segmentFactor); // Smooth step function
+      const currentPosition = interpolateCoordinates(currentPoint, nextPoint, easedFactor);
+      
+      // Use moveCamera for smooth animation with constant zoom
+      mapRef.current.moveCamera({
+        center: currentPosition,
+        zoom: 12
+      });
+      
+      // Continue animation
+      animationRef.current = requestAnimationFrame(animate);
     };
 
-    // Start animation after a short delay
-    const initialTimeout = setTimeout(() => {
-      animateMap();
-      // Continue animation every 6 seconds (faster for testing)
-      animationRef.current = setInterval(animateMap, 6000);
-    }, 2000);
+    // Start the animation
+    animationRef.current = requestAnimationFrame(animate);
 
     return () => {
-      clearTimeout(initialTimeout);
       if (animationRef.current) {
-        clearInterval(animationRef.current);
+        cancelAnimationFrame(animationRef.current);
       }
     };
   };
@@ -146,7 +179,7 @@ const GoogleMapsBackground = () => {
   useEffect(() => {
     return () => {
       if (animationRef.current) {
-        clearInterval(animationRef.current);
+        cancelAnimationFrame(animationRef.current);
       }
     };
   }, []);
@@ -172,8 +205,10 @@ const GoogleMapsBackground = () => {
           console.log('Map loaded, starting animation'); // Debug log
           mapRef.current = map;
           
-          // Start animation once map is loaded
-          startAnimation();
+          // Start animation once map is loaded with a small delay
+          setTimeout(() => {
+            startContinuousAnimation();
+          }, 1000); // 1 second delay to ensure map is fully ready
           
           // Suppress error dialogs
           if (window.google && window.google.maps) {

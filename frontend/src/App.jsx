@@ -56,10 +56,10 @@ const App = () => {
         Plan Your Route
       </h2>
       <p className="mb-6">
-        You’ve learned where pickpockets tend to strike, which neighborhoods see the most assaults, and how crime levels shift by hour and by block. Armed with this insight, you’re ready to move from awareness to action.
+        You've learned where pickpockets tend to strike, which neighborhoods see the most assaults, and how crime levels shift by hour and by block. Armed with this insight, you're ready to move from awareness to action.
       </p>
       <p className="mb-8">
-        It’s time to plot a course that keeps you in well-lit streets, away from trouble spots, and on the safest path through Chicago’s vibrant neighborhoods.
+        It's time to plot a course that keeps you in well-lit streets, away from trouble spots, and on the safest path through Chicago's vibrant neighborhoods.
       </p>
       <button
         onClick={() => handleNavigation("path")}

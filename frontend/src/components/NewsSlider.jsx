@@ -152,7 +152,6 @@ const touristNewsData = [
 
 const NewsSlider = ({ userType = "student" }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [showIntro, setShowIntro] = useState(true);
 
   const newsData = userType === "student" ? studentNewsData : touristNewsData;
   const currentStory = newsData[currentIndex];
@@ -165,33 +164,27 @@ const NewsSlider = ({ userType = "student" }) => {
     setCurrentIndex((prev) => (prev === newsData.length - 1 ? 0 : prev + 1));
   };
 
-  const handleStart = () => {
-    setShowIntro(false);
-  };
-
   const handleStorySelect = (index) => {
     setCurrentIndex(index);
   };
 
-
   const headlinesIntroTourist = (
     <>
       {/* Transition from data into news headlines visualization */}
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl font-bold mb-3">
         🔍 Not Just Headlines — Real Tourists, Real Crimes
       </h2>
 
-      <p className="mb-6 italic">
+      <p className="mb-3 italic text-sm">
         The numbers gave you some clarity, but a knot of worry still tightens in your chest…
       </p>
   
-  
-      <p className="mb-4">
-      You pull out your phone, open your news app, and tap into the search bar:
-      <span className="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 ml-2 border border-gray-800">
+      <p className="mb-3 text-sm">
+      You pull out your phone, open your news app, and search:
+      <span className="inline-flex items-center bg-gray-100 rounded-full px-2 py-1 ml-1 border border-gray-800 text-xs">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5 text-gray-500"
+          className="w-4 h-4 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -200,17 +193,13 @@ const NewsSlider = ({ userType = "student" }) => {
             d="M11 4a7 7 0 015.916 10.944l4.07 4.07a1 1 0 01-1.415 1.415l-4.07-4.07A7 7 0 1111 4z"
           />
         </svg>
-        <span className="ml-2 text-gray-700 font-medium">Chicago tourist attacked</span>
+        <span className="ml-1 text-gray-700 font-medium">Chicago tourist attacked</span>
       </span>
-      —and hit “Search.” Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
+      . Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
       </p>
   
-      <p className="mb-4">
+      <p className="mb-4 text-sm">
         Data can show trends, but headlines tell the human side of the story. You need to see these reports in context—how often they appear, which outlets cover them most, and whether the fear matches the facts.
-      </p>
-  
-      <p className="mb-4 font-semibold">
-        Scroll down to explore a visualization of real newspaper headlines about attacks on tourists in Chicago.
       </p>
       </>
   )
@@ -218,21 +207,20 @@ const NewsSlider = ({ userType = "student" }) => {
   const headlinesIntroStudent = (
     <>
       {/* Transition from data into news headlines visualization */}
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl font-bold mb-3">
         🔍 Not Just Headlines — Real Students, Real Crimes
       </h2>
 
-      <p className="mb-6 italic">
+      <p className="mb-3 italic text-sm">
         The numbers gave you some clarity, but a knot of worry still tightens in your chest…
       </p>
   
-  
-      <p className="mb-4">
-      You pull out your phone, open your news app, and tap into the search bar:
-      <span className="inline-flex items-center bg-gray-100 rounded-full px-3 py-1 ml-2 border border-gray-800">
+      <p className="mb-3 text-sm">
+      You pull out your phone, open your news app, and search:
+      <span className="inline-flex items-center bg-gray-100 rounded-full px-2 py-1 ml-1 border border-gray-800 text-xs">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="w-5 h-5 text-gray-500"
+          className="w-4 h-4 text-gray-500"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -241,123 +229,90 @@ const NewsSlider = ({ userType = "student" }) => {
             d="M11 4a7 7 0 015.916 10.944l4.07 4.07a1 1 0 01-1.415 1.415l-4.07-4.07A7 7 0 1111 4z"
           />
         </svg>
-        <span className="ml-2 text-gray-700 font-medium">Chicago student attacked</span>
+        <span className="ml-1 text-gray-700 font-medium">Chicago student attacked</span>
       </span>
-      —and hit “Search.” TODO: ADJUST HERE Articles flood in: pickpocketing near Navy Pier, late-night muggings along the riverwalk, even reports of assaults downtown.
+      . Articles flood in: pickpocketing near campus, late-night muggings near dorms, even reports of assaults downtown.
       </p>
   
-      <p className="mb-4">
+      <p className="mb-4 text-sm">
         Data can show trends, but headlines tell the human side of the story. You need to see these reports in context—how often they appear, which outlets cover them most, and whether the fear matches the facts.
-      </p>
-  
-      <p className="mb-4 font-semibold">
-        Scroll down to explore a visualization of real newspaper headlines about attacks on tourists in Chicago.
       </p>
       </>
   )
 
-  // <div className="flex flex-col items-center justify-center min-h-[400px] animate-fadeIn">
-
-  if (showIntro) {
-    return (
-      <div className="min-h-[400px] animate-fadeIn flex flex-col bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative items-center justify-center" id="analytics">
-
-        {userType === "tourist" ? headlinesIntroTourist : headlinesIntroStudent}
-        <button
-          onClick={handleStart}
-          className="px-8 py-4 rounded-lg text-white font-semibold text-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-105 bg-blue-600 hover:bg-blue-700"
-        >
-          Explore Stories
-        </button>
-      </div>
-    );
-  }
-
   return (
-    <>
-      {/* Header - Moved to top */}
-      <h2 className="text-2xl font-bold mb-4">
-        🔍 Not Just Headlines — Real Tourists, Real Crimes
-      </h2>
+    <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+      {/* Header Introduction */}
+      {userType === "tourist" ? headlinesIntroTourist : headlinesIntroStudent}
       
       {/* Main Content Area */}
       <div className="container mx-auto px-4 py-2">
 
         {/* Main Story Display */}
-        <div className="max-w-5xl mx-auto relative">
-          {/* Simple Navigation Arrows */}
-          <button
-            onClick={handlePrevious}
-            className="absolute -left-12 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-transparent hover:bg-black/10 transition-colors duration-200"
-          >
-            <ChevronLeft className="w-6 h-6 text-gray-700" />
-          </button>
-          
-          <button
-            onClick={handleNext}
-            className="absolute -right-12 top-1/2 -translate-y-1/2 z-10 p-2 rounded-full bg-transparent hover:bg-black/10 transition-colors duration-200"
-          >
-            <ChevronRight className="w-6 h-6 text-gray-700" />
-          </button>
+        <div className="max-w-5xl mx-auto">
+          {/* Navigation and Story Container */}
+          <div className="flex items-center gap-4">
+            {/* Left Arrow */}
+            <button
+              onClick={handlePrevious}
+              className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+            >
+              <span className="text-xl text-gray-600 group-hover:text-gray-800 transition-colors">‹</span>
+            </button>
 
-          {/* Story Content - Fixed Size */}
-          <div className="bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-4xl mx-auto h-[500px] flex flex-col">
-            {/* Story Image */}
-            <div className="relative h-56">
-              <img
-                src={currentStory.image}
-                alt={currentStory.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute top-4 left-4">
-                <span className="px-3 py-1 rounded-full text-sm font-medium text-white bg-blue-600">
-                  {currentStory.category}
-                </span>
+            {/* Story Content - Fixed Size */}
+            <div className="bg-white rounded-xl shadow-lg overflow-hidden w-full h-[500px] flex flex-col">
+              {/* Story Image */}
+              <div className="relative h-56">
+                <img
+                  src={currentStory.image}
+                  alt={currentStory.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <div className="flex items-center space-x-2 text-sm">
-                  <Calendar className="w-4 h-4" />
-                  <span>{currentStory.date}</span>
+
+              {/* Story Content - Fixed Height */}
+              <div className="p-5 flex-1 flex flex-col overflow-hidden">
+                <h3 className="text-xl font-bold text-gray-900 mb-3">
+                  {currentStory.title}
+                </h3>
+                <p className="text-base text-gray-600 mb-4">
+                  {currentStory.subtitle}
+                </p>
+                
+                <div className="text-gray-700 mb-4 leading-relaxed flex-1 overflow-y-auto">
+                  <p className="text-sm">{currentStory.fullArticle}</p>
                 </div>
-              </div>
-              <div className="absolute bottom-4 right-4 text-white text-sm">
-                Story {currentIndex + 1} of {newsData.length}
+
+                {/* Source Link */}
+                <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                  <div className="flex items-center space-x-2 text-sm text-gray-500">
+                    <span>Source: {currentStory.source}</span>
+                  </div>
+                  {currentStory.sourceUrl !== "#" && (
+                    <a
+                      href={currentStory.sourceUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center space-x-1 text-sm font-medium hover:underline ${
+                        userType === "student" ? "text-blue-600" : "text-orange-600"
+                      }`}
+                    >
+                      <span>Read Original</span>
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Story Content - Fixed Height */}
-            <div className="p-5 flex-1 flex flex-col overflow-hidden">
-              <h3 className="text-xl font-bold text-gray-900 mb-3">
-                {currentStory.title}
-              </h3>
-              <p className="text-base text-gray-600 mb-4">
-                {currentStory.subtitle}
-              </p>
-              
-              <div className="text-gray-700 mb-4 leading-relaxed flex-1 overflow-y-auto">
-                <p className="text-sm">{currentStory.fullArticle}</p>
-              </div>
-
-              {/* Source Link */}
-              <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
-                <div className="flex items-center space-x-2 text-sm text-gray-500">
-                  <span>Source: {currentStory.source}</span>
-                </div>
-                {currentStory.sourceUrl !== "#" && (
-                  <a
-                    href={currentStory.sourceUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`inline-flex items-center space-x-1 text-sm font-medium hover:underline ${
-                      userType === "student" ? "text-blue-600" : "text-orange-600"
-                    }`}
-                  >
-                    <span>Read Original</span>
-                    <ExternalLink className="w-4 h-4" />
-                  </a>
-                )}
-              </div>
-            </div>
+            {/* Right Arrow */}
+            <button
+              onClick={handleNext}
+              className="flex-shrink-0 w-12 h-12 rounded-full bg-white shadow-lg border border-gray-200 hover:border-gray-300 hover:shadow-xl transition-all duration-200 flex items-center justify-center group"
+            >
+              <span className="text-xl text-gray-600 group-hover:text-gray-800 transition-colors">›</span>
+            </button>
           </div>
 
           {/* Simple Date Navigation */}
@@ -380,7 +335,7 @@ const NewsSlider = ({ userType = "student" }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
