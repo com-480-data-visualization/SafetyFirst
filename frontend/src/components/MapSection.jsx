@@ -40,14 +40,23 @@ const MapSection = ({
     }
   };
 
+  // Helper function to format coordinates for Google Maps API
+  const formatCoordinatesForDirections = (coords) => {
+    if (!coords) return null;
+    return {
+      lat: coords.lat,
+      lng: coords.lng
+    };
+  };
+
   // Recalculate route if origin and destination are present
   useEffect(() => {
     if (origin && destination && isLoaded && window.google) {
       const directionsService = new google.maps.DirectionsService();
       directionsService.route(
         {
-          origin,
-          destination,
+          origin: formatCoordinatesForDirections(origin),
+          destination: formatCoordinatesForDirections(destination),
           travelMode,
         },
         (result, status) => {
@@ -74,7 +83,7 @@ const MapSection = ({
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={origin || center}
+      center={formatCoordinatesForDirections(origin) || center}
       zoom={13}
       onClick={onMapClick}
       onLoad={(map) => (mapRef.current = map)}
@@ -86,7 +95,7 @@ const MapSection = ({
     >
       {origin && (
         <Marker
-          position={origin}
+          position={formatCoordinatesForDirections(origin)}
           label="A"
           icon={{
             url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
@@ -95,7 +104,7 @@ const MapSection = ({
       )}
       {destination && (
         <Marker
-          position={destination}
+          position={formatCoordinatesForDirections(destination)}
           label="B"
           icon={{
             url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",

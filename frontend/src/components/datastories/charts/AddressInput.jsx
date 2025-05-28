@@ -58,6 +58,28 @@ const AddressInput = ({ onAddressSelect, selectedAddress, onClearAddress }) => {
     };
   }, [address, inputMode, selectedAddress]);
 
+  // Update dropdown position when scrolling or resizing
+  useEffect(() => {
+    const updateDropdownPosition = () => {
+      if (showSuggestions && suggestionsRef.current && inputRef.current) {
+        const rect = inputRef.current.getBoundingClientRect();
+        const dropdown = suggestionsRef.current;
+        dropdown.style.top = `${rect.bottom + window.scrollY + 4}px`;
+        dropdown.style.left = `${rect.left + window.scrollX}px`;
+        dropdown.style.width = `${rect.width}px`;
+      }
+    };
+
+    if (showSuggestions) {
+      window.addEventListener('scroll', updateDropdownPosition, true);
+      window.addEventListener('resize', updateDropdownPosition);
+      return () => {
+        window.removeEventListener('scroll', updateDropdownPosition, true);
+        window.removeEventListener('resize', updateDropdownPosition);
+      };
+    }
+  }, [showSuggestions]);
+
   const searchAddressSuggestions = async (query) => {
     try {
       const response = await fetch(
@@ -346,15 +368,20 @@ const AddressInput = ({ onAddressSelect, selectedAddress, onClearAddress }) => {
                   {showSuggestions && suggestions.length > 0 && (
                     <div 
                       ref={suggestionsRef}
-                      className="absolute top-full left-0 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto mt-1"
+                      className="fixed bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg shadow-xl z-[10000] max-h-60 overflow-y-auto"
+                      style={{
+                        top: inputRef.current ? inputRef.current.getBoundingClientRect().bottom + window.scrollY + 4 : 0,
+                        left: inputRef.current ? inputRef.current.getBoundingClientRect().left + window.scrollX : 0,
+                        width: inputRef.current ? inputRef.current.getBoundingClientRect().width : 'auto'
+                      }}
                     >
                       {suggestions.map((suggestion, index) => (
                         <button
                           key={suggestion.place_id}
                           type="button"
                           onClick={() => handleSuggestionClick(suggestion)}
-                          className={`w-full text-left px-3 py-2 hover:bg-blue-50 border-b border-gray-100 last:border-b-0 transition-colors ${
-                            index === selectedSuggestionIndex ? 'bg-blue-100 border-blue-200' : ''
+                          className={`w-full text-left px-4 py-3 hover:bg-blue-50/80 border-b border-gray-100/50 last:border-b-0 transition-all duration-200 ${
+                            index === selectedSuggestionIndex ? 'bg-blue-100/80 border-blue-200/50' : ''
                           }`}
                         >
                           <div className="text-sm font-medium text-gray-900 truncate">
