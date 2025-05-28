@@ -35,6 +35,24 @@ const MapSection = ({
   });
 
   const mapRef = useRef(null);
+  const [mapType, setMapType] = useState("hybrid"); // Default to satellite with labels
+
+  // Read the selected display from the Google Maps UI
+  const handleMapTypeChange = () => {
+    if (mapRef.current) {
+      const type = mapRef.current.getMapTypeId();
+      setMapType(type);
+    }
+  };
+
+  // Helper function to format coordinates for Google Maps API
+  const formatCoordinatesForDirections = (coords) => {
+    if (!coords) return null;
+    return {
+      lat: coords.lat,
+      lng: coords.lng
+    };
+  };
 
   // Recalculate directions when origin/destination are selected
   useEffect(() => {
@@ -42,8 +60,8 @@ const MapSection = ({
       const directionsService = new google.maps.DirectionsService();
       directionsService.route(
         {
-          origin,
-          destination,
+          origin: formatCoordinatesForDirections(origin),
+          destination: formatCoordinatesForDirections(destination),
           travelMode,
           provideRouteAlternatives: true,
         },
@@ -77,6 +95,7 @@ const handleMapTypeChange = () => {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
+      center={formatCoordinatesForDirections(origin) || center}
       center={origin || defaultCenter}
       zoom={13}
       onClick={onMapClick}
@@ -90,7 +109,7 @@ const handleMapTypeChange = () => {
       {/* Markers */}
       {origin && (
         <Marker
-          position={origin}
+          position={formatCoordinatesForDirections(origin)}
           label="A"
           icon={{
             url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png",
@@ -99,7 +118,7 @@ const handleMapTypeChange = () => {
       )}
       {destination && (
         <Marker
-          position={destination}
+          position={formatCoordinatesForDirections(destination)}
           label="B"
           icon={{
             url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
