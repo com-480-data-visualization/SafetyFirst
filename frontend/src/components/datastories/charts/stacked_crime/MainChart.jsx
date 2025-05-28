@@ -46,6 +46,12 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
           fixedrange: true,
           tickfont: { color: "#000" },
         },
+        margin: {
+          l: 50,  // left
+          r: 0,  // right
+          t: 0,  // top (title)
+          b: 30   // bottom
+        },
         hovermode: "closest",
         showlegend: true,
         legend: {
@@ -63,7 +69,14 @@ const MainChart = ({ dataSet, xKey, mode, onTraceClick }) => {
         doubleClick: false,
         clickmode: "event+select",
       }}
-      style={{ width: "100%", height: "100%" }}
+      style={{
+        width: "100%",
+        height: "100%",
+        minWidth: "300px",
+        maxWidth: "800px",
+        minHeight: "400px",
+        maxHeight: "600px",
+      }}
       onClick={handleClick}
     />
   );

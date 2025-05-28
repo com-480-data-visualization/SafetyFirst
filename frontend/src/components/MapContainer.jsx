@@ -85,10 +85,7 @@ const MapContainer = () => {
   const selectedRoute = routes[selectedIndex];
 
   return (
-    <section
-      id="map"
-      className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative animate-fadeIn"
-    >
+    <>
       {/* Title */}
       <div className="text-center mb-4">
         <h2 className="text-5xl sm:text-6xl font-heading font-bold text-primary mb-2">
