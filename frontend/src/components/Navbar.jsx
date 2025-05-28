@@ -5,7 +5,7 @@ import logo from "../assets/logo.png";
 
 const Navbar = ({ onNavigate, isStudent }) => {
   return (
-    <nav className="fixed top-0 left-0 w-full px-6 py-2 bg-white shadow-md flex items-center justify-between z-100">
+    <nav className="fixed top-0 left-0 w-full px-6 py-2 bg-white shadow-md flex items-center justify-between z-[9999]">
       <div
         onClick={() => onNavigate("landing")}
         onKeyDown={(e) => e.key === "Enter" && onNavigate("landing")}
