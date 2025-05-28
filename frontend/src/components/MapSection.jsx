@@ -35,15 +35,6 @@ const MapSection = ({
   });
 
   const mapRef = useRef(null);
-  const [mapType, setMapType] = useState("hybrid"); // Default to satellite with labels
-
-  // Read the selected display from the Google Maps UI
-  const handleMapTypeChange = () => {
-    if (mapRef.current) {
-      const type = mapRef.current.getMapTypeId();
-      setMapType(type);
-    }
-  };
 
   // Helper function to format coordinates for Google Maps API
   const formatCoordinatesForDirections = (coords) => {
@@ -52,6 +43,14 @@ const MapSection = ({
       lat: coords.lat,
       lng: coords.lng
     };
+  };
+
+  // Handle map type change via UI buttons
+  const handleMapTypeChange = () => {
+    if (mapRef.current) {
+      const newType = mapRef.current.getMapTypeId();
+      setMapType?.(newType); // propagate change to parent
+    }
   };
 
   // Recalculate directions when origin/destination are selected
@@ -76,14 +75,6 @@ const MapSection = ({
     }
   }, [origin, destination, travelMode, isLoaded, onRoutesReady]);
 
-  // Handle map type change via UI buttons
-const handleMapTypeChange = () => {
-  if (mapRef.current) {
-    const newType = mapRef.current.getMapTypeId();
-    setMapType?.(newType); // propagate change to parent
-  }
-};
-
   if (!isLoaded) {
     return (
       <div className="text-center text-gray-100 py-12 text-lg animate-pulse">
@@ -95,8 +86,7 @@ const handleMapTypeChange = () => {
   return (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={formatCoordinatesForDirections(origin) || center}
-      center={origin || defaultCenter}
+      center={formatCoordinatesForDirections(origin) || defaultCenter}
       zoom={13}
       onClick={onMapClick}
       onLoad={(map) => (mapRef.current = map)}
