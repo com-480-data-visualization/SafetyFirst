@@ -280,7 +280,7 @@ const NewsSlider = ({ userType = "student" }) => {
                   {currentStory.subtitle}
                 </p>
                 
-                <div className="text-gray-700 mb-4 leading-relaxed flex-1 overflow-y-auto">
+                <div className="text-gray-700 mb-4 leading-relaxed flex-1 overflow-y-auto min-h-60">
                   <p className="text-sm">{currentStory.fullArticle}</p>
                 </div>
 

@@ -21,9 +21,6 @@ const YearTimeControls = ({ year, setYear, timeRange, setTimeRange }) => {
       className={`
         bg-white/90 backdrop-blur-sm border shadow-md 
         rounded-lg px-8 py-4 mb-4 transition-all duration-300
-        ${isHighlighted 
-           ? 'border-red-500 bg-red-50/50 shadow-lg' 
-           : 'border-red-300'}
       `}
     >
       <div className="flex justify-center items-center gap-8 w-full">

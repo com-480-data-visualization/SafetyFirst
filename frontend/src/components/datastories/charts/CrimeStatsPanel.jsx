@@ -62,7 +62,7 @@ const CrimeStatsPanel = ({ data }) => {
     .slice(0, 10);
 
   return (
-    <div className="bg-white border border-red-200 shadow-lg rounded-xl p-6 h-full flex flex-col">
+    <div className="bg-white border shadow-lg rounded-xl p-6 h-full flex flex-col">
       <h3 className="text-xl font-bold text-red-400 mb-4 text-center">
         Top Crime Types
       </h3>
