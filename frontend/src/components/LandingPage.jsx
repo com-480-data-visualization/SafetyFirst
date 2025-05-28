@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { ArrowRight, MapPin, Users, ChevronDown } from "lucide-react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import logo from "../assets/logo.png";
+import { ImStudentButton, ImTouristButton } from "./presets";
+
 
 // Google Maps Background Component
 const GoogleMapsBackground = () => {
@@ -264,8 +266,8 @@ const LandingPage = ({ onNavigation }) => {
           */}
 
         <div className="space-y-6">
-          <div className="bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-4 backdrop-blur-sm">
-            <button
+        <div className="bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-4 backdrop-blur-sm">
+        <button
               onClick={() => onNavigation("path")}
               className="w-full bg-primary hover:bg-blue-600 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
             >
@@ -274,24 +276,14 @@ const LandingPage = ({ onNavigation }) => {
             <p className="text-slate-600 text-base -mt-2">Worried about walking home late? Let us guide you with real-time safe route suggestions.</p>
           </div>
           <div className="flex flex-col md:flex-row gap-4">
-            <div className="flex-1 bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-2 backdrop-blur-sm">
-              <button
-                onClick={() => onNavigation("student")}
-                className="w-full bg-secondary hover:bg-slate-600 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
-              >
-                <span>I'm a student</span> <Users size={20} />
-              </button>
-              <p className="text-slate-600 text-base -mt-2">New student coming to Chicago? Discover threats and how to stay safe in the streets.</p>
-            </div>
-            <div className="flex-1 bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-2 backdrop-blur-sm">
-              <button
-                onClick={() => onNavigation("tourist")}
-                className="w-full bg-accent hover:bg-blue-500 transition px-6 py-4 rounded-md font-semibold text-white flex items-center justify-center gap-3 text-lg shadow-md hover-lift"
-              >
-                <span>I'm a tourist</span> <Users size={20} />
-              </button>
-              <p className="text-slate-600 text-base -mt-2">Exploring the city? It might not be as safe as you think, find out what has happened recently.</p>
-            </div>
+          <div className="flex-1 bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-2 backdrop-blur-sm">
+            {ImStudentButton({onNavigation})}
+            <p className="text-slate-600 text-base -mt-2">New student coming to Chicago? Discover threats and how to stay safe in the streets.</p>
+          </div>
+          <div className="flex-1 bg-white/90 rounded-lg shadow-subtle p-6 flex flex-col gap-2 backdrop-blur-sm">
+            {ImTouristButton({onNavigation})}
+            <p className="text-slate-600 text-base -mt-2">Exploring the city? It might not be as safe as you think, find out what has happened recently.</p>
+          </div>
           </div>
         </div>
       </div>
