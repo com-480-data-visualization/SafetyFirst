@@ -80,15 +80,17 @@ const App = () => {
       return (
         <main className="h-screen w-screen bg-gray-50 font-sans text-slate-800 overflow-x-hidden">
           <Navbar onNavigate={handleNavigation} />
-          <MapContainer />
+          <div className="pt-20 px-4 sm:px-8 md:px-16 lg:px-32">
+            <MapContainer />
+          </div>
         </main>
       );
     }
   else {
     return (
       <>
-        <Navbar className="fixed top-0 left-0 right-0 z-50 h-16" onNavigate={handleNavigation} isStudent={userType === "student"}/>
-        <main className="h-screen overflow-y-scroll overscroll-contain bg-gray-50 font-sans text-slate-800 mx-auto mt-16">
+        <Navbar onNavigate={handleNavigation} isStudent={userType === "student"}/>
+        <main className="h-screen overflow-y-scroll overscroll-contain bg-gray-50 font-sans text-slate-800 mx-auto mt-20">
           <DataStoryIntroduction userType={userType} />
           <section id="news" className="min-h-screen flex flex-col justify-center snap-start mx-auto">
             <NewsSlider userType={userType} />
