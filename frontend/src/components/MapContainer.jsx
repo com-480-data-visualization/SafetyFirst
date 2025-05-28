@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import MapSection from "./MapSection";
 import MapControls from "./MapControls";
 import RiskBadge from "./RiskBadge";
-import CrimePieChart from "./CrimePieChart";
 import {
   buildCrimeIndex,
   computeRiskScoreForRoute,
@@ -14,11 +13,8 @@ const MapContainer = () => {
   const [destination, setDestination] = useState(null);
   const [travelMode, setTravelMode] = useState("WALKING");
   const [routes, setRoutes] = useState([]);
-  const [safestIndex, setSafestIndex] = useState(null);
-  const [selectedIndex, setSelectedIndex] = useState(null);
   const [crimeIndex, setCrimeIndex] = useState(null);
   const [mapType, setMapType] = useState("hybrid");
-  const [optimizeBy, setOptimizeBy] = useState("safest"); // or "shortest"
 
   // Load crime index once
   useEffect(() => {
@@ -44,8 +40,6 @@ const MapContainer = () => {
     setOrigin(null);
     setDestination(null);
     setRoutes([]);
-    setSafestIndex(null);
-    setSelectedIndex(null);
   }, []);
 
   const handleRoutesReceived = useCallback(
@@ -61,28 +55,13 @@ const MapContainer = () => {
         };
       });
 
-      let safest = 0;
-      let shortest = 0;
-
-      enrichedRoutes.forEach((route, index) => {
-        if (route.risk < enrichedRoutes[safest].risk) safest = index;
-        if (route.legs[0].distance.value < enrichedRoutes[shortest].legs[0].distance.value)
-          shortest = index;
-      });
-
       setRoutes(enrichedRoutes);
-      setSafestIndex(safest);
-
-      // Default selected based on current toggle
-      setSelectedIndex(optimizeBy === "shortest" ? shortest : safest);
     },
     [crimeIndex]
   );
 
   const formatCoords = (coords) =>
     coords ? `${coords.lat.toFixed(4)}, ${coords.lng.toFixed(4)}` : "—";
-
-  const selectedRoute = routes[selectedIndex];
 
   return (
     <section
@@ -96,7 +75,7 @@ const MapContainer = () => {
         </h2>
         <p className="text-slate-600 max-w-2xl mx-auto">
           Click the map to select your start and end points. Choose how you want to move. <br />
-          We'll find the safest route.
+          We'll show you your options with safety and efficiency in mind.
         </p>
       </div>
 
@@ -117,9 +96,6 @@ const MapContainer = () => {
           travelMode={travelMode}
           onMapClick={handleMapClick}
           routes={routes}
-          safestIndex={safestIndex}
-          selectedIndex={selectedIndex}
-          setSelectedIndex={setSelectedIndex}
           mapType={mapType}
           setMapType={setMapType}
           onRoutesReady={handleRoutesReceived}
@@ -138,80 +114,34 @@ const MapContainer = () => {
         </p>
         {origin && destination && (
           <p className="text-green-600 font-semibold mt-2">
-            ✅ Routes loaded. Click a route to see crime risk and breakdown.
+            ✅ Routes loaded. Below are your options with detailed scores.
           </p>
         )}
       </div>
 
-      {/* Toggle for Safest/Shortest */}
-      {origin && destination && (
-        <div className="flex justify-center items-center gap-4 mt-6">
-          <span className="text-slate-700 font-medium">Choose:</span>
-          <div className="flex items-center space-x-2 bg-white shadow border rounded-xl px-2 py-1">
-            <button
-              onClick={() => {
-                setOptimizeBy("safest");
-                setSelectedIndex(safestIndex);
-              }}
-              className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                optimizeBy === "safest"
-                  ? "bg-green-500 text-white shadow"
-                  : "text-slate-100 hover:bg-slate-100"
-              }`}
+      {/* All Routes Displayed */}
+      {routes.length > 0 && (
+        <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {routes.map((route, index) => (
+            <div
+              key={`route-summary-${index}`}
+              className="rounded-2xl border bg-white px-6 py-4 shadow-md flex flex-col items-center gap-3 text-center hover:shadow-lg transition"
             >
-              Safest
-            </button>
-            <button
-              onClick={() => {
-                const shortest = routes.reduce((minIdx, r, idx, arr) =>
-                  r.legs[0].distance.value < arr[minIdx].legs[0].distance.value
-                    ? idx
-                    : minIdx
-                , 0);
-                setOptimizeBy("shortest");
-                setSelectedIndex(shortest);
-              }}
-              className={`px-3 py-1 rounded-lg text-sm font-semibold transition-all ${
-                optimizeBy === "shortest"
-                  ? "bg-blue-500 text-white shadow"
-                  : "text-slate-100 hover:bg-slate-100"
-              }`}
-            >
-              Shortest
-            </button>
-          </div>
-        </div>
-      )}
-
-
-      {/* Route Score Display */}
-      {selectedRoute && (
-        <div className="mt-6 flex justify-center flex-wrap gap-4 items-center">
-          {/* Risk Score */}
-          <RiskBadge risk={selectedRoute.risk} />
-
-          {/* Distance & ETA */}
-          <div className="flex items-center gap-4 bg-white/90 backdrop-blur-md px-5 py-3 border rounded-2xl shadow text-slate-800 text-sm sm:text-base">
-            <div className="flex flex-col items-center">
-              <span className="text-slate-500 text-xs">Distance</span>
-              <span className="font-bold text-slate-700">
-                {selectedRoute.legs[0].distance.text}
-              </span>
+              <h4 className="font-bold text-lg text-slate-700">Route {index + 1}</h4>
+              <RiskBadge risk={route.risk} />
+              <div className="flex gap-6 text-sm text-slate-700">
+                <div>
+                  <span className="block text-slate-500 text-xs">Distance</span>
+                  <span className="font-semibold">{route.legs[0].distance.text}</span>
+                </div>
+                <div>
+                  <span className="block text-slate-500 text-xs">ETA</span>
+                  <span className="font-semibold">{route.legs[0].duration.text}</span>
+                </div>
+              </div>
             </div>
-            <div className="w-px bg-slate-300 h-6" />
-            <div className="flex flex-col items-center">
-              <span className="text-slate-500 text-xs">ETA</span>
-              <span className="font-bold text-slate-700">
-                {selectedRoute.legs[0].duration.text}
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
-      )}
-
-      {/* Crime Pie Chart */}
-      {selectedRoute?.riskDetails && (
-        <CrimePieChart data={selectedRoute.riskDetails} />
       )}
     </section>
   );

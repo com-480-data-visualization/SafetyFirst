@@ -4,7 +4,6 @@ import {
   GoogleMap,
   DirectionsRenderer,
   Marker,
-  Polyline,
   useJsApiLoader,
 } from "@react-google-maps/api";
 
@@ -27,9 +26,6 @@ const MapSection = ({
   onMapClick,
   onRoutesReady,
   routes,
-  safestIndex,
-  selectedIndex,
-  setSelectedIndex,
   mapType,
   setMapType,
 }) => {
@@ -114,61 +110,38 @@ const handleMapTypeChange = () => {
       {/* Route Renderers */}
       {Array.isArray(routes) &&
         routes.map((route, index) => {
-          const isSelected = index === selectedIndex;
-          const isSafest = index === safestIndex;
-
-          const baseColor = isSelected
-            ? "#16a34a" // Green
-            : isSafest
-            ? "#3b82f6" // Blue
-            : "#facc15"; // Yellow
-
-          const glowColor = isSafest ? "0 0 12px rgba(59, 130, 246, 0.7)" : "none";
+          const strokeColor = index === 0
+            ? "#16a34a" // first route green
+            : index === 1
+            ? "#facc15" // second yellow
+            : "#ef4444"; // third red
 
           return (
-            <React.Fragment key={`route-${index}`}>
-              <DirectionsRenderer
-                directions={{
-                  routes: [route],
-                  request: {
-                    origin,
-                    destination,
-                    travelMode,
-                  },
-                  geocoded_waypoints: [],
-                }}
-                options={{
-                  suppressMarkers: true,
-                  polylineOptions: {
-                    strokeColor: baseColor,
-                    strokeOpacity: isSelected ? 1 : 0.7,
-                    strokeWeight: isSelected ? 7 : isSafest ? 6 : 4,
-                    zIndex: isSelected ? 100 : isSafest ? 50 : 10,
-                  },
-                }}
-              />
-
-              {/* Transparent clickable Polyline */}
-              <Polyline
-                path={route.overview_path}
-                options={{
-                  strokeOpacity: 0,
-                  strokeWeight: 30,
-                  clickable: true,
-                  zIndex: 999,
-                }}
-                onClick={() => setSelectedIndex(index)}
-                onMouseOver={(e) => {
-                  e.domEvent.target.style.cursor = "pointer";
-                }}
-              />
-
-              {/* Optional Glow Layer (if needed, use CSS or shadow polyline later) */}
-            </React.Fragment>
+            <DirectionsRenderer
+              key={`route-${index}`}
+              directions={{
+                routes: [route],
+                request: {
+                  origin,
+                  destination,
+                  travelMode,
+                },
+                geocoded_waypoints: [],
+              }}
+              options={{
+                suppressMarkers: true,
+                polylineOptions: {
+                  strokeColor,
+                  strokeOpacity: 1,
+                  strokeWeight: 5,
+                  zIndex: 10 + index,
+                },
+              }}
+            />
           );
         })}
 
-        <RouteLegend />
+      <RouteLegend />
     </GoogleMap>
   );
 };
