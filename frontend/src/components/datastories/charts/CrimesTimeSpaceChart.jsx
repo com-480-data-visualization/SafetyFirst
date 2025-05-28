@@ -238,7 +238,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
           </div>
         </div>
         <div className="flex-1">
-          <div className="w-full h-[500px] border-4 border-red-500 rounded-xl overflow-hidden">
+          <div className="w-full h-[500px] rounded-xl overflow-hidden">
             <HeatmapMap 
               points={filteredData} 
               center={mapCenter}
