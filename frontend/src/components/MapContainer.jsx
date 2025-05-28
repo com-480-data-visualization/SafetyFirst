@@ -210,7 +210,7 @@ const MapContainer = () => {
       {selectedRoute?.riskDetails && (
         <CrimePieChart data={selectedRoute.riskDetails} />
       )}
-    </section>
+    </>
   );
 };
 
