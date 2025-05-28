@@ -58,7 +58,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     const storyIntroTourist = (
         <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
           <h2 className="text-3xl font-bold text-primary mb-4">
-            Welcome to Chicago!
+            🧳 Welcome to Chicago! 
           </h2>
       
           <p className="mb-6">
@@ -166,7 +166,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
 
 
     const awarenessIntro = ( 
-        <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative">
+        <div className="bg-gray-50 text-slate-800 py-6 px-4 sm:px-8 md:px-16 lg:px-32 relative">
             {/* Awareness Intro Section */}
             { isStudent ?  (
                 barPlotStudent
@@ -181,7 +181,7 @@ export default function DataStoryIntroduction({ userType = "student" }) {
 
     const crimeCategories = (
         
-        <div className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
+        <div className="bg-gray-50 text-slate-800 py-6 px-4 sm:px-8 md:px-16 lg:px-32 relative" id="analytics">
             {/* Transition from asking locals into the data section */}
             <h2 class="text-2xl font-bold mb-4">📰 Chicago Crime: Perception vs. Reality</h2>
             <p className="mb-4 italic">
@@ -245,11 +245,11 @@ export default function DataStoryIntroduction({ userType = "student" }) {
     return (
         <>
             {/* Awareness Intro Section */}
-            <section id="intro" className="h-screen flex flex-col justify-center snap-start overflow-scroll mx-auto">
+            <section id="intro" className="h-screen flex flex-col justify-center snap-start  mx-auto">
                 {awarenessIntro}
             </section>
             {/* Crime Categories Plot */}
-            <section id="crime-categories" className="h-screen flex flex-col justify-start snap-start overflow-scroll mx-auto">
+            <section id="crime-categories" className="h-screen flex flex-col justify-start snap-start mx-auto">
                 {crimeCategories}
             </section>
         </>

@@ -82,7 +82,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
   }, [rawData, timeRange, selectedLocation]);
 
   return (
-    <>
+    <div className="bg-gray-50 text-slate-800 py-6 px-4 sm:px-8 md:px-16 lg:px-32 relative">
       <h2 class="text-2xl font-bold mb-4">
         🗺️ 📸 Explore the Crime Landscape, Block by Block
       </h2>
@@ -90,20 +90,25 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
       Armed with trends and headlines, you can't shake the feeling that you need more detail—exactly where should you watch your back?
       </p>
       <p className="mb-4">
-      First, you wonder about <strong>O'Hare</strong> and <strong>Midway</strong>—does airport bustle bring more thefts? Then there's 
-      <strong>Navy Pier</strong>, the <strong>Art Institute</strong>, and the 
-      <strong>Magnificent Mile</strong>: each a magnet for visitors, but also 
-      potential crime hotspots. You decide to drill into the data to see which 
+      First, you wonder about <strong>O'Hare</strong> and <strong>Midway</strong> — does airport bustle bring more thefts? 
+      Then there's <strong>Navy Pier</strong>, the <strong>Art Institute</strong>, and the <strong>Magnificent Mile</strong>: 
+      each a magnet for visitors, but also potential crime hotspots. You decide to drill into the data to see which 
       offenses strike most often at these landmarks and shopping districts.</p>
 
     {/* Interaction instruction call-out */}
       <InstructionParagraph>
         👉 Use the filters to focus on a specific{" "}
-        <mark className="bg-secondary-light text-secondary px-1 rounded">area</mark>,{" "}
-        <mark className="bg-secondary-light text-secondary px-1 rounded">year</mark>, or{" "}
-        <mark className="bg-secondary-light text-secondary px-1 rounded">time range</mark>. The{" "}
-        <mark className="bg-secondary-light text-secondary px-1 rounded">dynamic bar chart</mark>{" "}
-        updates live to show which crimes were most common, and how frequently they occurred.
+        <span className="inline-block bg-primary text-secondary px-2 py-0 rounded-full border">
+          area
+        </span>,{' '}
+        <span className="inline-block bg-primary text-secondary px-2 py-0 rounded-full border">
+          year
+        </span>, or{' '}
+        <span className="inline-block bg-primary text-secondary px-2 py-0 rounded-full border">
+          time range
+        </span>.<br/>
+        📊 The dynamic bar chart updates live to show which crimes were most common, and how frequently they occurred.<br/>
+        🗺️ The map highlights the locations of these crimes, allowing you to see patterns and hotspots in real-time.
       </InstructionParagraph>
 
       {/* Top Section: Scenario Presets full width */}
@@ -185,7 +190,7 @@ const CrimesTimeSpaceChart = ({ userType = "tourist" }) => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
