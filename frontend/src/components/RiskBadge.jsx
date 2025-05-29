@@ -33,7 +33,7 @@ const riskStyles = {
 const getRiskLevel = (risk) => {
   if (risk === null || risk === undefined || isNaN(risk)) return riskStyles.none;
   if (risk <= 0.20) return riskStyles.safe;
-  if (risk <= 0.50) return riskStyles.moderate;
+  if (risk <= 0.40) return riskStyles.moderate;
   return riskStyles.risky;
 };
 
