@@ -303,11 +303,12 @@ const RouteAddressInput = ({ onAddressSelect, selectedAddress, onClearAddress, p
                 {showSuggestions && suggestions.length > 0 && (
                   <div 
                     ref={suggestionsRef}
-                    className="fixed bg-white/95 backdrop-blur-sm border border-gray-200 rounded-lg shadow-xl z-[10000] max-h-48 overflow-y-auto"
+                    className="fixed bg-white border border-gray-300 rounded-lg shadow-2xl z-[10000] max-h-48 overflow-y-auto"
                     style={{
                       top: inputRef.current ? inputRef.current.getBoundingClientRect().bottom + window.scrollY + 4 : 0,
                       left: inputRef.current ? inputRef.current.getBoundingClientRect().left + window.scrollX : 0,
-                      width: inputRef.current ? inputRef.current.getBoundingClientRect().width : 'auto'
+                      width: inputRef.current ? inputRef.current.getBoundingClientRect().width : 'auto',
+                      backgroundColor: '#ffffff !important'
                     }}
                   >
                     {suggestions.map((suggestion, index) => (
@@ -315,14 +316,37 @@ const RouteAddressInput = ({ onAddressSelect, selectedAddress, onClearAddress, p
                         key={suggestion.place_id}
                         type="button"
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className={`w-full text-left px-4 py-3 hover:bg-blue-50/80 border-b border-gray-100/50 last:border-b-0 transition-all duration-200 ${
-                          index === selectedSuggestionIndex ? 'bg-blue-100/80 border-blue-200/50' : ''
-                        }`}
+                        className={`w-full text-left px-4 py-3 border-b border-gray-200 last:border-b-0 transition-all duration-200`}
+                        style={{
+                          backgroundColor: index === selectedSuggestionIndex ? '#f1f5f9 !important' : 'transparent',
+                          color: index === selectedSuggestionIndex ? '#0f172a !important' : '#374151'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (index !== selectedSuggestionIndex) {
+                            e.target.style.backgroundColor = '#f9fafb';
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (index !== selectedSuggestionIndex) {
+                            e.target.style.backgroundColor = 'transparent';
+                          }
+                        }}
                       >
-                        <div className="text-sm font-medium text-gray-900 truncate">
+                        <div 
+                          className="text-sm truncate"
+                          style={{
+                            color: index === selectedSuggestionIndex ? '#0f172a !important' : '#111827',
+                            fontWeight: index === selectedSuggestionIndex ? '600' : '500'
+                          }}
+                        >
                           {suggestion.display_name.split(',')[0]}
                         </div>
-                        <div className="text-xs text-gray-600 truncate">
+                        <div 
+                          className="text-xs truncate"
+                          style={{
+                            color: index === selectedSuggestionIndex ? '#64748b !important' : '#6b7280'
+                          }}
+                        >
                           {suggestion.display_name}
                         </div>
                       </button>
