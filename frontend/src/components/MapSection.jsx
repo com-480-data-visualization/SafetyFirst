@@ -11,7 +11,7 @@ import RouteLegend from "./RouteLegend";
 
 const containerStyle = {
   width: "100%",
-  height: "600px",
+  height: "550px",
 };
 
 const defaultCenter = {
@@ -124,10 +124,10 @@ const MapSection = ({
 
 
           const strokeColor = index === 0
-            ? "#16a34a" // first route green
+            ? "#06b6d4" // first route cyan
             : index === 1
-            ? "#facc15" // second yellow
-            : "#ef4444"; // third red
+            ? "#a3e635" // second route lime green
+            : "#2563eb"; // third route blue
 
 
           return (
