@@ -146,7 +146,7 @@ const MapSection = ({
                 suppressMarkers: true,
                 polylineOptions: {
                   strokeColor,
-                  strokeOpacity: isHighlighted ? 1.0 : 0.5,
+                  strokeOpacity: isHighlighted ? 1.0 : 0.8,
                   strokeWeight: isHighlighted ? 7 : 4,
                   zIndex: isHighlighted ? 100 : 10 + index,
                 },

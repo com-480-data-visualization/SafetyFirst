@@ -91,7 +91,6 @@ const MapContainer = () => {
       });
 
       setRoutes(enriched);
-      setHighlightedIndex(0); // Default highlight
     },
     [crimeIndex]
   );
@@ -186,31 +185,6 @@ const MapContainer = () => {
         />
       </div>
 
-      {/* Info */}
-      <div className="mt-4 text-center text-sm text-slate-600 space-y-1">
-        <p>
-          <span className="text-slate-800 font-medium">Origin:</span> {formatCoords(origin)}
-        </p>
-        <p>
-          <span className="text-slate-800 font-medium">Destination:</span> {formatCoords(destination)}
-        </p>
-        {origin && destination && (
-          <p className="text-green-600 font-semibold mt-2">
-            ✅ Routes loaded. Below are your options with detailed scores.
-          </p>
-        )}
-      </div>
-
-      {/* Score Explanation */}
-      <div className="text-center text-sm text-slate-500 mt-4">
-        <p>Risk Score ranges from 0 (safest) to 1 (most dangerous).</p>
-        <p>
-          <span className="text-green-600 font-semibold">0.00-0.33</span> = Safe,{" "}
-          <span className="text-yellow-500 font-semibold">0.34-0.66</span> = Moderate,{" "}
-          <span className="text-red-600 font-semibold">0.67-1.00</span> = Dangerous
-        </p>
-      </div>
-
       {routes.length > 0 && (
         <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {routes.map((route, index) => (
@@ -237,6 +211,16 @@ const MapContainer = () => {
           ))}
         </div>
       )}
+
+            {/* Score Explanation */}
+      <div className="text-center text-sm text-slate-500 mt-4">
+        <p>Risk Score ranges from 0 (safest) to 1 (most dangerous).</p>
+        <p>
+          <span className="text-green-600 font-semibold">0.00-0.33</span> = Safe,{" "}
+          <span className="text-yellow-500 font-semibold">0.34-0.66</span> = Moderate,{" "}
+          <span className="text-red-600 font-semibold">0.67-1.00</span> = Dangerous
+        </p>
+      </div>
     </section>
   );
 };
