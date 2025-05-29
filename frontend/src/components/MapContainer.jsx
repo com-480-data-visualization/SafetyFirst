@@ -208,9 +208,9 @@ const MapContainer = () => {
       <div className="text-center text-sm text-slate-500 mt-4">
         <p>Risk Score ranges from 0 (safest) to 1 (most dangerous).</p>
         <p>
-          <span className="text-green-600 font-semibold">0.00-0.33</span> = Safe,{" "}
-          <span className="text-yellow-500 font-semibold">0.34-0.66</span> = Moderate,{" "}
-          <span className="text-red-600 font-semibold">0.67-1.00</span> = Dangerous
+          <span className="text-green-600 font-semibold">0.00-0.20</span> = Safe,{" "}
+          <span className="text-yellow-500 font-semibold">0.21-0.40</span> = Moderate,{" "}
+          <span className="text-red-600 font-semibold">0.41-1.00</span> = Dangerous
         </p>
       </div>
     </section>
