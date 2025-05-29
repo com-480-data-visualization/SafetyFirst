@@ -31,6 +31,8 @@ const MapContainer = () => {
   const [crimeIndex, setCrimeIndex] = useState(null);
   const [mapType, setMapType] = useState("hybrid");
 
+  const routeColors = ["#06b6d4", "#a3e635", "#2563eb"]; // cyan, lime, blue
+
   useEffect(() => {
     fetch(`/SafetyFirst/crime_tiles_summary.json`)
       .then((res) => res.json())
@@ -147,29 +149,43 @@ const MapContainer = () => {
         {/* Route Cards on the left */}
         {routes.length > 0 && (
           <div className="w-full lg:w-[320px] flex flex-col gap-4">
-            {routes.map((route, index) => (
-              <div
-                key={`route-summary-${index}`}
-                onClick={() => setHighlightedIndex(index)}
-                className={`cursor-pointer rounded-2xl border px-6 py-4 shadow-md flex flex-col items-center gap-2 text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-white ${
-                  index === highlightedIndex ? "ring-2 ring-green-500 shadow-lg" : ""
-                }`}
-              >
-                <h4 className="font-bold text-lg text-slate-700">Route {index + 1}</h4>
-                <RiskBadge risk={route.risk} />
-                <div className="flex gap-6 text-sm text-slate-700 mt-2">
-                  <div>
-                    <span className="block text-slate-500 text-xs">Distance</span>
-                    <span className="font-semibold">{route.legs[0].distance.text}</span>
-                  </div>
-                  <div>
-                    <span className="block text-slate-500 text-xs">ETA</span>
-                    <span className="font-semibold">{route.legs[0].duration.text}</span>
+            {routes.map((route, index) => {
+              const color = routeColors[index % routeColors.length];
+
+              return (
+                <div
+                  key={`route-summary-${index}`}
+                  onClick={() => setHighlightedIndex(index)}
+                  className={`cursor-pointer rounded-2xl border px-6 py-4 shadow-md flex flex-col items-center gap-3 text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-white ${
+                    index === highlightedIndex ? "ring-2 ring-green-500 shadow-lg" : ""
+                  }`}
+                >
+                  {/* Color-coded Route Label */}
+                  <span
+                    className="px-4 py-1 rounded-full font-semibold text-white text-sm"
+                    style={{ backgroundColor: color }}
+                  >
+                    Route {index + 1}
+                  </span>
+
+                  <RiskBadge risk={route.risk} />
+
+                  <div className="flex gap-6 text-sm text-slate-700 mt-2">
+                    <div>
+                      <span className="block text-slate-500 text-xs">Distance</span>
+                      <span className="font-semibold">{route.legs[0].distance.text}</span>
+                    </div>
+                    <div>
+                      <span className="block text-slate-500 text-xs">ETA</span>
+                      <span className="font-semibold">{route.legs[0].duration.text}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+
         )}
 
         {/* Map on the right */}
