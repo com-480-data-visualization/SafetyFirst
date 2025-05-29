@@ -29,20 +29,22 @@ const riskStyles = {
   },
 };
 
+// Get risk style based on float score (0.0–1.0)
 const getRiskLevel = (risk) => {
-  if (risk === null || risk === undefined) return riskStyles.none;
-  if (risk < 10) return riskStyles.safe;
-  if (risk < 30) return riskStyles.moderate;
+  if (risk === null || risk === undefined || isNaN(risk)) return riskStyles.none;
+  if (risk <= 0.33) return riskStyles.safe;
+  if (risk <= 0.66) return riskStyles.moderate;
   return riskStyles.risky;
 };
 
 const RiskBadge = ({ risk }) => {
   const { label, bg, border, text } = getRiskLevel(risk);
+  const formattedRisk = typeof risk === "number" ? risk.toFixed(2) : "—";
 
   return (
     <AnimatePresence mode="wait">
       <motion.div
-        key={risk}
+        key={formattedRisk}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -10 }}
@@ -50,7 +52,7 @@ const RiskBadge = ({ risk }) => {
         className={`inline-block px-4 py-2 rounded-2xl text-sm font-semibold shadow-md ${bg} ${border} ${text} border`}
       >
         <span className="mr-2">🚨 Risk Score:</span>
-        <span className="text-lg font-bold">{risk ?? "—"}</span>
+        <span className="text-lg font-bold">{formattedRisk}</span>
         <span className="ml-3 italic">({label})</span>
       </motion.div>
     </AnimatePresence>

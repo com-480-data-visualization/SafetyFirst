@@ -3,9 +3,9 @@ import React from "react";
 
 const RouteLegend = () => {
   const legendItems = [
-    { color: "#16a34a", label: "Low Risk (Safe)" },     // green
-    { color: "#facc15", label: "Medium Risk" },         // yellow
-    { color: "#ef4444", label: "High Risk (Dangerous)" } // red
+    { color: "#16a34a", label: "Route 1" },     // green
+    { color: "#facc15", label: "Route 2" },         // yellow
+    { color: "#ef4444", label: "Route 3" } // red
   ];
 
   return (
