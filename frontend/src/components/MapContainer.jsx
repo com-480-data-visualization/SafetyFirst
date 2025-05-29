@@ -142,48 +142,51 @@ const MapContainer = () => {
         </div>
       </div>
 
-      {/* Map */}
-      <div className="rounded-lg overflow-hidden border border-gray-300 shadow-subtle">
-        <MapSection
-          origin={origin}
-          destination={destination}
-          travelMode={travelMode}
-          onMapClick={handleMapClick}
-          routes={routes}
-          highlightedIndex={highlightedIndex}
-          mapType={mapType}
-          setMapType={setMapType}
-          onRoutesReady={handleRoutesReceived}
-        />
-      </div>
-
-      {/* Route Summaries */}
-      {routes.length > 0 && (
-        <div className="mt-2 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {routes.map((route, index) => (
-            <div
-              key={`route-summary-${index}`}
-              onClick={() => setHighlightedIndex(index)}
-              className={`cursor-pointer rounded-2xl border px-6 py-4 shadow-md flex flex-col items-center gap-2 text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-white ${
-                index === highlightedIndex ? "ring-2 ring-green-500 shadow-lg" : ""
-              }`}
-            >
-              <h4 className="font-bold text-lg text-slate-700">Route {index + 1}</h4>
-              <RiskBadge risk={route.risk} />
-              <div className="flex gap-6 text-sm text-slate-700 mt-2">
-                <div>
-                  <span className="block text-slate-500 text-xs">Distance</span>
-                  <span className="font-semibold">{route.legs[0].distance.text}</span>
-                </div>
-                <div>
-                  <span className="block text-slate-500 text-xs">ETA</span>
-                  <span className="font-semibold">{route.legs[0].duration.text}</span>
+      {/* Map and Route Cards Side-by-Side */}
+      <div className="mt-4 flex flex-col lg:flex-row gap-4">
+        {/* Route Cards on the left */}
+        {routes.length > 0 && (
+          <div className="w-full lg:w-[320px] flex flex-col gap-4">
+            {routes.map((route, index) => (
+              <div
+                key={`route-summary-${index}`}
+                onClick={() => setHighlightedIndex(index)}
+                className={`cursor-pointer rounded-2xl border px-6 py-4 shadow-md flex flex-col items-center gap-2 text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] bg-white ${
+                  index === highlightedIndex ? "ring-2 ring-green-500 shadow-lg" : ""
+                }`}
+              >
+                <h4 className="font-bold text-lg text-slate-700">Route {index + 1}</h4>
+                <RiskBadge risk={route.risk} />
+                <div className="flex gap-6 text-sm text-slate-700 mt-2">
+                  <div>
+                    <span className="block text-slate-500 text-xs">Distance</span>
+                    <span className="font-semibold">{route.legs[0].distance.text}</span>
+                  </div>
+                  <div>
+                    <span className="block text-slate-500 text-xs">ETA</span>
+                    <span className="font-semibold">{route.legs[0].duration.text}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        )}
+
+        {/* Map on the right */}
+        <div className="flex-1 rounded-lg overflow-hidden border border-gray-300 shadow-subtle">
+          <MapSection
+            origin={origin}
+            destination={destination}
+            travelMode={travelMode}
+            onMapClick={handleMapClick}
+            routes={routes}
+            highlightedIndex={highlightedIndex}
+            mapType={mapType}
+            setMapType={setMapType}
+            onRoutesReady={handleRoutesReceived}
+          />
         </div>
-      )}
+      </div>
 
       {/* Score Legend */}
       <div className="text-center text-sm text-slate-500 mt-4">
