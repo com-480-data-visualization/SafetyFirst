@@ -83,11 +83,13 @@ export function computeRiskScoreForRoute(route, crimeIndex) {
     }
   }
 
-  // Normalize to a 0–100 scale using a sigmoid-like function
+  // Normalization function (better for separation)
   const rawScore = totalWeightedScore;
-  const normalizedScore = Math.round((100 * rawScore) / (rawScore + 300000));
+  const normalizedScore = (100 * rawScore) / (rawScore + 300000);
+  const risk = +(normalizedScore / 100).toFixed(2); // Scale to 0.00–1.00
+
   return {
-    risk: normalizedScore,
+    risk,
     riskDetails: breakdown,
   };
 }

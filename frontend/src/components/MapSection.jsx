@@ -28,6 +28,7 @@ const MapSection = ({
   routes,
   mapType,
   setMapType,
+  highlightedIndex,
 }) => {
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
@@ -119,11 +120,15 @@ const MapSection = ({
       {/* Route Renderers */}
       {Array.isArray(routes) &&
         routes.map((route, index) => {
+          const isHighlighted = highlightedIndex === index;
+
+
           const strokeColor = index === 0
             ? "#16a34a" // first route green
             : index === 1
             ? "#facc15" // second yellow
             : "#ef4444"; // third red
+
 
           return (
             <DirectionsRenderer
@@ -141,9 +146,9 @@ const MapSection = ({
                 suppressMarkers: true,
                 polylineOptions: {
                   strokeColor,
-                  strokeOpacity: 1,
-                  strokeWeight: 5,
-                  zIndex: 10 + index,
+                  strokeOpacity: isHighlighted ? 1.0 : 0.5,
+                  strokeWeight: isHighlighted ? 7 : 4,
+                  zIndex: isHighlighted ? 100 : 10 + index,
                 },
               }}
             />
