@@ -7,8 +7,6 @@ import {
   useJsApiLoader,
 } from "@react-google-maps/api";
 
-import RouteLegend from "./RouteLegend";
-
 const containerStyle = {
   width: "100%",
   height: "550px",
@@ -155,7 +153,6 @@ const MapSection = ({
           );
         })}
 
-      <RouteLegend />
     </GoogleMap>
   );
 };
