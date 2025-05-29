@@ -69,7 +69,6 @@ const MapContainer = () => {
     setDirections(null);
   }, []);
 
-  // Reset map selections
   const handleReset = useCallback(() => {
     setOrigin(null);
     setDestination(null);
@@ -120,11 +119,8 @@ const MapContainer = () => {
   };
 
   return (
-    <section
-      id="map"
-      className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 relative animate-fadeIn"
-    >
-      {/* Title */}
+    <section className="bg-gray-50 text-slate-800 py-8 px-4 sm:px-8 md:px-16 lg:px-32 animate-fadeIn">
+      {/* Header */}
       <div className="text-center mb-6">
         <h2 className="text-5xl sm:text-6xl font-heading font-bold text-primary mb-2">
           Plan Your Route
@@ -167,7 +163,6 @@ const MapContainer = () => {
       </div>
 
       {/* Map Controls */}
-      {/* Controls */}
       <MapControls
         travelMode={travelMode}
         setTravelMode={setTravelMode}
@@ -216,7 +211,6 @@ const MapContainer = () => {
         </p>
       </div>
 
-      {/* Route Cards */}
       {routes.length > 0 && (
         <div className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {routes.map((route, index) => (
