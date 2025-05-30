@@ -10,12 +10,15 @@
 
 ## Links for the final submission
 
-- **Working prototype link** 
-  [https://com-480-data-visualization.github.io/SafetyFirst/](https://com-480-data-visualization.github.io/SafetyFirst/)
+- **Live website**  
+  [🌐 Visit the live site](https://com-480-data-visualization.github.io/SafetyFirst/)
 - **Screen Cast Video Presentation**  
   [▶️ View the video](milestone3/SafetyFirst_Screencast.mp4)
+- **Process Book**  
+  [📘 View the process book](milestone3/SafetyFirst_ProcessBook.pdf)
 - **Root folder for website implementation**  
   [🔗 Go to the website code](frontend/)
+
 
 ## Milestone 1 (21st March, 5pm)
 
