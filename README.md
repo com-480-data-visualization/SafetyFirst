@@ -8,7 +8,14 @@
 
 [Milestone 1](#milestone-1) • [Milestone 2](#milestone-2) • [Milestone 3](#milestone-3)
 
-**Working prototype link**: [https://com-480-data-visualization.github.io/SafetyFirst/](https://com-480-data-visualization.github.io/SafetyFirst/)
+## Links for the final submission
+
+- **Working prototype link** 
+  [https://com-480-data-visualization.github.io/SafetyFirst/](https://com-480-data-visualization.github.io/SafetyFirst/)
+- **Screen Cast Video Presentation**  
+  [▶️ View the video](milestone3/SafetyFirst_Screencast.mp4)
+- **Root folder for website implementation**  
+  [🔗 Go to the website code](frontend/)
 
 ## Milestone 1 (21st March, 5pm)
 
